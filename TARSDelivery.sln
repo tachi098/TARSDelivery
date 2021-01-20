@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TARSDeliveryWebAPI", "TARSDeliveryWebAPI\TARSDeliveryWebAPI.csproj", "{7E8FBC90-52A3-42B4-A031-DF25EC83A19D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TARSDeliveryWebApp", "TARSDeliveryWebApp\TARSDeliveryWebApp.csproj", "{A0033F24-5E39-46A8-9FA2-189963F5466D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7E8FBC90-52A3-42B4-A031-DF25EC83A19D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E8FBC90-52A3-42B4-A031-DF25EC83A19D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E8FBC90-52A3-42B4-A031-DF25EC83A19D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E8FBC90-52A3-42B4-A031-DF25EC83A19D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0033F24-5E39-46A8-9FA2-189963F5466D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0033F24-5E39-46A8-9FA2-189963F5466D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0033F24-5E39-46A8-9FA2-189963F5466D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0033F24-5E39-46A8-9FA2-189963F5466D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3308E8D5-53C6-4146-BB40-DF439086E7CC}
+	EndGlobalSection
+EndGlobal
