@@ -16,6 +16,8 @@ namespace TARSDeliveryWebAPI.Models
 
         public string ZipCode { get; set; }
 
+        public string Type { get; set; }
+
         [Required(ErrorMessage = "NameTo must not be blank")]
         public string NameTo { get; set; }
 
