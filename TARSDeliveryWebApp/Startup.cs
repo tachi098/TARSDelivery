@@ -47,12 +47,12 @@ namespace TARSDeliveryWebApp
                 endpoints.MapAreaControllerRoute(
                 name: "MyAreaAdmin",
                 areaName: "Admin",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapAreaControllerRoute(
                 name: "MyAreaUser",
                 areaName: "User",
-                pattern: "User/{controller=Home}/{action=Index}/{id?}");
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
