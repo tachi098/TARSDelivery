@@ -13,37 +13,21 @@ namespace TARSDeliveryWebAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        public string ZipCode { get; set; }
-
-        public string Type { get; set; }
-
-        [Required(ErrorMessage = "NameTo must not be blank")]
+        public string Title { get; set; }
         public string NameTo { get; set; }
-
-        [Required(ErrorMessage = "NameFrom must not be blank")]
-        public string NameFrom { get; set; }
-
-        [Required(ErrorMessage = "Address must not be blank")]
-        public string AddressTo { get; set; }
-
-        [Required(ErrorMessage = "Address must not be blank")]
-        public string AddressFrom { get; set; }
-
-        [RegularExpression("^[a-zA-Z0-9]{6,20}@[a-z]{2,5}(.[a-z]{2,5}){1,2}$", ErrorMessage = "Email is invalid...")]
         public string Email { get; set; }
-
-        [Required(ErrorMessage = "Weight must not be blank")]
+        public string AddressFrom { get; set; }
+        public string Type { get; set; }
+        public string ZipCode { get; set; }
+        public string NameFrom { get; set; }
+        public string AddressTo { get; set; }
         public double Weight { get; set; }
-
-        [Required(ErrorMessage = "Distance must not be blank")]
         public double Distance { get; set; }
-
-        public DateTime Create_at { get; set; }
-
-        public DateTime Update_at { get; set; }
-
+        public string Message { get; set; }
+        public int Status { get; set; }
+        public DateTime? Create_at { get; set; }
+        public DateTime? Update_at { get; set; }
         public DateTime? Delete_at { get; set; }
-        public virtual ICollection<BillDetail> billDetails { get; set; }
+        public virtual ICollection<BillDetail> BillDetails { get; set; }
     }
 }

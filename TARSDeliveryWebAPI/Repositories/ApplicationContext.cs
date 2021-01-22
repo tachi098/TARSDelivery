@@ -18,5 +18,13 @@ namespace TARSDeliveryWebAPI.Repositories
         public DbSet<BillDetail> BillDetail { get; set; }
         public DbSet<Package> Package { get; set; }
         public DbSet<Comment> Comment { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            /* PriceList */
+            modelBuilder.Entity<PriceList>().Property(m => m.Create_at).HasDefaultValue(DateTime.Now);
+        }
     }
 }
