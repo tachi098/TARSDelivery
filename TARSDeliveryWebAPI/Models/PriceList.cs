@@ -28,7 +28,7 @@ namespace TARSDeliveryWebAPI.Models
 
         public DateTime Create_at { get; set; }
 
-        public DateTime Update_at { get; set; }
+        public DateTime? Update_at { get; set; }
 
         public DateTime? Delete_at { get; set; }
     }
