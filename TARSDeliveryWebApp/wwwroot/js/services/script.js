@@ -1,6 +1,6 @@
 ﻿$(function () {
 
-    var origin, destination, map;
+    var origin, destination, map, distanceKilo, distancePrice = 0, totalPricePaypal = 0;
     var directionsDisplay = new google.maps.DirectionsRenderer({
         'draggable': false
     });
@@ -10,6 +10,7 @@
     // Init render
     $('#result > .list-group').css('display', 'none');
     $('#view-information').prop('disabled', true);
+    document.getElementById('details_from').reset();
 
     // Add input listeners
     google.maps.event.addDomListener(window, 'load', function () {
@@ -80,10 +81,12 @@
                 directionsDisplay.setMap(null);
                 directionsDisplay.setDirections(null);
                 $('#view-information').prop('disabled', true);
+                $('#price-distance').text('');
             }
         } catch (error) {
             console.log(error);
             $('#view-information').prop('disabled', true);
+            $('#price-distance').text('');
         }
     }
 
@@ -97,6 +100,7 @@
             if ($('#origin').val().trim().length === 0 || $('#destination').val().trim().length === 0) {
                 reject('Error: calculateDistance');
                 $('#view-information').prop('disabled', true);
+                $('#price-distance').text('');
             } else {
                 resolve(serviceProcess(origin, destination, callback));
                 $('#view-information').prop('disabled', false);
@@ -123,6 +127,7 @@
             if (status != google.maps.DistanceMatrixStatus.OK) {
                 $('#result > .msg').html('Error: status');
                 $('#view-information').prop('disabled', true);
+                $('#price-distance').text('');
             } else {
                 originClone = response.originAddresses[0];
                 destinationClone = response.destinationAddresses[0];
@@ -131,6 +136,7 @@
                         " and " + destination);
                     $('#result > .list-group').css('display', 'none');
                     $('#view-information').prop('disabled', true);
+                    $('#price-distance').text('');
                     return;
                 } else {
                     $('#result > .list-group').css('display', 'block');
@@ -142,6 +148,7 @@
                     var distance_in_mile = distance.value / 1609.34; // the mile
                     var duration_text = duration.text;
                     var duration_value = duration.value;
+                    distanceKilo = distance_in_kilo;
                     $('#in_mile').text(distance_in_mile.toFixed(2));
                     $('#in_kilo').text(distance_in_kilo.toFixed(2));
                     $('#duration_text').text(duration_text);
@@ -150,11 +157,13 @@
                     $('#to').text(destinationClone);
 
                     $('#view-information').prop('disabled', false);
+                    processPriceDistance(uriServices, distanceKilo);
                 }
             }
         } catch (error) {
             console.log("Error: calculateDistance");
             $('#view-information').prop('disabled', true);
+            $('#price-distance').text('');
         }
     }
 
@@ -182,6 +191,7 @@
     $('#origin').keyup(() => {
         if ($('#origin').val().trim().length === 0) {
             $('#view-information').prop('disabled', true);
+            $('#price-distance').text('');
         }
     });
 
@@ -189,6 +199,7 @@
     $('#destination').keyup(() => {
         if ($('#destination').val().trim().length === 0) {
             $('#view-information').prop('disabled', true);
+            $('#price-distance').text('');
         }
     });
 
@@ -204,6 +215,8 @@
 
         // Add class d-none
         $('#view-information').addClass('d-none');
+
+
     });
 
     // Reset information
@@ -218,6 +231,110 @@
         // Add class d-none
         $('#reset-information').addClass('d-none');
         $('#show-information').addClass('d-none');
+
+        // Reset details
+        document.getElementById('details_from').reset();
+        
     });
+
+    // Distance to price
+    function processPriceDistance(uri, distance) {
+        $.ajax({
+            url: `${uri}/VPP`,
+            type: 'GET',
+            success: function (response) {
+                let price = distance * response.priceDistance;
+                distancePrice = price;
+                $('#price-distance').text('Price: ' + parseFloat(price).toFixed(2) + ' USD');
+            },
+            error: function () {
+                console.log('Error API');
+            }
+        });
+    }
+
+    $('#details_from').submit(function (e) {
+        e.preventDefault();
+
+        const Title = $('#Title').val();
+        const NameTo = $('#NameTo').val();
+        const Email = $('#Email').val();
+        const AddressFrom = $('#origin').val();
+        const Type = $('#Type').val();
+        const ZipCode = $('#ZipCode').val();
+        const NameFrom = $('#NameFrom').val();
+        const AddressTo = $('#destination').val();
+        const Weight = 0;
+        const Distance = distanceKilo;
+        const Message = $('#Message').val();
+        const TotalPrice = parseFloat((distancePrice * 10 / 100) + distancePrice).toFixed(2);
+        totalPricePaypal = TotalPrice;
+
+        if (Title.trim() !== '' && NameFrom.trim() !== '' && Email.trim() !== '' && NameTo.trim() !== '' && ZipCode.trim() !== '' && Message.trim() !== '') {
+            $('#show-information').addClass('d-none');
+            $('#paypal-information').removeClass('d-none');
+            $('#reset-information').addClass('d-none');
+
+            $('#TitlePaypal').text(Title);
+            $('#NameFromPaypal').text(NameFrom);
+            $('#EmailPaypal').text(Email);
+            $('#NameToPaypal').text(NameTo);
+            $('#TypePaypal').text(Type);
+            $('#ZipCodePaypal').text(ZipCode);
+            $('#MessagePaypal').text(Message);
+            $('#total-distance').text(TotalPrice);
+        }
+    });
+
+    // Paypal
+    // Render the PayPal button
+    paypal.Button.render({
+
+        // Set your environment
+
+        env: 'sandbox', // sandbox | production
+
+        // Specify the style of the button
+
+        style: {
+            label: 'paypal',
+            size: 'large',    // small | medium | large | responsive
+            shape: 'rect',     // pill | rect
+            color: 'blue',     // gold | blue | silver | black
+            tagline: false
+        },
+
+        // PayPal Client IDs - replace with your own
+        // Create a PayPal app: https://developer.paypal.com/developer/applications/create
+
+        client: {
+            sandbox: 'AeziYRAGktWGm1vfRMAo7aWJvO6oZ79-TQC-1kU24GUjza7ADyE2cyrVOl5mBSwDbLV4zcCOhCPpQHnK',
+            production: '<insert production client id>'
+        },
+
+        payment: function (data, actions) {
+            return actions.payment.create({
+                payment: {
+                    transactions: [
+                        {
+                            amount: { total: '' + totalPricePaypal, currency: 'USD' }
+                        }
+                    ]
+                }
+            });
+        },
+
+        onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function () {
+                $('#paypal-button-container').addClass('d-none');
+                $("#payment-complete").css("opacity", 1);
+            });
+        },
+
+        onCancel: function (data, actions) {
+            
+        }
+
+    }, '#paypal-button-container');
 
 });

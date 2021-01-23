@@ -25,13 +25,14 @@
     <Compile Remove="Migrations\20210122160330_initial.Designer.cs" />
     <Compile Remove="Migrations\20210122162730_initial.cs" />
     <Compile Remove="Migrations\20210122162730_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210122163043_initial.cs" />
+    <Compile Remove="Migrations\20210122163043_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210123163016_intial.cs" />
+    <Compile Remove="Migrations\20210123163016_intial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Seeders\" />
-    <Folder Include="Services\Interfaces\" />
-    <Folder Include="Services\Implements\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>

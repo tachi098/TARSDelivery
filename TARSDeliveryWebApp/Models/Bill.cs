@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace TARSDeliveryWebApp.Models
 {
-    [Table("Package")]
-    public class Package
+    [Table("Bill")]
+    public class Bill
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,12 +23,11 @@ namespace TARSDeliveryWebApp.Models
         public string NameTo { get; set; }
 
         [Required(ErrorMessage = "Email must not be blank")]
-        [RegularExpression(@"^\w{1,}@\w{2,}(\.\w{2,}){1,2}$", ErrorMessage = "Email is valid")]
+        [RegularExpression(@"^\w{1,}@\w{2,}(\.\w{2,}){1,2}$", ErrorMessage = "Email is invalid")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Address origin must not be blank")]
         public string AddressFrom { get; set; }
-
         public string Type { get; set; }
 
         [Required(ErrorMessage = "ZipCode must not be blank")]
@@ -40,22 +39,24 @@ namespace TARSDeliveryWebApp.Models
 
         [Required(ErrorMessage = "Address destination must not be blank")]
         public string AddressTo { get; set; }
-
         public double Weight { get; set; }
-
         public double Distance { get; set; }
 
         [Required(ErrorMessage = "Name to must not be blank")]
         [StringLength(1000, MinimumLength = 5, ErrorMessage = "Name to must 5 to 1000 char")]
         [DataType(DataType.MultilineText)]
         public string Message { get; set; }
-
+        public double TotalPrice { get; set; }
         public int Status { get; set; }
 
-        public DateTime? Create_at { get; set; } = DateTime.Now;
+        [ForeignKey("BranchId")]
+        public int? BranchId { get; set; }
 
+        [ForeignKey("AccountId")]
+        public int? AccountId { get; set; }
+
+        public DateTime Create_at { get; set; }
         public DateTime? Update_at { get; set; }
         public DateTime? Delete_at { get; set; }
-        public virtual ICollection<BillDetail> BillDetails { get; set; }
     }
 }

@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TARSDeliveryWebAPI.Repositories;
+using TARSDeliveryWebAPI.Services.Implements;
+using TARSDeliveryWebAPI.Services.Interfaces;
 
 namespace TARSDeliveryWebAPI
 {
@@ -26,8 +28,12 @@ namespace TARSDeliveryWebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllers();
             services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ApplicationContext")));
+
+            /* Scope Interface, Implement */
+            services.AddScoped<IPriceListServices, PriceListServicesImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -37,6 +43,12 @@ namespace TARSDeliveryWebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(x => x
+                .WithOrigins("*")
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseRouting();
 

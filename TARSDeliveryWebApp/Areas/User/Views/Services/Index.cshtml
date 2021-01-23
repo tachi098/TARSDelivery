@@ -1,4 +1,4 @@
-﻿@model TARSDeliveryWebApp.Models.Package
+﻿@model TARSDeliveryWebApp.Models.Bill
 @{
     ViewData["Title"] = "Services";
 }
@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-6">
-                                <h5>Total Price: $1000.00</h5>
+                                <h5 id="price-distance"></h5>
                             </div>
                             <div class="col-md-6">
                                 <div class="text-center">
@@ -90,7 +90,103 @@
 
                 <div class="col-lg-12">
                     <div id="show-information" class="d-none">
-                        <h1>Information</h1>
+                        <div class="col-lg-12">
+                            <h2>Details the parcel</h2>
+                            <form id="details_from" class="php-email-form">
+                                <div class="form-group">
+                                    <input asp-for="Title" class="form-control" placeholder="Your Package Name" />
+                                    <span asp-validation-for="Title" id="Title" class="small text-danger span-details"></span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6 form-group">
+                                        <input asp-for="NameFrom" class="form-control" placeholder="Your Name" />
+                                        <span asp-validation-for="NameFrom" id="NameFrom" class="small text-danger span-details"></span>
+                                    </div>
+                                    <div class="col-md-6 form-group">
+                                        <input asp-for="Email" class="form-control" placeholder="Your Email" />
+                                        <span asp-validation-for="Email" id="Email" class="small text-danger span-details"></span>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-4 form-group">
+                                        <input asp-for="NameTo" class="form-control" placeholder="Recipient's Name" />
+                                        <span asp-validation-for="NameTo" id="NameTo" class="small text-danger span-details"></span>
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <select asp-for="Type" id="Type">
+                                            <option value="Package">Package</option>
+                                            <option value="Mail">Mail</option>
+                                        </select>
+                                        <span asp-validation-for="Type" class="small text-danger span-details"></span>
+                                    </div>
+                                    <div class="col-md-4 form-group">
+                                        <input asp-for="ZipCode" id="ZipCode" class="form-control" placeholder="ZipCode" />
+                                        <span asp-validation-for="ZipCode" class="small text-danger span-details"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" id="Message" asp-for="Message" rows="5" placeholder="Message"></textarea>
+                                    <span asp-validation-for="Message" class="small text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <div class="text-center">
+                                        <button type="submit" id="send-confirm">Confirm</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-12" style="overflow: hidden;">
+                    <div id="paypal-information" class="d-none">
+                        <div class="col-lg-12">
+                            <h2>Details the parcel</h2>
+                            <div class="row" style="position: relative;">
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Title: </th>
+                                            <td><span id="TitlePaypal"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Name From: </th>
+                                            <td><span id="NameFromPaypal"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email: </th>
+                                            <td><span id="EmailPaypal"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Name To: </th>
+                                            <td><span id="NameToPaypal"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Type: </th>
+                                            <td><span id="TypePaypal"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>ZipCode: </th>
+                                            <td><span id="ZipCodePaypal"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Message: </th>
+                                            <td><span id="MessagePaypal"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <th>Total Price: </th>
+                                            <td><span id="total-distance"></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div id="paypal-button-container"></div>
+                                <div id="payment-complete">Payment Complete</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
