@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TARSDeliveryWebAPI.Models
+namespace TARSDeliveryWebApp.Models
 {
     [Table("Account")]
     public class Account

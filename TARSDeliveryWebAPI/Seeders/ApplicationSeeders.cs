@@ -12,6 +12,12 @@ namespace TARSDeliveryWebAPI.Seeders
         {
             // PriceList
             new PriceListSeeders(modelBuilder);
+
+            // Account
+            new AccountSeeders(modelBuilder);
+
+            //Role
+            new RoleSeeders(modelBuilder);
         }
     }
 }
