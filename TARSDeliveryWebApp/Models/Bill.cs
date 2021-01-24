@@ -31,6 +31,7 @@ namespace TARSDeliveryWebApp.Models
         public string Type { get; set; }
 
         [Required(ErrorMessage = "ZipCode must not be blank")]
+        [RegularExpression(@"^[\d]+$", ErrorMessage = "ZipCode is invalid")]
         public string ZipCode { get; set; }
 
         [Required(ErrorMessage = "Name from must not be blank")]

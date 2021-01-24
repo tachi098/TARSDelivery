@@ -252,6 +252,50 @@
             }
         });
     }
+    // Insert into table
+    function processInsert(uri, Status) {
+        const Title = $('#Title').val();
+        const NameTo = $('#NameTo').val();
+        const Email = $('#Email').val();
+        const AddressFrom = $('#origin').val();
+        const Type = $('#Type').val();
+        const ZipCode = $('#ZipCode').val();
+        const NameFrom = $('#NameFrom').val();
+        const AddressTo = $('#destination').val();
+        const Weight = 0;
+        const Distance = distanceKilo;
+        const Message = $('#Message').val();
+        const TotalPrice = parseFloat((distancePrice * 10 / 100) + distancePrice).toFixed(2) ?? 0;
+
+        const model = new Object();
+        model.Title = Title;
+        model.NameTo = NameTo;
+        model.Email = Email;
+        model.AddressFrom = AddressFrom;
+        model.Type = Type;
+        model.ZipCode = ZipCode;
+        model.NameFrom = NameFrom;
+        model.AddressTo = AddressTo;
+        model.Weight = Weight;
+        model.Distance = Distance;
+        model.Message = Message;
+        model.TotalPrice = +TotalPrice;
+        model.Status = Status;
+
+        $.ajax({
+            url: `${uri}`,
+            type: 'POST',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+            },
+            error: function () {
+                console.log('Error API');
+            }
+        });
+    }
 
     $('#details_from').submit(function (e) {
         e.preventDefault();
@@ -284,6 +328,10 @@
             $('#MessagePaypal').text(Message);
             $('#total-distance').text(TotalPrice);
         }
+    });
+
+    $('#send-package').click(function () {
+        window.location.reload();
     });
 
     // Paypal
@@ -328,11 +376,14 @@
             return actions.payment.execute().then(function () {
                 $('#paypal-button-container').addClass('d-none');
                 $("#payment-complete").css("opacity", 1);
+                $('#send-package').removeClass('d-none');
+                processInsert(uriServices, 1);
             });
         },
 
         onCancel: function (data, actions) {
-            
+            processInsert(uriServices, 2);
+            window.location.reload();
         }
 
     }, '#paypal-button-container');
