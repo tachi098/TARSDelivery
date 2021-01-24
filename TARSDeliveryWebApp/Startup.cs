@@ -29,7 +29,7 @@ namespace TARSDeliveryWebApp
             //Cookie Auth
             services.Configure<CookiePolicyOptions>(options =>
             {
-                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
                 options.AccessDeniedPath = "/Admin/Home/AccessDenied";

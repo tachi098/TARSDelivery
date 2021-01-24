@@ -28,6 +28,10 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
 
         public IActionResult Login()
         {
+            if (User.Identity.Name != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
