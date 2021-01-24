@@ -31,6 +31,7 @@ namespace TARSDeliveryWebAPI.Repositories
             /* Bill */
             modelBuilder.Entity<Bill>().Property(m => m.Create_at).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<Bill>().Property(m => m.Status).HasDefaultValue(1);
+            modelBuilder.Entity<Bill>().Property(m => m.Id).UseIdentityColumn(seed: int.Parse(DateTime.Now.ToString("yyyyMMdd")), increment: 1);
 
             /* Create Seeders */
             new ApplicationSeeders().OnModelSeeders(modelBuilder);

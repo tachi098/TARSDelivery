@@ -34,6 +34,7 @@ namespace TARSDeliveryWebAPI
 
             /* Scope Interface, Implement */
             services.AddScoped<IPriceListServices, PriceListServicesImpl>();
+            services.AddScoped<IBillServices, BillServices>();
             services.AddScoped<IAccountServices, AccountServicesImpl>();
             services.AddScoped<IRoleServices, RoleServicesImpl>();
         }
