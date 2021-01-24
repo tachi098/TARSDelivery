@@ -27,12 +27,20 @@
     <Compile Remove="Migrations\20210122162730_initial.Designer.cs" />
     <Compile Remove="Migrations\20210122163043_initial.cs" />
     <Compile Remove="Migrations\20210122163043_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210123141413_initial.cs" />
+    <Compile Remove="Migrations\20210123141413_initial.Designer.cs" />
     <Compile Remove="Migrations\20210123163016_intial.cs" />
     <Compile Remove="Migrations\20210123163016_intial.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
+    <Compile Remove="Migrations\20210124011051_initial.cs" />
+    <Compile Remove="Migrations\20210124011051_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210124013755_initial.cs" />
+    <Compile Remove="Migrations\20210124013755_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210124014040_initial.cs" />
+    <Compile Remove="Migrations\20210124014040_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210124020605_initial.cs" />
+    <Compile Remove="Migrations\20210124020605_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210124022614_initial.cs" />
+    <Compile Remove="Migrations\20210124022614_initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
