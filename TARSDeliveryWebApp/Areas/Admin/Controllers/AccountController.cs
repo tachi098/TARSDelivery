@@ -7,9 +7,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using TARSDeliveryWebApp.Models;
+using TARSDeliveryWebApp.Helper;
 
 namespace TARSDeliveryWebApp.Areas.Admin.Controllers
 {
@@ -19,13 +21,17 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         private const string uriAccount = "http://localhost:50354/api/Account/";
         private const string uriRole = "http://localhost:50354/api/Role/";
         private HttpClient httpClient = new HttpClient();
+        private Random rnd = new Random();
 
         [Authorize(Roles = "Admin")]
+
+        //Admin List
         public IActionResult Index()
         {
             return View();
         }
 
+        //Admin Login
         public IActionResult Login()
         {
             if (User.Identity.Name != null)
@@ -39,7 +45,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         public IActionResult Login(string email, string password)
         {
             var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-            var account = accounts.SingleOrDefault(a => a.Email.Equals(email) && a.Password.Equals(password));
+            
+            var account = accounts.SingleOrDefault(a => a.Email.Equals(email) && BCrypt.Net.BCrypt.Verify(password, a.Password));
             if (account != null)
             {
                 Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
@@ -78,15 +85,104 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
             }
             else
             {
+                ViewBag.Msg = "Email or password wrong! Please try again";
                 return View();
             }
             return View();
         }
+        //End Admin Login
 
+        //Admin Logout
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
+        }
+
+        //Admin Password
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ForgotPassword(string email)
+        {
+            var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+            var account = accounts.SingleOrDefault(a => a.Email.Equals(email));
+            try
+            {
+                if (account != null)
+                {
+                    int random = rnd.Next(1000, 9999);
+                    string code = BCrypt.Net.BCrypt.HashPassword(random.ToString());
+                    account.Code = code;
+                    var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                    if (model.IsSuccessStatusCode)
+                    {
+                        string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/Account/ResetPassword/?Code={account.Code}&Email={account.Email}";
+                        Help.SendEmail.ResetPassword(account.Email, path).Wait();
+                        return RedirectToAction("ForgotPasswordConfirm", "Account");
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "Email wrong! Please check again!";
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
+        }
+
+        public IActionResult ForgotPasswordConfirm()
+        {
+            return View();
+        }
+
+        public IActionResult ResetPassword([FromQuery(Name = "Code")] string code, [FromQuery(Name = "Email")] string email)
+        {
+            ViewBag.code = code;
+            ViewBag.email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(string code, string email, string password, string confirmpassword)
+        {
+            try
+            {
+                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                var account = accounts.SingleOrDefault(a => a.Code == code && a.Email.Equals(email));
+                if (account != null)
+                {
+                    if (password == confirmpassword)
+                    {
+                        account.Password = BCrypt.Net.BCrypt.HashPassword(password);
+                        account.Code = null;
+                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "Password and confirm password not match";
+                        return RedirectToAction("ResetPassword", "Account",new { code = code, email = email});
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "Url wrong! please check your email again!";
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
         }
     }
 }

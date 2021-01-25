@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TARSDeliveryWebAPI.Models;
 using TARSDeliveryWebAPI.Services.Interfaces;
 
 namespace TARSDeliveryWebAPI.Controllers
@@ -28,6 +29,11 @@ namespace TARSDeliveryWebAPI.Controllers
         public async Task<IActionResult> GetAccount([FromRoute]int id)
         {
             return Ok(await accountServices.GetAccount(id));
+        }
+
+        public async Task<IActionResult> PutAccount(Account account)
+        {
+            return Ok(await accountServices.UpdateAccount(account));
         }
     }
 }

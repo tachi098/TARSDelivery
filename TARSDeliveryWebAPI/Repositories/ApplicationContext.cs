@@ -27,6 +27,7 @@ namespace TARSDeliveryWebAPI.Repositories
 
             /* Account */
             modelBuilder.Entity<Account>().Property(m => m.Create_at).HasDefaultValue(DateTime.Now);
+            modelBuilder.Entity<Account>().Property(m => m.Code).HasDefaultValue(null);
 
             /* Bill */
             modelBuilder.Entity<Bill>().Property(m => m.Create_at).HasDefaultValue(DateTime.Now);
