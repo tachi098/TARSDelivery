@@ -35,6 +35,7 @@ namespace TARSDeliveryWebApp
                 options.AccessDeniedPath = "/Admin/Home/AccessDenied";
                 options.LoginPath = "/Admin/Account/Login";
             });
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,17 +59,19 @@ namespace TARSDeliveryWebApp
 
             app.UseCookiePolicy();
 
+            app.UseSession();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapAreaControllerRoute(
                 name: "MyAreaAdmin",
                 areaName: "Admin",
-                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                pattern: "Admin/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapAreaControllerRoute(
                 name: "MyAreaUser",
                 areaName: "User",
-                pattern: "User/{controller=Home}/{action=Index}/{id?}");
+                pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

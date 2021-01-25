@@ -100,29 +100,36 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         }
 
         //Admin Password
-        public IActionResult ForgotPassword()
+        public IActionResult ForgotPassword(int id)
         {
+            if (id == 1)
+            {
+                ViewBag.Area = "User";
+                return View();
+            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult ForgotPassword(string email)
+        public IActionResult ForgotPassword(string email, int id)
         {
+            int area = id == 1 ? 1 : 2;
             var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
             var account = accounts.SingleOrDefault(a => a.Email.Equals(email));
             try
             {
                 if (account != null)
                 {
+                    Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
                     int random = rnd.Next(1000, 9999);
                     string code = BCrypt.Net.BCrypt.HashPassword(random.ToString());
                     account.Code = code;
                     var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
                     if (model.IsSuccessStatusCode)
                     {
-                        string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/Account/ResetPassword/?Code={account.Code}&Email={account.Email}";
+                        string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/Account/ResetPassword/?Code={account.Code}&Email={account.Email}&Area={area}";
                         Help.SendEmail.ResetPassword(account.Email, path).Wait();
-                        return RedirectToAction("ForgotPasswordConfirm", "Account");
+                        return RedirectToAction("ForgotPasswordConfirm", "Account", new { position = role.Position});
                     }
                 }
                 else
@@ -138,20 +145,22 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
             return View();
         }
 
-        public IActionResult ForgotPasswordConfirm()
+        public IActionResult ForgotPasswordConfirm(int position)
         {
+            ViewBag.Position = position;
             return View();
         }
 
-        public IActionResult ResetPassword([FromQuery(Name = "Code")] string code, [FromQuery(Name = "Email")] string email)
+        public IActionResult ResetPassword([FromQuery(Name = "Code")] string code, [FromQuery(Name = "Email")] string email, [FromQuery(Name = "Area")] string area)
         {
             ViewBag.code = code;
             ViewBag.email = email;
+            ViewBag.area = area;
             return View();
         }
 
         [HttpPost]
-        public IActionResult ResetPassword(string code, string email, string password, string confirmpassword)
+        public IActionResult ResetPassword(string code, string email, string password, string confirmpassword, int area)
         {
             try
             {
@@ -159,12 +168,24 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 var account = accounts.SingleOrDefault(a => a.Code == code && a.Email.Equals(email));
                 if (account != null)
                 {
+                    Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
                     if (password == confirmpassword)
                     {
                         account.Password = BCrypt.Net.BCrypt.HashPassword(password);
                         account.Code = null;
                         var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
-                        return RedirectToAction("Login", "Account");
+                        if (role.Position == 3)
+                        {
+                            return RedirectToAction("Login", "Account", new { area = "User" });
+                        }
+                        else if (area != 1 && role.Position == 1)
+                        {
+                            return RedirectToAction("Login", "Account", new { area = "User" });
+                        }
+                        else
+                        {
+                            return RedirectToAction("Login", "Account");
+                        }
                     }
                     else
                     {
