@@ -23,9 +23,6 @@ namespace TARSDeliveryWebApp.Models
 
         [Required(ErrorMessage = "Password must not be blank")]
         public string Password { get; set; }
-        [NotMapped]
-        [Compare("Password")]
-        public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage = "Address must not be blank")]
         [DataType(DataType.MultilineText)]
@@ -41,6 +38,8 @@ namespace TARSDeliveryWebApp.Models
 
         [ForeignKey("BranchId")]
         public int? BranchId { get; set; }
+
+        public string Code { get; set; }
 
         public DateTime Create_at { get; set; }
 
