@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    var userdata = Context.Session.GetString("sAccount");
+    string name = "";
+    if (userdata != null)
+    {
+        Account account = JsonConvert.DeserializeObject<Account>(userdata);
+        name = account.FullName;
+    }
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -47,37 +57,29 @@
         <div class="container">
 
             <div class="logo float-left">
-                <h1 class="text-light"><a href="index.html"><span>Moderna</span></a></h1>
+                <h1 class="text-light"><a href="index.html"><span>TARSDelivery</span></a></h1>
             </div>
 
             <nav class="nav-menu float-right d-none d-lg-block">
                 <ul>
                     <li class="active"><a asp-action="Index" asp-controller="Home" asp-area="User">Home</a></li>
-                    <li><a href="#">About Us</a></li>
                     <li><a asp-action="Index" asp-controller="Services" asp-area="User">Services</a></li>
-                    <li><a href="#">Portfolio</a></li>
-                    <li><a href="#">Team</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li class="drop-down">
-                        <a href="">Drop Down</a>
-                        <ul>
-                            <li><a href="#">Drop Down 1</a></li>
-                            <li class="drop-down">
-                                <a href="#">Drop Down 2</a>
-                                <ul>
-                                    <li><a href="#">Deep Drop Down 1</a></li>
-                                    <li><a href="#">Deep Drop Down 2</a></li>
-                                    <li><a href="#">Deep Drop Down 3</a></li>
-                                    <li><a href="#">Deep Drop Down 4</a></li>
-                                    <li><a href="#">Deep Drop Down 5</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Drop Down 3</a></li>
-                            <li><a href="#">Drop Down 4</a></li>
-                            <li><a href="#">Drop Down 5</a></li>
-                        </ul>
-                    </li>
+                    <li><a asp-action="Team" asp-controller="Home" asp-area="User">Team</a></li>
                     <li><a asp-action="Contact" asp-controller="Home" asp-area="User">Contact Us</a></li>
+                    @if (name.Length > 0)
+                    {
+                        <li class="drop-down">
+                            <a href="">Hi @name</a>
+                            <ul>
+                                <li><a href="#">Bill History</a></li>
+                                <li><a asp-action="Logout" asp-controller="Account" asp-area="User">Logout</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li><a asp-action="Login" asp-controller="Account" asp-area="User">Login</a></li>
+                    }
                 </ul>
             </nav><!-- .nav-menu -->
 
@@ -94,12 +96,12 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
-                        <h4>Our Newsletter</h4>
-                        <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
+                        <h4>Search Status</h4>
+                        <p>Enter your package code to see package status and bill detail</p>
                     </div>
                     <div class="col-lg-6">
                         <form action="" method="post">
-                            <input type="email" name="email"><input type="submit" value="Subscribe">
+                            <input type="email" name="email"><input type="submit" value="Search">
                         </form>
                     </div>
                 </div>
@@ -156,19 +158,6 @@
                     </div>
 
                 </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="copyright">
-                &copy; Copyright <strong><span>Moderna</span></strong>. All Rights Reserved
-            </div>
-            <div class="credits">
-                <!-- All the links in the footer should remain intact. -->
-                <!-- You can delete the links only if you purchased the pro version. -->
-                <!-- Licensing information: https://bootstrapmade.com/license/ -->
-                <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/ -->
-                Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
             </div>
         </div>
     </footer><!-- End Footer -->

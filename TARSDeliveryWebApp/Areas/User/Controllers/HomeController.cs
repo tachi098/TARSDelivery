@@ -18,5 +18,10 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         {
             return View();
         }
+
+        public IActionResult Team()
+        {
+            return View();
+        }
     }
 }

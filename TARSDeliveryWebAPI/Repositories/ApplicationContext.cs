@@ -28,6 +28,7 @@ namespace TARSDeliveryWebAPI.Repositories
             /* Account */
             modelBuilder.Entity<Account>().Property(m => m.Create_at).HasDefaultValue(DateTime.Now);
             modelBuilder.Entity<Account>().Property(m => m.Code).HasDefaultValue(null);
+            modelBuilder.Entity<Account>().Property(m => m.Avartar).HasDefaultValue("images/p1.png");
 
             /* Bill */
             modelBuilder.Entity<Bill>().Property(m => m.Create_at).HasDefaultValue(DateTime.Now);
