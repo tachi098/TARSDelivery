@@ -17,6 +17,6 @@ namespace TARSDeliveryWebApp.Models
         [ForeignKey("AccountId")]
         public int AccountId { get; set; }
         public int Position { get; set; }
-        public Account Account { get; set; }
+        public virtual Account Account { get; set; }
     }
 }

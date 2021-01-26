@@ -13,24 +13,13 @@ namespace TARSDeliveryWebAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "Name must not be blank")]
         public string  Name { get; set; }
-
-        [Required(ErrorMessage = "Address must not be blank")]
-        [DataType(DataType.MultilineText)]
         public string Address { get; set; }
-
-        [Required(ErrorMessage = "Phone must not be blank")]
         public string Phone { get; set; }
-
         public DateTime Create_at { get; set; }
-
-        public DateTime Update_at { get; set; }
-
+        public DateTime? Update_at { get; set; }
         public DateTime? Delete_at { get; set; }
-
-        public virtual ICollection<Account> Account { get; set; }
-        public virtual ICollection<Bill> Bill { get; set; }
+        public virtual ICollection<Account> GetAccounts { get; set; }
+        public virtual ICollection<Package> GetPackages { get; set; }
     }
 }

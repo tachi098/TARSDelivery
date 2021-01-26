@@ -15,25 +15,37 @@ namespace TARSDeliveryWebAPI.Controllers
     {
         private readonly IPriceListServices priceListServices;
         private readonly IBillServices billServices;
+        private readonly IPackageServices packageServices;
 
-        public ServicesController(IPriceListServices priceListServices, IBillServices billServices)
+        public ServicesController(IPriceListServices priceListServices, IBillServices billServices, IPackageServices packageServices)
         {
             this.priceListServices = priceListServices;
             this.billServices = billServices;
+            this.packageServices = packageServices;
         }
 
-        [HttpGet("{name}")]
+        [HttpGet("GetPriceList/{name}")]
         public async Task<IActionResult> GetPriceList([FromRoute] string name)
         {
             return Ok(await priceListServices.GetPriceList(name));
         }
 
-        [HttpPost]
+        [HttpGet("GetNewPackage")]
+        public async Task<IActionResult> GetNewPackage()
+        {
+            return Ok(await packageServices.GetNewPackage());
+        }
+
+        [HttpPost("CreateBill")]
         public async Task<IActionResult> CreateBill([FromBody] Bill bill)
         {
             return Ok(await billServices.CreateBill(bill));
         }
 
-
+        [HttpPost("CreatePackage")]
+        public async Task<IActionResult> CreatePackage([FromBody] Package package)
+        {
+            return Ok(await packageServices.CreatePackage(package));
+        }
     }
 }

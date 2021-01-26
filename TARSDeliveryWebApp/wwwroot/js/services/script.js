@@ -240,7 +240,7 @@
     // Distance to price
     function processPriceDistance(uri, distance) {
         $.ajax({
-            url: `${uri}/VPP`,
+            url: `${uri}/GetPriceList/VPP`,
             type: 'GET',
             success: function (response) {
                 let price = distance * response.priceDistance;
@@ -283,13 +283,49 @@
         model.Status = Status;
 
         $.ajax({
-            url: `${uri}`,
+            url: `${uri}/CreatePackage`,
             type: 'POST',
             data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
-                console.log(response);
+                //console.log(response);
+                processGetNewPackage(uri);
+            },
+            error: function () {
+                console.log('Error API');
+            }
+        });
+    }
+
+    // Get new package
+    function processGetNewPackage(uri) {
+        $.ajax({
+            url: `${uri}/GetNewPackage`,
+            type: 'GET',
+            success: function (response) {
+                //console.log(response);
+                let id = response.id;
+                processInsertBill(uri, id);
+            },
+            error: function () {
+                console.log('Error API');
+            }
+        });
+    }
+
+    // Insert into table
+    function processInsertBill(uri, packageId) {
+        $.ajax({
+            url: `${uri}/CreateBill`,
+            type: 'POST',
+            data: JSON.stringify({
+                PackageId: packageId
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                //console.log(response);
             },
             error: function () {
                 console.log('Error API');

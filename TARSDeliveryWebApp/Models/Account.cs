@@ -46,8 +46,9 @@ namespace TARSDeliveryWebApp.Models
         public DateTime? Update_at { get; set; }
 
         public DateTime? Delete_at { get; set; }
-
-        public virtual ICollection<Bill> Bill { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual ICollection<Bill> GetBills { get; set; }
+        public virtual ICollection<Package> GetPackages { get; set; }
+        public virtual Branch GetBranch { get; set; }
+        public virtual Role GetRole { get; set; }
     }
 }

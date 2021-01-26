@@ -14,22 +14,11 @@ namespace TARSDeliveryWebAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required(ErrorMessage = "Name must not be blank")]
         public string  Name { get; set; }
-
-        [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Price must not be blank")]
         public double PriceDistance { get; set; }
-
-        [DataType(DataType.Currency)]
-        [Required(ErrorMessage = "Price must not be blank")]
         public double PriceWeight { get; set; }
-
         public DateTime Create_at { get; set; }
-
         public DateTime? Update_at { get; set; }
-
         public DateTime? Delete_at { get; set; }
     }
 }
