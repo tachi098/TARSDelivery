@@ -13,10 +13,8 @@ namespace TARSDeliveryWebAPI.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [ForeignKey("AccountId")]
         public int AccountId { get; set; }
         public int Position { get; set; }
-        public Account Account { get; set; }
+        public virtual Account GetAccount { get; set; }
     }
 }

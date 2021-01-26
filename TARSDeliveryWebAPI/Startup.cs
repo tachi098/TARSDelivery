@@ -34,9 +34,10 @@ namespace TARSDeliveryWebAPI
 
             /* Scope Interface, Implement */
             services.AddScoped<IPriceListServices, PriceListServicesImpl>();
-            services.AddScoped<IBillServices, BillServices>();
+            services.AddScoped<IBillServices, BillServicesImpl>();
             services.AddScoped<IAccountServices, AccountServicesImpl>();
             services.AddScoped<IRoleServices, RoleServicesImpl>();
+            services.AddScoped<IPackageServices, PackageServicesImpl>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
