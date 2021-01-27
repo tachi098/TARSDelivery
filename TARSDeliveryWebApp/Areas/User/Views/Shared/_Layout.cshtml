@@ -1,10 +1,13 @@
 ﻿@{ 
     var userdata = Context.Session.GetString("sAccount");
+    var roledata = Context.Session.GetString("sRole");
     string name = "";
+    int role = 0;
     if (userdata != null)
     {
         Account account = JsonConvert.DeserializeObject<Account>(userdata);
         name = account.FullName;
+        role = int.Parse(roledata);
     }
 }
 
@@ -71,7 +74,10 @@
                         <li class="drop-down">
                             <a href="">Hi @name</a>
                             <ul>
-                                <li><a href="#">Bill History</a></li>
+                                @if (role == 3)
+                                {
+                                    <li><a href="#">Bill History</a></li>
+                                }
                                 <li><a asp-action="Logout" asp-controller="Account" asp-area="User">Logout</a></li>
                             </ul>
                         </li>
