@@ -27,5 +27,12 @@ namespace TARSDeliveryWebAPI.Services.Implements
         {
             return await context.GetRoles.ToListAsync();
         }
+
+        public async Task<bool> CreateRole(Role role)
+        {
+            context.Add(role);
+            var added = await context.SaveChangesAsync();
+            return added > 0;
+        }
     }
 }

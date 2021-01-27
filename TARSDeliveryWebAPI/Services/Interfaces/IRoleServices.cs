@@ -10,5 +10,6 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
     {
         Task<IEnumerable<Role>> GetRoles();
         Task<Role> GetRole(int accountid);
+        Task<bool> CreateRole(Role role);
     }
 }

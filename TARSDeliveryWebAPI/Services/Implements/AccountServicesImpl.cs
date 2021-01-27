@@ -32,5 +32,12 @@ namespace TARSDeliveryWebAPI.Services.Implements
             var updated = await context.SaveChangesAsync();
             return updated > 0;
         }
+
+        public async Task<bool> CreateAccount(Account account)
+        {
+            context.Add(account);
+            var added = await context.SaveChangesAsync();
+            return added > 0;
+        }
     }
 }

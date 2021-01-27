@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TARSDeliveryWebAPI.Models;
 using TARSDeliveryWebAPI.Services.Interfaces;
 
 namespace TARSDeliveryWebAPI.Controllers
@@ -29,6 +30,12 @@ namespace TARSDeliveryWebAPI.Controllers
         public async Task<IActionResult> GetRole(int accountid)
         {
             return Ok(await roleServices.GetRole(accountid));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> PostRole(Role role)
+        {
+            return Ok(await roleServices.CreateRole(role));
         }
     }
 }
