@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using TARSDeliveryWebApp.Helper;
 using TARSDeliveryWebApp.Models;
 
 namespace TARSDeliveryWebApp.Areas.User.Controllers
@@ -15,7 +16,8 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
     {
         private const string uriAccount = "http://localhost:50354/api/Account/";
         private const string uriRole = "http://localhost:50354/api/Role/";
-        private HttpClient httpClient = new HttpClient();
+        private readonly HttpClient httpClient = new HttpClient();
+        private readonly Random rnd = new Random();
         public IActionResult Index()
         {
             return View();
@@ -32,10 +34,10 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login(Account acc)
         {
             var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-            var account = accounts.SingleOrDefault(a => a.Email.Equals(email) && BCrypt.Net.BCrypt.Verify(password, a.Password));
+            var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email) && BCrypt.Net.BCrypt.Verify(acc.Password, a.Password));
             if (account != null)
             {
                 Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
@@ -46,9 +48,13 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
                 }
                 else
                 {
-                    ViewBag.Msg = "No authorize to connect";
+                    ViewBag.Msg = "No authorize to connect.";
                     return View();
                 }
+            }
+            else
+            {
+                ViewBag.Msg = "Email or password is wrong! Please try again.";
             }
             return View();
         }
@@ -59,12 +65,178 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        // User Regeister
         public IActionResult Register()
         {
             var saccount = HttpContext.Session.GetString("sAccount");
             if (saccount != null)
             {
                 return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Register(Account acc, string confirmpassword)
+        {
+            var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+            var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email));
+            try
+            {
+                if (account == null)
+                {
+                    if (acc.Password == confirmpassword)
+                    {
+                        acc.Password = BCrypt.Net.BCrypt.HashPassword(acc.Password);
+                        var model = httpClient.PostAsJsonAsync(uriAccount, acc).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                            var id = accounts.Max(a => a.Id);
+                            Role role = new Role() { AccountId = id, Position = 3 };
+                            var modelRole = httpClient.PostAsJsonAsync(uriRole, role).Result;
+                            return RedirectToAction("Login", "Account");
+                        }
+                        else
+                        {
+                            ViewBag.Msg = "Create account fail";
+                            return View();
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "Password and confirm password not match";
+                        return View();
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "Email exists";
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
+        }
+
+        // User ForgotPassword
+        public IActionResult ForgotPassword()
+        {
+            var saccount = HttpContext.Session.GetString("sAccount");
+            if (saccount != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ForgotPassword(Account acc)
+        {
+            var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+            var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email));
+            try
+            {
+                if (acc.Email != null)
+                {
+                    if (account != null)
+                    {
+                        Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
+                        if (role.Position == 3)
+                        {
+                            int random = rnd.Next(1000, 9999);
+                            string code = BCrypt.Net.BCrypt.HashPassword(random.ToString());
+                            account.Code = code;
+                            var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                            if (model.IsSuccessStatusCode)
+                            {
+                                string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/User/Account/ResetPassword/?Code={account.Code}&Email={account.Email}";
+                                Help.SendEmail.ResetPassword(account.Email, path).Wait();
+                                return RedirectToAction("ForgotPasswordConfirm", "Account");
+                            }
+                        }
+                        else
+                        {
+                            ViewBag.Msg = "Admin and employee cannot reset";
+                            return View();
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "Email wrong! Please check again!";
+                        return View();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
+        }
+
+
+        public IActionResult ForgotPasswordConfirm()
+        {
+            var saccount = HttpContext.Session.GetString("sAccount");
+            if (saccount != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+
+        public IActionResult ResetPassword([FromQuery(Name = "Code")] string code, [FromQuery(Name = "Email")] string email)
+        {
+            var saccount = HttpContext.Session.GetString("sAccount");
+            if (saccount != null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            if (TempData["shortMessage"] != null)
+            {
+                ViewBag.Msg = "Password and confirm password not match";
+                TempData.Remove("shortMessage");
+            }
+            ViewBag.code = code;
+            ViewBag.email = email;
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult ResetPassword(Account acc, string confirmpassword)
+        {
+            try
+            {
+                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                var account = accounts.SingleOrDefault(a => a.Code == acc.Code && a.Email.Equals(acc.Email));
+                if (account != null)
+                {
+                    if (acc.Password == confirmpassword)
+                    {
+                        account.Password = BCrypt.Net.BCrypt.HashPassword(acc.Password);
+                        account.Code = null;
+                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                        return RedirectToAction("Login", "Account");
+                    }
+                    else
+                    {
+                        TempData["shortMessage"] = "Password and confirm password not match";
+                        return RedirectToAction("ResetPassword", "Account", new { code = acc.Code, email = acc.Email });
+                    }
+                }
+                else
+                {
+                    ViewBag.Msg = "Url wrong! please check your email again!";
+                    return View();
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
             }
             return View();
         }

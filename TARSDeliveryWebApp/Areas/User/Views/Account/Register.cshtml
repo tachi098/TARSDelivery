@@ -1,77 +1,88 @@
-﻿@{
-    Layout = null;
+﻿@model TARSDeliveryWebApp.Models.Account
+@{
+    ViewData["Title"] = "Register";
 }
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <title>Register - User</title>
-    <link href="~/css/styles.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/js/all.min.js" crossorigin="anonymous"></script>
-</head>
-<body class="bg-primary">
-    <div id="layoutAuthentication">
-        <div id="layoutAuthentication_content">
-            <main>
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-7">
-                            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                                <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
-                                <div class="card-body">
-                                    <form>
-                                        <div class="form-row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputFirstName">First Name</label>
-                                                    <input class="form-control py-4" id="inputFirstName" type="text" placeholder="Enter first name" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputLastName">Last Name</label>
-                                                    <input class="form-control py-4" id="inputLastName" type="text" placeholder="Enter last name" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                            <input class="form-control py-4" id="inputEmailAddress" type="email" aria-describedby="emailHelp" placeholder="Enter email address" />
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputPassword">Password</label>
-                                                    <input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" />
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
-                                                    <input class="form-control py-4" id="inputConfirmPassword" type="password" placeholder="Confirm password" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group mt-4 mb-0"><a class="btn btn-primary btn-block" href="#">Create Account</a></div>
-                                    </form>
+<main id="main">
+    <!-- ======= Contact Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Register</h2>
+                <ol>
+                    <li><a asp-action="Index" asp-controller="Home" asp-area="User">Home</a></li>
+                    <li>Register</li>
+                </ol>
+            </div>
+        </div>
+    </section><!-- End Contact Section -->
+    <!-- ======= Contact Section ======= -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header"><h3 class="text-center font-weight-light my-4">Create Account</h3></div>
+                    <div class="card-body">
+                        <form asp-action="Register" asp-controller="Account" asp-area="User">
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputFirstName">Fullname</label>
+                                        <input class="form-control py-4" id="inputFirstName" type="text" placeholder="Enter fullname" asp-for="FullName"/>
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </div>
                                 </div>
-                                <div class="card-footer text-center">
-                                    <div class="small"><a asp-action="Login" asp-controller="Account" asp-area="User">Have an account? Go to login</a></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputLastName">Date of birth</label>
+                                        <input class="form-control py-4" id="inputLastName" type="datetime-local" placeholder="Enter date of birth" asp-for="Birthday"/>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputEmailAddress">Email</label>
+                                <input class="form-control py-4" id="inputEmailAddress" type="text" placeholder="Enter email address" asp-for="Email" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputEmailAddress">Phone</label>
+                                <input class="form-control py-4" id="inputEmailAddress" type="text" placeholder="Enter phone" asp-for="Phone" />
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="small mb-1" for="inputEmailAddress">Address</label>
+                                <input class="form-control py-4" id="inputEmailAddress" type="text" placeholder="Enter address" asp-for="Address" />
+                                <span asp-validation-for="Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputPassword">Password</label>
+                                        <input class="form-control py-4" id="inputPassword" type="password" placeholder="Enter password" asp-for="Password"/>
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
+                                        <input class="form-control py-4" id="inputConfirmPassword" type="password" placeholder="Confirm password" name="confirmpassword" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <p style="color:red">@ViewBag.Msg</p>
+                            <div class="form-group mt-4 mb-0"><input type="submit" class="btn btn-primary btn-block" value="Create Account"/></div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="small"><a asp-action="Login" asp-controller="Account" asp-area="User">Have an account? Go to login</a></div>
                     </div>
                 </div>
-            </main>
+            </div>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script src="~/js/scripts.js"></script>
-</body>
-</html>
+</main>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 

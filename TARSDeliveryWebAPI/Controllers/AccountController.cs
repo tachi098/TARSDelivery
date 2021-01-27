@@ -35,5 +35,11 @@ namespace TARSDeliveryWebAPI.Controllers
         {
             return Ok(await accountServices.UpdateAccount(account));
         }
+
+        [HttpPost]
+        public async Task<IActionResult> PostAccount(Account account)
+        {
+            return Ok(await accountServices.CreateAccount(account));
+        }
     }
 }

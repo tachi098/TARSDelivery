@@ -18,10 +18,12 @@ namespace TARSDeliveryWebApp.Models
         [Required(ErrorMessage = "Fullname must not be blank")]
         public string FullName { get; set; }
 
+        [Required(ErrorMessage = "Email must not be blank")]
         [RegularExpression("^[a-zA-Z0-9]{6,20}@[a-z]{2,5}(.[a-z]{2,5}){1,2}$", ErrorMessage = "Email is invalid...")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Password must not be blank")]
+        [MinLength(8, ErrorMessage = "Password greater than 7 character")]
         public string Password { get; set; }
 
         [Required(ErrorMessage = "Address must not be blank")]

@@ -13,5 +13,7 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
         Task<Account> GetAccount(int id);
 
         Task<bool> UpdateAccount(Account account);
+
+        Task<bool> CreateAccount(Account account);
     }
 }
