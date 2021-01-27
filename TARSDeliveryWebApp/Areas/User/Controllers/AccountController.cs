@@ -36,25 +36,33 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         [HttpPost]
         public IActionResult Login(Account acc)
         {
-            var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-            var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email) && BCrypt.Net.BCrypt.Verify(acc.Password, a.Password));
-            if (account != null)
+            try
             {
-                Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
-                if (role.Position == 1 || role.Position == 3)
+                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email) && BCrypt.Net.BCrypt.Verify(acc.Password, a.Password));
+                if (account != null)
                 {
-                    HttpContext.Session.SetString("sAccount", JsonConvert.SerializeObject(account));
-                    return RedirectToAction("Index", "Home");
+                    Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
+                    if (role.Position == 1 || role.Position == 3)
+                    {
+                        HttpContext.Session.SetString("sRole", role.Position.ToString());
+                        HttpContext.Session.SetString("sAccount", JsonConvert.SerializeObject(account));
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "No authorize to connect.";
+                        return View();
+                    }
                 }
                 else
                 {
-                    ViewBag.Msg = "No authorize to connect.";
-                    return View();
+                    ViewBag.Msg = "Email or password is wrong! Please try again.";
                 }
             }
-            else
+            catch (Exception e)
             {
-                ViewBag.Msg = "Email or password is wrong! Please try again.";
+                ViewBag.Msg = e.Message;
             }
             return View();
         }
@@ -62,6 +70,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Remove("sAccount");
+            HttpContext.Session.Remove("sRole");
             return RedirectToAction("Index", "Home");
         }
 
@@ -79,10 +88,10 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         [HttpPost]
         public IActionResult Register(Account acc, string confirmpassword)
         {
-            var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-            var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email));
             try
             {
+                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email));
                 if (account == null)
                 {
                     if (acc.Password == confirmpassword)
