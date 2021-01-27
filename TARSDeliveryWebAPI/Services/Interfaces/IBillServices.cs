@@ -9,5 +9,6 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
     public interface IBillServices
     {
         Task<bool> CreateBill(Bill bill);
+        Task<IEnumerable<BillPackage>> GetBillPackages();
     }
 }
