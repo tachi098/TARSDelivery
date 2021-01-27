@@ -20,8 +20,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
     {
         private const string uriAccount = "http://localhost:50354/api/Account/";
         private const string uriRole = "http://localhost:50354/api/Role/";
-        private HttpClient httpClient = new HttpClient();
-        private Random rnd = new Random();
+        private readonly HttpClient httpClient = new HttpClient();
+        private readonly Random rnd = new Random();
 
         [Authorize(Roles = "Admin")]
 
