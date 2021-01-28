@@ -42,51 +42,58 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string email, string password)
+        public IActionResult Login(Account acc)
         {
             var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-            
-            var account = accounts.SingleOrDefault(a => a.Email.Equals(email) && BCrypt.Net.BCrypt.Verify(password, a.Password));
-            if (account != null)
+            if (!string.IsNullOrEmpty(acc.Email) && !string.IsNullOrEmpty(acc.Password))
             {
-                Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
-                ClaimsIdentity identity = null;
-                bool isAuthenticate = false;
-                if (role.Position == 1)
+                var account = accounts.SingleOrDefault(a => a.Email.Equals(acc.Email) && BCrypt.Net.BCrypt.Verify(acc.Password, a.Password));
+                if (account != null)
                 {
-                    identity = new ClaimsIdentity(new[]
+                    Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
+                    ClaimsIdentity identity = null;
+                    bool isAuthenticate = false;
+                    if (role.Position == 1)
                     {
+                        identity = new ClaimsIdentity(new[]
+                        {
                         new Claim(ClaimTypes.Name,account.Email),
                         new Claim(ClaimTypes.Role,"Admin"),
                     }, CookieAuthenticationDefaults.AuthenticationScheme);
-                    isAuthenticate = true;
-                }
-                if (role.Position == 2)
-                {
-                    identity = new ClaimsIdentity(new[]
+                        isAuthenticate = true;
+                    }
+                    if (role.Position == 2)
                     {
+                        identity = new ClaimsIdentity(new[]
+                        {
                         new Claim(ClaimTypes.Name,account.Email),
                         new Claim(ClaimTypes.Role,"Manager"),
                     }, CookieAuthenticationDefaults.AuthenticationScheme);
-                    isAuthenticate = true;
-                }
-                if (isAuthenticate)
-                {
-                    var authProperties = new AuthenticationProperties
+                        isAuthenticate = true;
+                    }
+                    if (isAuthenticate)
                     {
-                        AllowRefresh = true,
-                        ExpiresUtc = DateTimeOffset.Now.AddDays(1),
-                        IsPersistent = true,
-                    };
-                    var principal = new ClaimsPrincipal(identity);
-                    var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
-                    return RedirectToAction("Index", "Home", new { area = "Admin" });
+                        var authProperties = new AuthenticationProperties
+                        {
+                            AllowRefresh = true,
+                            ExpiresUtc = DateTimeOffset.Now.AddDays(1),
+                            IsPersistent = true,
+                        };
+                        var principal = new ClaimsPrincipal(identity);
+                        var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+                        return RedirectToAction("Index", "Home", new { area = "Admin" });
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "User cannot login";
+                        return View();
+                    }
                 }
-            }
-            else
-            {
-                ViewBag.Msg = "Email or password wrong! Please try again";
-                return View();
+                else
+                {
+                    ViewBag.Msg = "Email or password wrong! Please try again";
+                    return View();
+                }
             }
             return View();
         }
