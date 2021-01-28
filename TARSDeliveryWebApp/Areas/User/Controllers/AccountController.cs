@@ -43,7 +43,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
                 if (account != null)
                 {
                     Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
-                    if (role.Position == 1 || role.Position == 3)
+                    if (role.Position == 1 || role.Position == 3 && account.Delete_at == null)
                     {
                         HttpContext.Session.SetString("sRole", role.Position.ToString());
                         HttpContext.Session.SetString("sAccount", JsonConvert.SerializeObject(account));

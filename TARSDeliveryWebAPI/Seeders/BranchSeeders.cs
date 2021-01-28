@@ -18,6 +18,13 @@ namespace TARSDeliveryWebAPI.Seeders
                     Name = "Branch 01",
                     Address = "Address 01",
                     Phone = "0901858004"
+                },
+                new Branch
+                {
+                    Id = 2,
+                    Name = "Branch 02",
+                    Address = "Address 02",
+                    Phone = "0901858004"
                 }
             );
         }

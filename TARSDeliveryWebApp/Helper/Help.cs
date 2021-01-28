@@ -38,7 +38,7 @@ namespace TARSDeliveryWebApp.Helper
                     return false;
                 }
             }
-            public static async Task<bool> EmployeeLogin(string _to, string email, string password)
+            public static async Task<bool> EmployeeLogin(string _to, string password, string path)
             {
                 string _subject = "Employee Account TarsDelivery";
                 string _from = "tarsdeliverydemo@gmail.com";
@@ -46,8 +46,9 @@ namespace TARSDeliveryWebApp.Helper
                       <body>
                       <p>Dear employee,</p>
                       <p>I gave you email and password to signin TarsDelivery Management</p>
-                      <p><b>Email: </b>{email}</p>
+                      <p><b>Email: </b>{_to}</p>
                       <p><b>Password: </b>{password}</p>
+                      <p><b>Link: </b>{path}</p>
                       <p>From,<br>-Admin</br></p>
                       </body>
                       </html>
@@ -80,7 +81,7 @@ namespace TARSDeliveryWebApp.Helper
                 string _from = "tarsdeliverydemo@gmail.com";
                 string _body = @$"<html>
                       <body>
-                      <p>Dear employee,</p>
+                      <p>Dear !</p>
                       <p>Click to Link to Reset Password</p>
                       <a href='{path}'><b>Click here</b></a>
                       <p>From,<br>-Admin</br></p>
