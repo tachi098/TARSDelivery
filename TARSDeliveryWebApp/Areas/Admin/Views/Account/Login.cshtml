@@ -27,12 +27,26 @@
                                     <form asp-action="Login" asp-controller="Account" asp-area="Admin" method="post">
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputEmailAddress">Email</label>
-                                            <input class="form-control py-4" id="inputEmailAddress" asp-for="Email" type="text" placeholder="Enter email address" />
+                                            @if (ViewBag.Email == null)
+                                            {
+                                                <input class="form-control py-4" id="inputEmailAddress" asp-for="Email" type="text" placeholder="Enter email address" />
+                                            }
+                                            else
+                                            {
+                                                <input class="form-control py-4" id="inputEmailAddress" asp-for="Email" type="text" value="@ViewBag.Email" placeholder="@ViewBag.Email" />
+                                            }
                                             <span class="text-danger" asp-validation-for="Email"></span>
                                         </div>
                                         <div class="form-group">
                                             <label class="small mb-1" for="inputPassword">Password</label>
-                                            <input class="form-control py-4" id="inputPassword" asp-for="Password" type="password" placeholder="Enter password" />
+                                            @if (ViewBag.Email == null)
+                                            {
+                                                <input class="form-control py-4" id="inputPassword" asp-for="Password" type="password" placeholder="Enter password" />
+                                            }
+                                            else
+                                            {
+                                                <input class="form-control py-4" id="inputPassword" asp-for="Password" type="password" value="@ViewBag.Password" placeholder="@ViewBag.Password" />
+                                            }                                   
                                             <span class="text-danger" asp-validation-for="Password"></span>
                                         </div>
                                         <p style="color:red">@ViewBag.Msg</p>
