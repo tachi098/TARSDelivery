@@ -10,7 +10,7 @@
     // Init render
     $('#result > .list-group').css('display', 'none');
     $('#view-information').prop('disabled', true);
-    document.getElementById('details_from').reset();
+    //document.getElementById('details_from').reset();
 
     // Add input listeners
     google.maps.event.addDomListener(window, 'load', function () {
@@ -266,6 +266,9 @@
         const Distance = distanceKilo;
         const Message = $('#Message').val();
         const TotalPrice = parseFloat((distancePrice * 10 / 100) + distancePrice).toFixed(2) ?? 0;
+        const AccountId = $('#AccountId').val();
+
+
 
         const model = new Object();
         model.Title = Title;
@@ -281,6 +284,9 @@
         model.Message = Message;
         model.TotalPrice = +TotalPrice;
         model.Status = Status;
+        if (AccountId.trim().length > 0) {
+            model.AccountId = parseInt(AccountId);
+        }
 
         $.ajax({
             url: `${uri}/CreatePackage`,

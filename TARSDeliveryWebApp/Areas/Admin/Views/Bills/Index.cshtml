@@ -1,0 +1,74 @@
+﻿@model IEnumerable<TARSDeliveryWebApp.Models.BillPackage>
+
+@{
+    ViewData["Title"] = "Bill";
+}
+
+<div class="container-fluid mt-3">
+    <table id="table-datatables" class="ui celled table" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Salary</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.BillId</td>
+                    <td>@item.PackageTitle</td>
+                    <td>@item.PackageNameFrom</td>
+                    <td>@item.PackageEmail</td>
+                    <td>@item.PackageType</td>
+                    <td>@item.PackageTotalPrice</td>
+                    @if (@item.PackageStatus == 1)
+                    {
+                        <td>
+                            <span class="badge badge-primary">Stored</span>
+                        </td>
+                    }
+                    @if (@item.PackageStatus == 2)
+                    {
+                        <td>
+                            <span class="badge badge-warning">Doing</span>
+                        </td>
+                    }
+                    @if (@item.PackageStatus == 3)
+                    {
+                        <td>
+                            <span class="badge badge-success">Finish</span>
+                        </td>
+                    }
+                    <td>@item.BillCreate_at</td>
+                    <td>
+                        <a asp-action="Details" asp-controller="Bills" asp-area="Admin" asp-route-packageId="@item.PackageId" class="btn btn-outline-info">Details</a>
+                        <a asp-action="Update" asp-controller="Bills" asp-area="Admin" asp-route-packageId="@item.PackageId" class="btn btn-outline-warning">Update</a>
+                        <a asp-action="Delete" asp-controller="Bills" asp-area="Admin" asp-route-billId="@item.BillId" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Salary</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
