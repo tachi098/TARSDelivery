@@ -50,14 +50,15 @@
                             <td><span class="badge badge-warning">User</span></td>
                         }
                     </tr>
-                    @if (Model.BranchId !=null)
+                    @if (Model.BranchId != null)
                     {
                         <tr>
                             <td>Branch:</td>
                             <td>@branch.Name</td>
                         </tr>
                     }
-             </table>
+            </table>
         </div>
     </div>
+    <a asp-action="Index" asp-controller="Account" asp-area="Admin">Back to list</a>
 </div>
