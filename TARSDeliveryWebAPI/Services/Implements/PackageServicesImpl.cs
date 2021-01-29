@@ -20,15 +20,38 @@ namespace TARSDeliveryWebAPI.Services.Implements
 
         public async Task<bool> CreatePackage(Package package)
         {
+            package.Create_at = DateTime.Now;
             await context.GetPackages.AddAsync(package);
             var created = await context.SaveChangesAsync();
             return created > 0;
+        }
+
+        public async Task<bool> DeletePackage(int id)
+        {
+            var model = await context.GetPackages.FindAsync(id);
+            model.Delete_at = DateTime.Now;
+            context.GetPackages.Update(model);
+            var deleted = await context.SaveChangesAsync();
+            return deleted > 0;
         }
 
         public async Task<Package> GetNewPackage()
         {
             var models = await context.GetPackages.ToListAsync();
             return models[models.Count - 1];
+        }
+
+        public async Task<Package> GetPackage(int id)
+        {
+            return await context.GetPackages.FindAsync(id);
+        }
+
+        public async Task<bool> UpdatePackage(Package package)
+        {
+            package.Update_at = DateTime.Now;
+            context.GetPackages.Update(package);
+            var updated = await context.SaveChangesAsync();
+            return updated > 0;
         }
     }
 }

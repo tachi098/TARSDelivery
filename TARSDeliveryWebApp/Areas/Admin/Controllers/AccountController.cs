@@ -190,8 +190,9 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                     {
                         identity = new ClaimsIdentity(new[]
                         {
-                        new Claim(ClaimTypes.Name,account.Email),
-                        new Claim(ClaimTypes.Role,"Admin"),
+                            new Claim("AccountId", account.Id.ToString()),
+                            new Claim(ClaimTypes.Name,account.Email),
+                            new Claim(ClaimTypes.Role,"Admin"),
                     }, CookieAuthenticationDefaults.AuthenticationScheme);
                         isAuthenticate = true;
                     }
@@ -199,8 +200,9 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                     {
                         identity = new ClaimsIdentity(new[]
                         {
-                        new Claim(ClaimTypes.Name,account.Email),
-                        new Claim(ClaimTypes.Role,"Manager"),
+                            new Claim("AccountId", account.Id.ToString()),
+                            new Claim(ClaimTypes.Name,account.Email),
+                            new Claim(ClaimTypes.Role,"Manager"),
                     }, CookieAuthenticationDefaults.AuthenticationScheme);
                         isAuthenticate = true;
                     }

@@ -46,6 +46,8 @@ namespace TARSDeliveryWebApp.Models
         [StringLength(1000, MinimumLength = 5, ErrorMessage = "Name to must 5 to 1000 char")]
         [DataType(DataType.MultilineText)]
         public string Message { get; set; }
+
+        [DataType(DataType.Currency)]
         public double TotalPrice { get; set; }
         public int Status { get; set; }
 

@@ -11,6 +11,7 @@
     <script src="~/js/common/all.min.js"></script>
     <link href="~/css/common/semantic.min.css" rel="stylesheet" />
     <link href="~/css/common/dataTables.semanticui.min.css" rel="stylesheet" />
+    <!-- <link href="~/css/common/jquery.dataTables.min.css" rel="stylesheet" /> -->
 
     <!-- Custom CSS -->
     <link href="~/css/styles.css" rel="stylesheet" />
@@ -70,7 +71,7 @@
                         <div class="collapse" id="collapseBills" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
                                 <a class="nav-link" asp-controller="Bills" asp-action="Index" asp-area="Admin">Bill List</a>
-                                <a class="nav-link">Create Bill</a>
+                                <a class="nav-link" asp-controller="Bills" asp-action="Create" asp-area="Admin">Create Bill</a>
                             </nav>
                         </div>
 
@@ -84,7 +85,7 @@
                             </a>
                             <div class="collapse" id="collapseBranches" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link"asp-controller="Branch" asp-action="Index" asp-area="Admin">Branch List</a>
+                                    <a class="nav-link" asp-controller="Branch" asp-action="Index" asp-area="Admin">Branch List</a>
                                     <a class="nav-link" asp-controller="Branch" asp-action="Create" asp-area="Admin">Create Branch</a>
                                 </nav>
                             </div>
@@ -130,14 +131,15 @@
     <script src="~/js/common/jquery.dataTables.min.js"></script>
     <script src="~/js/common/dataTables.semanticui.min.js"></script>
     <script src="~/js/common/semantic.min.js"></script>
+    <script src="~/js/common/sweetalert.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?client=gme-americancancersociety&v=3&libraries=places&channel=digital_strides"></script>
+
 
     <!-- Custom JS -->
+    <script src="~/js/common/common.js"></script>
+    <script src="~/js/common/common-admin.js"></script>
     <script src="~/js/scripts.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#table-datatables').DataTable();
-        });
-    </script>
+    <script src="~/js/bills/script.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

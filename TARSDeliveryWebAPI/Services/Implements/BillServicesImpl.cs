@@ -20,9 +20,19 @@ namespace TARSDeliveryWebAPI.Services.Implements
 
         public async Task<bool> CreateBill(Bill bill)
         {
+            bill.Create_at = DateTime.Now;
             await context.GetBills.AddAsync(bill);
             var created = await context.SaveChangesAsync();
             return created > 0;
+        }
+
+        public async Task<bool> DeleteBill(int id)
+        {
+            var model = await context.GetBills.FindAsync(id);
+            model.Delete_at = DateTime.Now;
+            context.GetBills.Update(model);
+            var deleted = await context.SaveChangesAsync();
+            return deleted > 0;
         }
 
         public async Task<IEnumerable<BillPackage>> GetBillPackages()
@@ -33,33 +43,18 @@ namespace TARSDeliveryWebAPI.Services.Implements
                     p => p.Id,
                     (b, p) => new BillPackage
                     {
-                        BillId = b.Id, // get
-                        BillAccountId = b.AccountId,
-                        BillPackageId = b.PackageId,
-                        BillCreate_at = b.Create_at, // get
-                        BillUpdate_at = b.Update_at,
-                        BillDelete_at = b.Delete_at,
+                        GetBill = b,
+                        GetPackage = p
+                    }).Where(m => m.GetBill.Delete_at == null && m.GetPackage.Delete_at == null)
+                      .ToListAsync();
+        }
 
-                        PackageId = p.Id,
-                        PackageTitle = p.Title, // get
-                        PackageNameFrom = p.NameFrom, // get
-                        PackageEmail = p.Email, // get
-                        PackageAddressFrom = p.AddressFrom,
-                        PackageType = p.Type, // get
-                        PackageZipCode = p.ZipCode,
-                        PackageNameTo = p.NameTo,
-                        PackageAddressTo = p.AddressTo,
-                        PackageWeight = p.Weight,
-                        PackageDistance = p.Distance,
-                        PackageMessage = p.Message,
-                        PackageTotalPrice = p.TotalPrice, // get
-                        PackageStatus = p.Status, // get
-                        PackageBranchId = p.BranchId,
-                        PackageAccountId = p.AccountId,
-                        PackageCreate_at = p.Create_at,
-                        PackageUpdate_at = p.Update_at,
-                        PackageDelete_at = p.Delete_at,
-                    }).Where(m => m.BillDelete_at == null && m.PackageDelete_at == null).ToListAsync();
+        public async Task<bool> UpdateBill(Bill bill)
+        {
+            bill.Update_at = DateTime.Now;
+            context.GetBills.Update(bill);
+            var updated = await context.SaveChangesAsync();
+            return updated > 0;
         }
     }
 }
