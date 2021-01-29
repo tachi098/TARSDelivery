@@ -32,46 +32,10 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var model = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-            var accounts = model.Where(a => !a.Email.Equals(User.Identity.Name)).ToList();
+            var accounts = model.Where(a => !a.Email.Equals(User.Identity.Name) && a.Delete_at == null).ToList();
             var roles = JsonConvert.DeserializeObject<IEnumerable<Role>>(httpClient.GetStringAsync(uriRole).Result);
             ViewBag.Role = roles;
             return View(accounts);
-        }
-
-        // Admin Delete
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-                var account = accounts.SingleOrDefault(a => a.Id == id);
-                if (account != null)
-                {
-                    if (account.Delete_at == null)
-                    {
-                        account.Delete_at = DateTime.Now;
-                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
-                        if (model.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction("Index", "Account");
-                        }
-                    }
-                    else
-                    {
-                        account.Delete_at = null;
-                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
-                        if (model.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction("Index", "Account");
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                ViewBag.Msg = e.Message;
-            }
-            return View();
         }
 
         // Admin Detail

@@ -107,6 +107,8 @@
     <Compile Remove="Migrations\20210128034700_Initial.Designer.cs" />
     <Compile Remove="Migrations\20210128101741_intial.cs" />
     <Compile Remove="Migrations\20210128101741_intial.Designer.cs" />
+    <Compile Remove="Migrations\20210128115834_Initial.cs" />
+    <Compile Remove="Migrations\20210128115834_Initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -121,6 +123,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 
