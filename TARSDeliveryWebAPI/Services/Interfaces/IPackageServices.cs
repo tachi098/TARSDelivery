@@ -9,6 +9,8 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
     public interface IPackageServices
     {
         Task<bool> CreatePackage(Package package);
-        Task<Package> GetNewPackage();
+        Task<IEnumerable<Package>> GetPackages();
+
+        Task<Package> GetPackage(int code);
     }
 }

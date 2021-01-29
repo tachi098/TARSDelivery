@@ -25,10 +25,19 @@ namespace TARSDeliveryWebAPI.Services.Implements
             return created > 0;
         }
 
-        public async Task<Package> GetNewPackage()
+        public async Task<IEnumerable<Package>> GetPackages()
         {
             var models = await context.GetPackages.ToListAsync();
-            return models[models.Count - 1];
+            /*      return models[models.Count - 1];*/
+            return models;
+          
+        }
+
+        public async Task<Package> GetPackage(int code)
+        {
+            var model = await context.GetPackages.FirstOrDefaultAsync(c => c.Id.Equals(code));
+            
+            return model;
         }
     }
 }

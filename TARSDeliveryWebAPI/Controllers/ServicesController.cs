@@ -15,13 +15,13 @@ namespace TARSDeliveryWebAPI.Controllers
     {
         private readonly IPriceListServices priceListServices;
         private readonly IBillServices billServices;
-        private readonly IPackageServices packageServices;
+      /*  private readonly IPackageServices packageServices;*/
 
-        public ServicesController(IPriceListServices priceListServices, IBillServices billServices, IPackageServices packageServices)
+        public ServicesController(IPriceListServices priceListServices, IBillServices billServices/*, IPackageServices packageServices*/)
         {
             this.priceListServices = priceListServices;
             this.billServices = billServices;
-            this.packageServices = packageServices;
+        /*    this.packageServices = packageServices;*/
         }
 
         [HttpGet("GetPriceList/{name}")]
@@ -30,11 +30,16 @@ namespace TARSDeliveryWebAPI.Controllers
             return Ok(await priceListServices.GetPriceList(name));
         }
 
-        [HttpGet("GetNewPackage")]
-        public async Task<IActionResult> GetNewPackage()
+     /*   [HttpGet("GetPackages")]
+        public async Task<IActionResult> GetPackages()
         {
-            return Ok(await packageServices.GetNewPackage());
+            return Ok(await packageServices.GetPackages());
         }
+        [HttpGet("GetPackage/{code}")]
+        public async Task<IActionResult> GetPackage(int code)
+        {
+            return Ok(await packageServices.GetPackage(code));
+        }*/
 
         [HttpPost("CreateBill")]
         public async Task<IActionResult> CreateBill([FromBody] Bill bill)
@@ -42,10 +47,10 @@ namespace TARSDeliveryWebAPI.Controllers
             return Ok(await billServices.CreateBill(bill));
         }
 
-        [HttpPost("CreatePackage")]
+/*        [HttpPost("CreatePackage")]
         public async Task<IActionResult> CreatePackage([FromBody] Package package)
         {
             return Ok(await packageServices.CreatePackage(package));
-        }
+        }*/
     }
 }
