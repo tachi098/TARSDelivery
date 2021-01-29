@@ -373,7 +373,7 @@
     });
 
     $('#send-package').click(function () {
-        window.location.reload();
+        window.location.href = "/User/Services";
     });
 
     // Paypal
@@ -427,8 +427,8 @@
             processInsert(uriServices, 4);
 
             setTimeout(() => {
-                window.location.reload();
-            }, 500);
+                window.location.href = "/User/Services";
+            }, 1000);
             
         }
 

@@ -12,7 +12,8 @@ namespace TARSDeliveryWebAPI.Seeders
         public PriceListSeeders(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PriceList>().HasData(
-                new PriceList { Id = 1, Name = "VPP", PriceDistance = 1.08, PriceWeight = 1.21, Create_at = DateTime.Now }
+                new PriceList { Id = 1, Name = "VPP", PriceDistance = 1.08, PriceWeight = 0, Create_at = DateTime.Now },
+                new PriceList { Id = 2, Name = "Normal", PriceDistance = 0, PriceWeight = 1.21, Create_at = DateTime.Now }
             );
         }
     }
