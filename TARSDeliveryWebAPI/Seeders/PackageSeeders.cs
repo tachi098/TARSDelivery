@@ -58,8 +58,8 @@ namespace TARSDeliveryWebAPI.Seeders
                     ZipCode = "1234",
                     NameTo = "Name To 02",
                     AddressTo = "Address To 02",
-                    Weight = 0,
-                    Distance = 234.23,
+                    Weight = 4.5,
+                    Distance = 0,
                     Message = "Message 02",
                     TotalPrice = 324.32,
                     Status = 3, // Finish

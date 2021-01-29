@@ -23,8 +23,8 @@
                     processDelete(uriPackages, 'DeletePackage', +packageId);
 
                     setTimeout(() => {
-                        window.location.reload();
-                    }, 500);
+                        window.location.href = "/Admin/Bills";
+                    }, 1000);
                 }
             });
         });
