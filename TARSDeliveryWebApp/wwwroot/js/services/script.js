@@ -245,7 +245,7 @@
             success: function (response) {
                 let price = distance * response.priceDistance;
                 distancePrice = price;
-                $('#price-distance').text('Price: ' + parseFloat(price).toFixed(2) + ' USD');
+                $('#price-distance').text('Price: ' + Math.round(price * 100 + 0.5) / 100 + ' USD');
             },
             error: function () {
                 console.log('Error API');
@@ -265,7 +265,7 @@
         const Weight = 0;
         const Distance = distanceKilo;
         const Message = $('#Message').val();
-        const TotalPrice = parseFloat((distancePrice * 10 / 100) + distancePrice).toFixed(2) ?? 0;
+        const TotalPrice = Math.round(((distancePrice * 10 / 100) + distancePrice) * 100 + 0.5) / 100 ?? 0;
         const AccountId = $('#AccountId').val();
 
 
@@ -353,7 +353,7 @@
         const Weight = 0;
         const Distance = distanceKilo;
         const Message = $('#Message').val();
-        const TotalPrice = parseFloat((distancePrice * 10 / 100) + distancePrice).toFixed(2);
+        const TotalPrice = Math.round(((distancePrice * 10 / 100) + distancePrice) * 100 + 0.5) / 100;
         totalPricePaypal = TotalPrice;
 
         if (Title.trim() !== '' && NameFrom.trim() !== '' && Email.trim() !== '' && NameTo.trim() !== '' && ZipCode.trim() !== '' && Message.trim() !== '') {
@@ -419,13 +419,17 @@
                 $('#paypal-button-container').addClass('d-none');
                 $("#payment-complete").css("opacity", 1);
                 $('#send-package').removeClass('d-none');
-                processInsert(uriServices, 1);
+                processInsert(uriServices, 2);
             });
         },
 
         onCancel: function (data, actions) {
-            processInsert(uriServices, 2);
-            window.location.reload();
+            processInsert(uriServices, 4);
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
+            
         }
 
     }, '#paypal-button-container');
