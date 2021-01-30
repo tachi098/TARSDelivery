@@ -48,9 +48,18 @@
                         }
                     }
                 }
-                <td>
-                    <span class="badge badge-success">Active</span>
-                </td>
+                @if (item.Delete_at == null)
+                {
+                    <td>
+                        <span class="badge badge-success">Active</span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="badge badge-dark">InActive</span>
+                    </td>
+                }
                 <td>@item.Create_at</td>
                 <td>
                     <a asp-action="Details" asp-controller="Account" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a>
@@ -66,8 +75,14 @@
                             }
                         }
                     }
-
-                    <a asp-area="Admin" data-accountId="@item.Id" class="btn btn-outline-danger deleteAccount">Delete</a>
+                    @if (item.Delete_at == null)
+                    {
+                        <a asp-area="Admin" asp-action="Delete" asp-controller="Account" asp-route-id="@item.Id" class="btn btn-outline-danger ">Inactive</a>
+                    }
+                    else
+                    {
+                        <a asp-area="Admin" asp-action="Delete" asp-controller="Account" asp-route-id="@item.Id" class="btn btn-outline-success ">Active</a>
+                    }
                 </td>
             </tr>
             }

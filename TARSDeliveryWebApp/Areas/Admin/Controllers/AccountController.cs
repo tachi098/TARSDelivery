@@ -32,7 +32,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var model = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-            var accounts = model.Where(a => !a.Email.Equals(User.Identity.Name) && a.Delete_at == null).ToList();
+            var accounts = model.Where(a => !a.Email.Equals(User.Identity.Name)).ToList();
             var roles = JsonConvert.DeserializeObject<IEnumerable<Role>>(httpClient.GetStringAsync(uriRole).Result);
             ViewBag.Role = roles;
             return View(accounts);
@@ -221,6 +221,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 var modelOld = JsonConvert.DeserializeObject<Account>(httpClient.GetStringAsync($"{uriAccount}{acc.Id}").Result);
                 var pathImageOld = modelOld?.Avartar;
                 var passwordold = modelOld.Password;
+                acc.Create_at = modelOld.Create_at;
+                acc.Update_at = DateTime.Now;
                 if (acc.Password == confirmpassword)
                 {
                     if (file == null)
@@ -287,6 +289,41 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 ViewBag.Msg = e.Message;
             }
             return View(acc);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                var account = accounts.SingleOrDefault(a => a.Id == id);
+                if (account != null)
+                {
+                    if (account.Delete_at == null)
+                    {
+                        account.Delete_at = DateTime.Now;
+                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "Account");
+                        }
+                    }
+                    else
+                    {
+                        account.Delete_at = null;
+                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "Account");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
         }
     }
 }
