@@ -1,66 +1,60 @@
 ﻿@model TARSDeliveryWebApp.Models.Account
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-9">
-            <div class="card shadow-lg border-0 rounded-lg mt-5">
-                <div class="card-header"><h3 class="text-center font-weight-light my-4">Profile</h3></div>
-                <div class="card-body">
-                    <form asp-action="Profile" asp-controller="Account" asp-area="Admin" enctype="multipart/form-data">
-                        <input hidden value="@Model.Id" asp-for="Id" />
-                        <input hidden value="@Model.Email" asp-for="Email" />
-                        <div class="form-group">
-                            <img src="~/@Url.Content(Model.Avartar)" width="200" />
-                            <input class="form-control py-1" type="file" name="file" />
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="small mb-1" for="inputFirstName">Fullname</label>
-                                    <input class="form-control py-4" id="inputFirstName" type="text" asp-for="FullName" />
-                                    <span asp-validation-for="FullName" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="small mb-1" for="inputLastName">Date of birth</label>
-                                    <input class="form-control py-4" id="inputLastName" type="datetime-local" asp-for="Birthday" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="small mb-1" for="inputEmailAddress">Phone</label>
-                            <input class="form-control py-4" id="inputEmailAddress" type="text" asp-for="Phone" />
-                            <span asp-validation-for="Phone" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label class="small mb-1" for="inputEmailAddress">Address</label>
-                            <input class="form-control py-4" id="inputEmailAddress" type="text" asp-for="Address" />
-                            <span asp-validation-for="Address" class="text-danger"></span>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="small mb-1" for="inputPassword">Password</label>
-                                    <input class="form-control py-4" id="inputPassword" type="password" value="@Model.Password" asp-for="Password" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
-                                    <input class="form-control py-4" id="inputConfirmPassword" type="password" value="@Model.Password" name="confirmpassword" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <p style="color:red">@ViewBag.Msg</p>
-                        <div class="form-group mt-4 mb-0"><input type="submit" class="btn btn-primary btn-block" value="Update" /></div>
-                    </form>
+<div class="container-fluid mt-3">
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <form asp-action="Profile" asp-controller="Account" asp-area="Admin" enctype="multipart/form-data">
+                <input hidden value="@Model.Id" asp-for="Id" />
+                <input hidden value="@Model.BranchId" asp-for="BranchId" />
+                <input hidden value="@Model.Email" asp-for="Email" />
+                <div class="form-group">
+                    <img src="~/@Url.Content(Model.Avartar)" width="200" />
+                    <input class="form-control py-1" type="file" name="file" />
                 </div>
-                <div class="card-footer text-center">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputFirstName">Fullname</label>
+                            <input class="form-control py-4" id="inputFirstName" type="text" asp-for="FullName" />
+                            <span asp-validation-for="FullName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputLastName">Date of birth</label>
+                            <input class="form-control py-4" id="inputLastName" type="datetime-local" asp-for="Birthday" />
+                        </div>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label class="small mb-1" for="inputEmailAddress">Phone</label>
+                    <input class="form-control py-4" id="inputEmailAddress" type="text" asp-for="Phone" />
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label class="small mb-1" for="inputEmailAddress">Address</label>
+                    <input class="form-control py-4" id="inputEmailAddress" type="text" asp-for="Address" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputPassword">Password</label>
+                            <input class="form-control py-4" id="inputPassword" type="password" value="@Model.Password" asp-for="Password" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
+                            <input class="form-control py-4" id="inputConfirmPassword" type="password" value="@Model.Password" name="confirmpassword" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <p style="color:red">@ViewBag.Msg</p>
+                <div class="form-group mt-4 mb-0"><input type="submit" class="btn btn-primary btn-block" value="Update" /></div>
+            </form>
         </div>
     </div>
 </div>

@@ -38,42 +38,6 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
             return View(accounts);
         }
 
-        // Admin Delete
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
-                var account = accounts.SingleOrDefault(a => a.Id == id);
-                if (account != null)
-                {
-                    if (account.Delete_at == null)
-                    {
-                        account.Delete_at = DateTime.Now;
-                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
-                        if (model.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction("Index", "Account");
-                        }
-                    }
-                    else
-                    {
-                        account.Delete_at = null;
-                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
-                        if (model.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction("Index", "Account");
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                ViewBag.Msg = e.Message;
-            }
-            return View();
-        }
-
         // Admin Detail
         [Authorize(Roles = "Admin")]
         public IActionResult Details(int id)
@@ -257,6 +221,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 var modelOld = JsonConvert.DeserializeObject<Account>(httpClient.GetStringAsync($"{uriAccount}{acc.Id}").Result);
                 var pathImageOld = modelOld?.Avartar;
                 var passwordold = modelOld.Password;
+                acc.Create_at = modelOld.Create_at;
+                acc.Update_at = DateTime.Now;
                 if (acc.Password == confirmpassword)
                 {
                     if (file == null)
@@ -323,6 +289,41 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 ViewBag.Msg = e.Message;
             }
             return View(acc);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                var account = accounts.SingleOrDefault(a => a.Id == id);
+                if (account != null)
+                {
+                    if (account.Delete_at == null)
+                    {
+                        account.Delete_at = DateTime.Now;
+                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "Account");
+                        }
+                    }
+                    else
+                    {
+                        account.Delete_at = null;
+                        var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "Account");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
         }
     }
 }
