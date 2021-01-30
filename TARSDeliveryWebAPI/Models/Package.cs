@@ -28,6 +28,7 @@ namespace TARSDeliveryWebAPI.Models
         public int Status { get; set; }
         public int? BranchId { get; set; }
         public int? AccountId { get; set; }
+        public string PriceListName { get; set; }
         public DateTime Create_at { get; set; }
         public DateTime? Update_at { get; set; }
         public DateTime? Delete_at { get; set; }

@@ -9,5 +9,6 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
     public interface IPriceListServices
     {
         Task<PriceList> GetPriceList(string name);
+        Task<IEnumerable<PriceList>> GetPriceLists();
     }
 }

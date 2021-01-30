@@ -22,5 +22,10 @@ namespace TARSDeliveryWebAPI.Services.Implements
         {
             return await context.GetPriceLists.SingleOrDefaultAsync(m => m.Name.Equals(name));
         }
+
+        public async Task<IEnumerable<PriceList>> GetPriceLists()
+        {
+            return await context.GetPriceLists.ToListAsync();
+        }
     }
 }

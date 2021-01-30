@@ -121,17 +121,17 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
                             <label>Address Origin: </label>
                             <input asp-for="AddressFrom" id="origin" class="form-control" placeholder="Enter a location" />
                             <span asp-validation-for="AddressFrom" class="small text-danger span-details"></span>
                         </div>
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
                             <label>Address Destination: </label>
                             <input asp-for="AddressTo" id="destination" class="form-control" placeholder="Enter a location" />
                             <span asp-validation-for="AddressTo" class="small text-danger span-details"></span>
                         </div>
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
                             <label>Weight: </label>
                             <select asp-for="Weight" id="selected-weight" class="form-control">
                                 <option value="1.5">&lt; 2</option>
@@ -147,7 +147,19 @@
                             <input hidden asp-for="Distance" value="0" class="form-control" />
                             <span asp-validation-for="Weight" class="small text-danger span-details"></span>
                         </div>
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-2 form-group">
+                            <label>Method: </label>
+                            <select asp-for="PriceListName" asp-items="(IEnumerable<SelectListItem>)ViewBag.PriceLists" id="selected-pricelist" class="form-control">
+                            </select>
+                            <span asp-validation-for="PriceListName" class="small text-danger span-details"></span>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label>Branch: </label>
+                            <select asp-for="BranchId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Branchs" class="form-control">
+                            </select>
+                            <span asp-validation-for="BranchId" class="small text-danger span-details"></span>
+                        </div>
+                        <div class="col-md-2 form-group">
                             <label>Status: </label>
                             <select asp-for="Status" class="form-control">
                                 <option value="1">Stored</option>

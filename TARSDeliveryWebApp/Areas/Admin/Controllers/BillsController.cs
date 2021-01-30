@@ -30,6 +30,12 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         [Authorize(Roles = "Admin, Manager")]
         public IActionResult Update(int packageId)
         {
+            var priceList = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync($"{uriBills}/GetPriceLists").Result);
+            ViewBag.PriceLists = new SelectList(priceList.Where(m => !m.Name.Equals("VPP")), "Name", "Name");
+            
+            var models = JsonConvert.DeserializeObject<IEnumerable<Branch>>(httpClient.GetStringAsync($"{uriBranchs}").Result);
+            ViewBag.Branchs = new SelectList(models, "Id", "Name");
+
             var model = JsonConvert.DeserializeObject<Package>(httpClient.GetStringAsync($"{uriPackages}/GetPackage/{packageId}").Result);
             ViewBag.Distance = model.Distance;
             ViewBag.TotalPrice = model.TotalPrice;
@@ -62,6 +68,9 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         {
             var models = JsonConvert.DeserializeObject<IEnumerable<Branch>>(httpClient.GetStringAsync($"{uriBranchs}").Result);
             ViewBag.Branchs = new SelectList(models, "Id", "Name");
+
+            var priceList = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync($"{uriBills}/GetPriceLists").Result);
+            ViewBag.PriceLists = new SelectList(priceList.Where(m => !m.Name.Equals("VPP")), "Name", "Name");
             return View();
         }
 
