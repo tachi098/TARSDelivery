@@ -35,18 +35,11 @@ namespace TARSDeliveryWebAPI.Services.Implements
 
         public async Task<bool> CreateAccount(Account account)
         {
+            account.Create_at = DateTime.Now;
             context.Add(account);
             var added = await context.SaveChangesAsync();
             return added > 0;
         }
 
-        public async Task<bool> DeleteAccount(int id)
-        {
-            var model = await context.GetAccounts.FindAsync(id);
-            model.Delete_at = DateTime.Now;
-            context.GetAccounts.Update(model);
-            var deleted = await context.SaveChangesAsync();
-            return deleted > 0;
-        }
     }
 }

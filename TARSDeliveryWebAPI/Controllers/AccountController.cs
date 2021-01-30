@@ -42,7 +42,5 @@ namespace TARSDeliveryWebAPI.Controllers
             return Ok(await accountServices.CreateAccount(account));
         }
 
-        [HttpPut("DeleteAccount/{id}")]
-        public async Task<IActionResult> DeleteAccount([FromRoute] int id) => Ok(await accountServices.DeleteAccount(id));
     }
 }

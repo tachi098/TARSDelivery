@@ -16,6 +16,5 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
 
         Task<bool> CreateAccount(Account account);
 
-        Task<bool> DeleteAccount(int id);
     }
 }
