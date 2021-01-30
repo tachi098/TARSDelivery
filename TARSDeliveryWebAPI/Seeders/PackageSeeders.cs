@@ -27,7 +27,9 @@ namespace TARSDeliveryWebAPI.Seeders
                     Distance = 234.23,
                     Message = "Message 01",
                     TotalPrice = 324.32,
-                    Status = 1 // Store
+                    PriceListName = "VPP",
+                    Status = 1 // Store,
+                    
                 },
                 new Package // VPP Account
                 {
@@ -44,10 +46,11 @@ namespace TARSDeliveryWebAPI.Seeders
                     Distance = 234.23,
                     Message = "Message 02",
                     TotalPrice = 324.32,
+                    PriceListName = "VPP",
                     Status = 2, // Doing
                     AccountId = 3
                 },
-                new Package // VPP Branch
+                new Package // Branch 3 : 3: Speed
                 {
                     Id = 20210128,
                     Title = "Package 02",
@@ -62,6 +65,7 @@ namespace TARSDeliveryWebAPI.Seeders
                     Distance = 0,
                     Message = "Message 02",
                     TotalPrice = 324.32,
+                    PriceListName = "Speed",
                     Status = 3, // Finish
                     BranchId = 1
                 }

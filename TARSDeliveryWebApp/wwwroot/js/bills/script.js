@@ -46,24 +46,47 @@
 
     if ($('#selected-weight-create').val() !== undefined) {
         let weight = $('#selected-weight-create').val();
-        processPriceWeight(uriServices, weight, 'Create');
+        processPriceWeight(uriServices, weight, 'Create', 'Normal');
     }
 
     $('#selected-weight-create').change(function () {
         let weight = $(this).val();
-        processPriceWeight(uriServices, weight, 'Create');
+        let namePrice = $('#selected-pricelist-create').val();
+
+        //console.log('namePrice: ', namePrice, ' - weight: ', weight);
+
+        processPriceWeight(uriServices, weight, 'Create', namePrice);
     });
 
+    $('#selected-pricelist-create').change(function () {
+        let weight = $('#selected-weight-create').val();
+        let namePrice = $(this).val();
+
+        //console.log('namePrice: ', namePrice, ' - weight: ', weight);
+
+        processPriceWeight(uriServices, weight, 'Create', namePrice);
+    });
+    // ================================== CREATE
     $('#selected-weight').change(function () {
         let weight = $(this).val();
-        processPriceWeight(uriServices, weight);
+        let namePrice = $('#selected-pricelist').val();
+        processPriceWeight(uriServices, weight, '', namePrice);
+    });
+
+    $('#selected-pricelist').change(function () {
+        let weight = $('#selected-weight').val();
+        let namePrice = $(this).val();
+
+        //console.log('namePrice: ', namePrice, ' - weight: ', weight);
+
+        processPriceWeight(uriServices, weight, '', namePrice);
     });
 
     // Weight to price
-    function processPriceWeight(uri, weight, keyCreate) {
+    function processPriceWeight(uri, weight, keyCreate, namePriceList) {
         if (keyCreate === 'Create') {
             $.ajax({
-                url: `${uri}/GetPriceList/Normal`,
+                url: `${uri}/GetPriceList/${namePriceList}`,
                 type: 'GET',
                 success: function (response) {
                     let price = weight * response.priceWeight;
@@ -76,7 +99,7 @@
             });
         } else {
             $.ajax({
-                url: `${uri}/GetPriceList/Normal`,
+                url: `${uri}/GetPriceList/${namePriceList}`,
                 type: 'GET',
                 success: function (response) {
                     let price = weight * response.priceWeight;
