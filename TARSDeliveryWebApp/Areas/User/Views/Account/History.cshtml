@@ -1,0 +1,112 @@
+﻿@model IEnumerable<TARSDeliveryWebApp.Models.BillPackage>
+
+@{
+    ViewData["Title"] = "History";
+}
+
+<h1>History</h1>
+
+<div class="container-fluid mt-3">
+    <table id="table-datatables" class="ui celled table" style="width:100%">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Salary</th>
+                <th>Status</th>
+                <th>Created</th>
+              
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Any())
+            {
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.GetBill.Id</td>
+                        <td>@item.GetPackage.Title</td>
+                        <td>@item.GetPackage.NameFrom</td>
+                        <td>@item.GetPackage.Email</td>
+                        <td>@item.GetPackage.Type</td>
+                        <td>@Html.DisplayFor(modelItem => item.GetPackage.TotalPrice)</td>
+                        @if (@item.GetPackage.Status == 1)
+                        {
+                            <td>
+                                <span class="badge badge-primary">Stored</span>
+                                <span>
+                                    @if (@item.GetPackage.Distance > 0)
+                                    {
+                                        <sup class="text-danger small"><b>VPP</b></sup>
+                                    }
+                                    else
+                                    {
+                                        <sup class="text-secondary small"><b>Branch</b></sup>
+                                    }
+                                </span>
+                            </td>
+                        }
+                        else if (@item.GetPackage.Status == 2)
+                        {
+                            <td>
+                                <span class="badge badge-warning">Doing</span>
+                                <span>
+                                    @if (@item.GetPackage.Distance > 0)
+                                    {
+                                        <sup class="text-danger small"><b>VPP</b></sup>
+                                    }
+                                    else
+                                    {
+                                        <sup class="text-secondary small"><b>Branch</b></sup>
+                                    }
+                                </span>
+                            </td>
+                        }
+                        else if (@item.GetPackage.Status == 3)
+                        {
+                            <td>
+                                <span class="badge badge-success">Finish</span>
+                                <span>
+                                    @if (@item.GetPackage.Distance > 0)
+                                    {
+                                        <sup class="text-danger small"><b>VPP</b></sup>
+                                    }
+                                    else
+                                    {
+                                        <sup class="text-secondary small"><b>Branch</b></sup>
+                                    }
+                                </span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <span class="badge badge-danger">Erorr</span>
+                                <span><sup class="text-danger small"><b>VPP</b></sup></span>
+                            </td>
+                        }
+                        <td>@item.GetBill.Create_at</td>
+                    
+                    </tr>
+                }
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Type</th>
+                <th>Salary</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
