@@ -101,7 +101,8 @@
                             </a>
                             <div class="collapse" id="collapsePriceList" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link">PriceList Info</a>
+                                    <a class="nav-link" asp-action="Index" asp-controller="PriceList" asp-area="Admin">PriceList Info</a>
+                                    <a class="nav-link" asp-action="Create" asp-controller="PriceList" asp-area="Admin">Create PriceList</a>
                                 </nav>
                             </div>
                         }
@@ -141,6 +142,7 @@
     <script src="~/js/scripts.js"></script>
     <script src="~/js/bills/script.js"></script>
     <script src="~/js/accounts/script.js"></script>
+    <script src="~/js/pricelists/script.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

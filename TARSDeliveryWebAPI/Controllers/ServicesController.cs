@@ -24,11 +24,11 @@ namespace TARSDeliveryWebAPI.Controllers
             this.packageServices = packageServices;
         }
 
-        [HttpGet("GetPriceList/{name}")]
+       /* [HttpGet("GetPriceList/{name}")]
         public async Task<IActionResult> GetPriceList([FromRoute] string name)
         {
             return Ok(await priceListServices.GetPriceList(name));
-        }
+        }*/
 
         [HttpGet("GetNewPackage")]
         public async Task<IActionResult> GetNewPackage()
