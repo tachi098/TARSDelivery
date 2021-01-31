@@ -33,8 +33,8 @@ namespace TARSDeliveryWebAPI.Controllers
         [HttpPut("DeletePriceList/{id}")]
         public async Task<IActionResult> DeletePriceList([FromRoute] int id) => Ok(await priceListServices.DeletePriceList(id));
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetPriceList([FromRoute] int id) => Ok(await priceListServices.GetPriceList(id));
+        [HttpGet("{name}")]
+        public async Task<IActionResult> GetPriceList([FromRoute] string name) => Ok(await priceListServices.GetPriceList(name));
 
 
         [HttpPost]

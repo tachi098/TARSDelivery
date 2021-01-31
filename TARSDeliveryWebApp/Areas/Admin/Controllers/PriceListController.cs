@@ -17,7 +17,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         private string uri = "http://localhost:50354/api/PriceList/";
         private HttpClient httpClient = new HttpClient();
 
-        [Authorize(Roles = "Admin, Manager")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             var res = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(
@@ -27,10 +27,9 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
 
 
 
-        public IActionResult Edit(string Id)
+        public IActionResult Edit(string name)
         {
-            var model = JsonConvert.DeserializeObject<PriceList>(
-                                       httpClient.GetStringAsync(uri + Id).Result);
+            var model = JsonConvert.DeserializeObject<PriceList>(httpClient.GetStringAsync(uri + name).Result);
             return View(model);
         }
         [HttpPost]
@@ -38,8 +37,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         {
             try
             {
-                var modelOld = JsonConvert.DeserializeObject<PriceList>(
-                            httpClient.GetStringAsync(uri + priceList.Id).Result);
+                var modelOld = JsonConvert.DeserializeObject<PriceList>(httpClient.GetStringAsync(uri + priceList.Name).Result);
                 priceList.Create_at = modelOld.Create_at;
                 if (ModelState.IsValid)
                 {
@@ -57,44 +55,6 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
             return View();
         }
 
-
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                var priceLists = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync(uri).Result);
-                var priceList = priceLists.SingleOrDefault(a => a.Id == id);
-                if (priceList != null)
-                {
-                    if (priceList.Delete_at == null)
-                    {
-                        priceList.Delete_at = DateTime.Now;
-                        var model = httpClient.PutAsJsonAsync(uri, priceList).Result;
-                        if (model.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction("Index", "PriceList");
-                        }
-                    }
-                    else
-                    {
-                        priceList.Delete_at = null;
-                        var model = httpClient.PutAsJsonAsync(uri, priceList).Result;
-                        if (model.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction("Index", "PriceList");
-                        }
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                ViewBag.Msg = e.Message;
-            }
-            return View();
-        }
-
-
-
         public IActionResult Create()
         {
             return View();
@@ -105,13 +65,19 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
+                var modelOld = JsonConvert.DeserializeObject<PriceList>(httpClient.GetStringAsync(uri + priceList.Name).Result);
+                if (modelOld == null)
                 {
-                    var model = httpClient.PostAsJsonAsync<PriceList>(uri, priceList).Result;
+                    var model = httpClient.PostAsJsonAsync(uri, priceList).Result;
                     if (model.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Index", "PriceList");
                     }
+                }
+                else
+                {
+                    ViewBag.Msg = "Name is exists";
+                    return View();
                 }
             }
             catch (Exception e)
