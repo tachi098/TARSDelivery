@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
+
     $('#table-datatables').DataTable();
-
-
+    $('#table-datatables-clone').DataTable();
 
     if ($('#origin').val() !== undefined && $('#destination').val() !== undefined) {
         // Add input listeners

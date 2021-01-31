@@ -36,5 +36,11 @@ namespace TARSDeliveryWebAPI.Controllers
 
         [HttpPost("CreateBill")]
         public async Task<IActionResult> CreateBill([FromBody] Bill bill) => Ok(await billServices.CreateBill(bill));
+
+        [HttpPut("UndoBill/{id}")]
+        public async Task<IActionResult> UndoPackage([FromRoute] int id) => Ok(await billServices.UndoBill(id));
+
+        [HttpGet("GetBill/{id}")]
+        public async Task<IActionResult> GetBill([FromRoute] int id) => Ok(await billServices.GetBill(id));
     }
 }

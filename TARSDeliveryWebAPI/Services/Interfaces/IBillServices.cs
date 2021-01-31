@@ -10,7 +10,9 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
     {
         Task<bool> CreateBill(Bill bill);
         Task<IEnumerable<BillPackage>> GetBillPackages();
+        Task<Bill> GetBill(int id);
         Task<bool> DeleteBill(int id);
         Task<bool> UpdateBill(Bill bill);
+        Task<bool> UndoBill(int id);
     }
 }

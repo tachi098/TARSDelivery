@@ -34,5 +34,8 @@ namespace TARSDeliveryWebAPI.Controllers
 
         [HttpGet("GetNewPackage")]
         public async Task<IActionResult> GetNewPackage() => Ok(await packageServices.GetNewPackage());
+
+        [HttpPut("UndoPackage/{id}")]
+        public async Task<IActionResult> UndoPackage([FromRoute] int id) => Ok(await packageServices.UndoPackage(id));
     }
 }

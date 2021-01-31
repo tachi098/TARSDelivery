@@ -46,6 +46,15 @@ namespace TARSDeliveryWebAPI.Services.Implements
             return await context.GetPackages.FindAsync(id);
         }
 
+        public async Task<bool> UndoPackage(int id)
+        {
+            var model = await context.GetPackages.FindAsync(id);
+            model.Delete_at = null;
+            context.GetPackages.Update(model);
+            var undo = await context.SaveChangesAsync();
+            return undo > 0;
+        }
+
         public async Task<bool> UpdatePackage(Package package)
         {
             package.Update_at = DateTime.Now;
