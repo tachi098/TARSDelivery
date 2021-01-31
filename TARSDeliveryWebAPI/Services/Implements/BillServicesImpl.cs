@@ -35,6 +35,11 @@ namespace TARSDeliveryWebAPI.Services.Implements
             return deleted > 0;
         }
 
+        public async Task<Bill> GetBill(int id)
+        {
+            return await context.GetBills.FindAsync(id);
+        }
+
         public async Task<IEnumerable<BillPackage>> GetBillPackages()
         {
             return await context.GetBills
@@ -45,8 +50,16 @@ namespace TARSDeliveryWebAPI.Services.Implements
                     {
                         GetBill = b,
                         GetPackage = p
-                    }).Where(m => m.GetBill.Delete_at == null && m.GetPackage.Delete_at == null)
-                      .ToListAsync();
+                    }).ToListAsync();
+        }
+
+        public async Task<bool> UndoBill(int id)
+        {
+            var model = await context.GetBills.FindAsync(id);
+            model.Delete_at = null;
+            context.GetBills.Update(model);
+            var undo = await context.SaveChangesAsync();
+            return undo > 0;
         }
 
         public async Task<bool> UpdateBill(Bill bill)

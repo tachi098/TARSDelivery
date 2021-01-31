@@ -1,0 +1,93 @@
+﻿@model TARSDeliveryWebApp.Models.BillPackage
+
+@{
+    ViewData["Title"] = "Bill";
+}
+
+
+<div class="container-fluid mt-3" style="max-width: 1200px; width: 100%;">
+    <div class="row">
+        <div class="col-md-12 p-0" style="display: flex; justify-content: flex-end;">
+            <button class="btn btn-outline-primary" id="download">Report PDF</button>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid mt-3 report" id="invoice">
+    <div>
+        <div class="row header">
+            <div class="col-md-9 p-0">
+                <h1 class="text-white text-header">TARSDELIVERY</h1>
+            </div>
+            <div class="col-md-3 p-0 text-amount">
+                <p>Amount</p>
+                <h3>$@Model.GetPackage.TotalPrice</h3>
+            </div>
+        </div>
+
+        <div class="row body">
+            <div class="col-md-6 p-0 text-from">
+                <p><b>ID:</b> @Model.GetBill.Id</p>
+                <p><b>FROM:</b> @Model.GetPackage.AddressFrom</p>
+                <p><b>ZIPCODE:</b> @Model.GetPackage.ZipCode</p>
+                <p><b>NAME:</b> @Model.GetPackage.NameFrom</p>
+                <p><b>EMAIL:</b> @Model.GetPackage.Email</p>
+            </div>
+            <div class="col-md-6 p-0 text-to">
+                <p><b>TO:</b> @Model.GetPackage.AddressTo</p>
+                <p><b>NAME:</b> @Model.GetPackage.NameTo</p>
+                <p><b>DATE:</b> @Model.GetPackage.Create_at</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 p-0">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Package</th>
+                            <th scope="col">Type</th>
+                            @if (@Model.GetPackage.Distance > 0)
+                            {
+                        <th scope="col">Distance</th>
+                            }
+                            else
+                            {
+                                <th scope="col">Weight</th>
+                            }
+                            <th scope="col">Method</th>
+                            <th scope="col">Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">@Model.GetPackage.Id</th>
+                            <td>@Model.GetPackage.Title</td>
+                            <td>@Model.GetPackage.Type</td>
+                            @if (@Model.GetPackage.Distance > 0)
+                            {
+                                <td>@Model.GetPackage.Distance KM</td>
+                            }
+                            else
+                            {
+                                <td>&lt; @Model.GetPackage.Weight KG</td>
+                            }
+                            <td>@Model.GetPackage.PriceListName</td>
+                            <td>@Model.GetPackage.Message</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row footer">
+            <div class="col-md-6 p-0 sender">
+                <p><b>Sender' signature</b></p>
+            </div>
+            <div class="col-md-6 p-0 accepted">
+                <p><b>Receiver' signature</b></p>
+            </div>
+        </div>
+    </div>
+</div>

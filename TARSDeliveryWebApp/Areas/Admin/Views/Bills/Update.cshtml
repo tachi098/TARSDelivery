@@ -153,21 +153,48 @@
                             </select>
                             <span asp-validation-for="PriceListName" class="small text-danger span-details"></span>
                         </div>
-                        <div class="col-md-2 form-group">
-                            <label>Branch: </label>
-                            <select asp-for="BranchId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Branchs" class="form-control">
-                            </select>
-                            <span asp-validation-for="BranchId" class="small text-danger span-details"></span>
-                        </div>
-                        <div class="col-md-2 form-group">
-                            <label>Status: </label>
-                            <select asp-for="Status" class="form-control">
-                                <option value="1">Stored</option>
-                                <option value="2">Doing</option>
-                                <option value="3">Finish</option>
-                            </select>
-                            <span asp-validation-for="Status" class="small text-danger span-details"></span>
-                        </div>
+                        @if (ViewBag.BranchId == "Manager")
+                        {
+                            <div>
+                                <select hidden asp-for="BranchId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Branchs" class="form-control">
+                                </select>
+                                <span asp-validation-for="BranchId" class="small text-danger span-details"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-2 form-group">
+                                <label>Branch: </label>
+                                <select asp-for="BranchId" asp-items="(IEnumerable<SelectListItem>)ViewBag.Branchs" class="form-control">
+                                </select>
+                                <span asp-validation-for="BranchId" class="small text-danger span-details"></span>
+                            </div>
+                        }
+
+                        @if (ViewBag.BranchId == "Manager")
+                        {
+                            <div class="col-md-4 form-group">
+                                <label>Status: </label>
+                                <select asp-for="Status" class="form-control">
+                                    <option value="1">Stored</option>
+                                    <option value="2">Doing</option>
+                                    <option value="3">Finish</option>
+                                </select>
+                                <span asp-validation-for="Status" class="small text-danger span-details"></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-md-2 form-group">
+                                <label>Status: </label>
+                                <select asp-for="Status" class="form-control">
+                                    <option value="1">Stored</option>
+                                    <option value="2">Doing</option>
+                                    <option value="3">Finish</option>
+                                </select>
+                                <span asp-validation-for="Status" class="small text-danger span-details"></span>
+                            </div>
+                        }
                     </div>
                     <div class="form-group">
                         <label>Message: </label>

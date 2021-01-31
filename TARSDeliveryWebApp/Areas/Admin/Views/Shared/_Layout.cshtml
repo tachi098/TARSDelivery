@@ -12,9 +12,11 @@
     <link href="~/css/common/semantic.min.css" rel="stylesheet" />
     <link href="~/css/common/dataTables.semanticui.min.css" rel="stylesheet" />
     <!-- <link href="~/css/common/jquery.dataTables.min.css" rel="stylesheet" /> -->
+    <link href="~/css/common/jquery-ui.css" rel="stylesheet" />
 
     <!-- Custom CSS -->
     <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/common/report.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -134,7 +136,8 @@
     <script src="~/js/common/semantic.min.js"></script>
     <script src="~/js/common/sweetalert.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?client=gme-americancancersociety&v=3&libraries=places&channel=digital_strides"></script>
-
+    <script src="~/js/jquery-ui.js"></script>
+    <script src="~/js/common/html2pdf.bundle.js"></script>
 
     <!-- Custom JS -->
     <script src="~/js/common/common.js"></script>
@@ -143,6 +146,7 @@
     <script src="~/js/bills/script.js"></script>
     <script src="~/js/accounts/script.js"></script>
     <script src="~/js/pricelists/script.js"></script>
+    <script>$("#tabs").tabs();</script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

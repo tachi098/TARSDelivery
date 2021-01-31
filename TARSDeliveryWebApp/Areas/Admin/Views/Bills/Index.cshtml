@@ -4,119 +4,232 @@
     ViewData["Title"] = "Bill";
 }
 
-<div class="container-fluid mt-3">
-    <table id="table-datatables" class="ui celled table" style="width:100%">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Type</th>
-                <th>Salary</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model.Any())
-            {
-                @foreach (var item in Model)
-                {
+<div id="tabs">
+    <ul>
+        <li><a href="#tabs-1">Working</a></li>
+        <li><a href="#tabs-2">Stop Working</a></li>
+    </ul>
+    <div id="tabs-1">
+        <div class="container-fluid mt-3">
+            <table id="table-datatables" class="ui celled table" style="width:100%">
+                <thead>
                     <tr>
-                        <td>@item.GetBill.Id</td>
-                        <td>@item.GetPackage.Title</td>
-                        <td>@item.GetPackage.NameFrom</td>
-                        <td>@item.GetPackage.Email</td>
-                        <td>@item.GetPackage.Type</td>
-                        <td>@Html.DisplayFor(modelItem => item.GetPackage.TotalPrice)</td>
-                        @if (@item.GetPackage.Status == 1)
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Salary</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
                         {
-                            <td>
-                                <span class="badge badge-primary">Stored</span>
-                                <span>
-                                    @if (@item.GetPackage.Distance > 0)
+                            <tr>
+                                <td>@item.GetBill.Id</td>
+                                <td>@item.GetPackage.Title</td>
+                                <td>@item.GetPackage.NameFrom</td>
+                                <td>@item.GetPackage.Email</td>
+                                <td>@item.GetPackage.Type</td>
+                                <td>@Html.DisplayFor(modelItem => item.GetPackage.TotalPrice)</td>
+                                @if (@item.GetPackage.Status == 1)
+                                {
+                                    <td>
+                                        <span class="badge badge-primary">Stored</span>
+                                        <span>
+                                            @if (@item.GetPackage.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else if (@item.GetPackage.Status == 2)
+                                {
+                                    <td>
+                                        <span class="badge badge-warning">Doing</span>
+                                        <span>
+                                            @if (@item.GetPackage.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else if (@item.GetPackage.Status == 3)
+                                {
+                                    <td>
+                                        <span class="badge badge-success">Finish</span>
+                                        <span>
+                                            @if (@item.GetPackage.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge badge-danger">Erorr</span>
+                                        <span><sup class="text-danger small"><b>VPP</b></sup></span>
+                                    </td>
+                                }
+                                <td>@item.GetBill.Create_at</td>
+                                <td>
+                                    @if (@item.GetPackage.Status == 4)
                                     {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
+                                        <a class="btn btn-outline-info" style="visibility: hidden;">Details</a>
+                                        <a class="btn btn-outline-warning" style="visibility: hidden;">Update</a>
+                                        <a data-billId="@item.GetBill.Id" data-packageId="@item.GetPackage.Id" class="btn btn-outline-danger delete">Delete</a>
                                     }
                                     else
                                     {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
+                                        <a asp-action="Details" asp-controller="Bills" asp-area="Admin" asp-route-billId="@item.GetBill.Id" class="btn btn-outline-info">Details</a>
+                                        <a asp-action="Update" asp-controller="Bills" asp-area="Admin" asp-route-packageId="@item.GetPackage.Id" class="btn btn-outline-warning">Update</a>
+                                        <a data-billId="@item.GetBill.Id" data-packageId="@item.GetPackage.Id" class="btn btn-outline-danger delete">Delete</a>
                                     }
-                                </span>
-                            </td>
+                                </td>
+                            </tr>
                         }
-                        else if (@item.GetPackage.Status == 2)
-                        {
-                            <td>
-                                <span class="badge badge-warning">Doing</span>
-                                <span>
-                                    @if (@item.GetPackage.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        }
-                        else if (@item.GetPackage.Status == 3)
-                        {
-                            <td>
-                                <span class="badge badge-success">Finish</span>
-                                <span>
-                                    @if (@item.GetPackage.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        } else
-                        {
-                            <td>
-                                <span class="badge badge-danger">Erorr</span>
-                                <span><sup class="text-danger small"><b>VPP</b></sup></span>
-                            </td>
-                        }
-                        <td>@item.GetBill.Create_at</td>
-                        <td>
-                            @if (@item.GetPackage.Status == 4)
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Salary</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    <div id="tabs-2">
+        <div class="container-fluid mt-3">
+            <table id="table-datatables-clone" class="ui celled table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Salary</th>
+                        <th>Status</th>
+                        <th>Deleted</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.ModelsDeleted)
+                    {
+                        <tr>
+                            <td>@item.GetBill.Id</td>
+                            <td>@item.GetPackage.Title</td>
+                            <td>@item.GetPackage.NameFrom</td>
+                            <td>@item.GetPackage.Email</td>
+                            <td>@item.GetPackage.Type</td>
+                            <td>@item.GetPackage.TotalPrice</td>
+                            @if (@item.GetPackage.Status == 1)
                             {
-                                <a class="btn btn-outline-info" style="visibility: hidden;">Details</a>
-                                <a class="btn btn-outline-warning" style="visibility: hidden;">Update</a>
-                                <a data-billId="@item.GetBill.Id" data-packageId="@item.GetPackage.Id" class="btn btn-outline-danger delete">Delete</a>
+                                <td>
+                                    <span class="badge badge-primary">Stored</span>
+                                    <span>
+                                        @if (@item.GetPackage.Distance > 0)
+                                        {
+                                            <sup class="text-danger small"><b>VPP</b></sup>
+                                        }
+                                        else
+                                        {
+                                            <sup class="text-secondary small"><b>Branch</b></sup>
+                                        }
+                                    </span>
+                                </td>
+                            }
+                            else if (@item.GetPackage.Status == 2)
+                            {
+                                <td>
+                                    <span class="badge badge-warning">Doing</span>
+                                    <span>
+                                        @if (@item.GetPackage.Distance > 0)
+                                        {
+                                            <sup class="text-danger small"><b>VPP</b></sup>
+                                        }
+                                        else
+                                        {
+                                            <sup class="text-secondary small"><b>Branch</b></sup>
+                                        }
+                                    </span>
+                                </td>
+                            }
+                            else if (@item.GetPackage.Status == 3)
+                            {
+                                <td>
+                                    <span class="badge badge-success">Finish</span>
+                                    <span>
+                                        @if (@item.GetPackage.Distance > 0)
+                                        {
+                                            <sup class="text-danger small"><b>VPP</b></sup>
+                                        }
+                                        else
+                                        {
+                                            <sup class="text-secondary small"><b>Branch</b></sup>
+                                        }
+                                    </span>
+                                </td>
                             }
                             else
                             {
-                                <a asp-action="Details" asp-controller="Bills" asp-area="Admin" asp-route-packageId="@item.GetPackage.Id" class="btn btn-outline-info">Details</a>
-                                <a asp-action="Update" asp-controller="Bills" asp-area="Admin" asp-route-packageId="@item.GetPackage.Id" class="btn btn-outline-warning">Update</a>
-                                <a data-billId="@item.GetBill.Id" data-packageId="@item.GetPackage.Id" class="btn btn-outline-danger delete">Delete</a>
+                                <td>
+                                    <span class="badge badge-danger">Erorr</span>
+                                    <span><sup class="text-danger small"><b>VPP</b></sup></span>
+                                </td>
                             }
-                        </td>
+                            <td>@item.GetBill.Delete_at</td>
+                            <td>
+                                <a asp-action="Undo" asp-controller="Bills" asp-area="Admin" asp-route-billId="@item.GetBill.Id" asp-route-packageId="@item.GetPackage.Id" class="btn btn-outline-dark">Undo</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Type</th>
+                        <th>Salary</th>
+                        <th>Status</th>
+                        <th>Deleted</th>
+                        <th></th>
                     </tr>
-                }
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Type</th>
-                <th>Salary</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th></th>
-            </tr>
-        </tfoot>
-    </table>
+                </tfoot>
+            </table>
+        </div>
+    </div>
 </div>
 

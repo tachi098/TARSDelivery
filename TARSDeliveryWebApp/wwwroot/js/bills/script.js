@@ -1,5 +1,23 @@
 ﻿$(function () {
 
+    try {
+        document.getElementById("download").addEventListener("click", () => {
+            const invoice = document.getElementById("invoice");
+            console.log(invoice);
+            console.log(window);
+            var opt = {
+                margin: 1,
+                filename: 'ReportPDF.pdf',
+                //image: { type: 'jpeg', quality: 0.98 },
+                //html2canvas: { scale: 1 },
+                //jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+            html2pdf().from(invoice).set(opt).save();
+        });
+    } catch (e) {
+    }
+    
+
     $('#table-datatables tbody .delete').each(function (i) {
         $(this).on('click', function (e) {
             e.preventDefault();
@@ -90,8 +108,8 @@
                 type: 'GET',
                 success: function (response) {
                     let price = weight * response.priceWeight;
-                    $('#total-price-create').val(Math.round(price * 100 + 0.5) / 100);
-                    $('#price-weight-create').text('$' + Math.round(price * 100 + 0.5) / 100);
+                    $('#total-price-create').val(round(price, 2));
+                    $('#price-weight-create').text('$' + round(price, 2));
                 },
                 error: function () {
                     console.log('Error API');
@@ -103,8 +121,8 @@
                 type: 'GET',
                 success: function (response) {
                     let price = weight * response.priceWeight;
-                    $('#total-price').val(Math.round(price * 100 + 0.5) / 100);
-                    $('#price-weight').text('$' + Math.round(price * 100 + 0.5) / 100);
+                    $('#total-price').val(round(price, 2));
+                    $('#price-weight').text('$' + round(price, 2));
                 },
                 error: function () {
                     console.log('Error API');
