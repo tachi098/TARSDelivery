@@ -245,7 +245,7 @@
             success: function (response) {
                 let price = distance * response.priceDistance;
                 distancePrice = price;
-                $('#price-distance').text('Price: ' + Math.round(price * 100 + 0.5) / 100 + ' USD');
+                $('#price-distance').text('Price: ' + round(price, 2) + ' USD');
             },
             error: function () {
                 console.log('Error API');
@@ -265,7 +265,7 @@
         const Weight = 0;
         const Distance = distanceKilo;
         const Message = $('#Message').val();
-        const TotalPrice = Math.round(((distancePrice * 10 / 100) + distancePrice) * 100 + 0.5) / 100 ?? 0;
+        const TotalPrice = round(distancePrice * 10 / 100 + distancePrice, 2) ?? 0;
         const AccountId = $('#AccountId').val();
         const PriceListName = 'VPP';
 
@@ -355,7 +355,7 @@
         const Weight = 0;
         const Distance = distanceKilo;
         const Message = $('#Message').val();
-        const TotalPrice = Math.round(((distancePrice * 10 / 100) + distancePrice) * 100 + 0.5) / 100;
+        const TotalPrice = round(distancePrice * 10 / 100 + distancePrice, 2);
         totalPricePaypal = TotalPrice;
 
         if (Title.trim() !== '' && NameFrom.trim() !== '' && Email.trim() !== '' && NameTo.trim() !== '' && ZipCode.trim() !== '' && Message.trim() !== '') {
