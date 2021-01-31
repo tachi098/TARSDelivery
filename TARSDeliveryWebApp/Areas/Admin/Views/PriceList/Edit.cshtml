@@ -1,0 +1,39 @@
+﻿@model TARSDeliveryWebApp.Models.PriceList
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container-fluid mt-3">
+    <div class="col-lg-12">
+        <div class="col-lg-12">
+            <h2>Edit Pricelist</h2>
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input hidden value="@Model.Id" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PriceDistance" class="control-label"></label>
+                    <input asp-for="PriceDistance" class="form-control" />
+                    <span asp-validation-for="PriceDistance" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PriceWeight" class="control-label"></label>
+                    <input asp-for="PriceWeight" class="form-control" />
+                    <span asp-validation-for="PriceWeight" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+
