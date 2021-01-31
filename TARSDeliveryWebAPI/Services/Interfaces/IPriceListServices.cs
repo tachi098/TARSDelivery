@@ -8,8 +8,6 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
 {
     public interface IPriceListServices
     {
-        Task<PriceList> GetPriceList(int id);
-
         Task<IEnumerable<PriceList>> priceLists();
 
         Task<bool> Edit(PriceList priceList);

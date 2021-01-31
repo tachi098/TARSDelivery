@@ -18,11 +18,6 @@ namespace TARSDeliveryWebAPI.Services.Implements
             this.context = context;
         }
 
-        public async Task<PriceList> GetPriceList(int id)
-        {
-            return await context.GetPriceLists.SingleOrDefaultAsync(m => m.Id == id);
-        }
-
         public async Task<IEnumerable<PriceList>> priceLists() //Index
         {
             return await context.GetPriceLists.Where(m => m.Delete_at == null).ToListAsync();
@@ -58,6 +53,11 @@ namespace TARSDeliveryWebAPI.Services.Implements
         public async Task<IEnumerable<PriceList>> GetPriceLists()
         {
             return await context.GetPriceLists.ToListAsync();
+        }
+
+        public async Task<PriceList> GetPriceList(string name)
+        {
+            return await context.GetPriceLists.SingleOrDefaultAsync(m => m.Name.Equals(name));
         }
     }
 }
