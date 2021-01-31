@@ -15,12 +15,25 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
     public class AccountController : Controller
     {
         private const string uriAccount = "http://localhost:50354/api/Account/";
+        private const string uriPackage = "http://localhost:50354/api/Packages/GetPackage/";
+        private const string uriBillPackage = "http://localhost:50354/api/Bills/GetBillPackages/";
         private const string uriRole = "http://localhost:50354/api/Role/";
         private readonly HttpClient httpClient = new HttpClient();
         private readonly Random rnd = new Random();
         public IActionResult Index()
         {
             return View();
+        }
+         public IActionResult Search(string search)
+        {
+            var model = JsonConvert.DeserializeObject<Package>(httpClient.GetStringAsync(uriPackage + search).Result);
+            return View(model);
+        }
+        public IActionResult History()
+        {
+            var models = JsonConvert.DeserializeObject<IEnumerable<BillPackage>>(httpClient.GetStringAsync(uriBillPackage).Result);
+            
+            return View(models);
         }
 
         public IActionResult Login()

@@ -267,6 +267,7 @@
         const Message = $('#Message').val();
         const TotalPrice = Math.round(((distancePrice * 10 / 100) + distancePrice) * 100 + 0.5) / 100 ?? 0;
         const AccountId = $('#AccountId').val();
+        const PriceListName = 'VPP';
 
 
 
@@ -284,6 +285,7 @@
         model.Message = Message;
         model.TotalPrice = +TotalPrice;
         model.Status = Status;
+        model.PriceListName = PriceListName;
         if (AccountId.trim().length > 0) {
             model.AccountId = parseInt(AccountId);
         }

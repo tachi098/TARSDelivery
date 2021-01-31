@@ -14,14 +14,19 @@ namespace TARSDeliveryWebAPI.Controllers
     public class BillsController : ControllerBase
     {
         private readonly IBillServices billServices;
+        private readonly IPriceListServices priceListServices;
 
-        public BillsController(IBillServices billServices)
+        public BillsController(IBillServices billServices, IPriceListServices priceListServices)
         {
             this.billServices = billServices;
+            this.priceListServices = priceListServices;
         }
 
         [HttpGet("GetBillPackages")]
         public async Task<IActionResult> GetBills() => Ok(await billServices.GetBillPackages());
+
+        [HttpGet("GetPriceLists")]
+        public async Task<IActionResult> GetPriceLists() => Ok(await priceListServices.GetPriceLists());
 
         [HttpPut("DeleteBill/{id}")]
         public async Task<IActionResult> DeleteBill([FromRoute] int id) => Ok(await billServices.DeleteBill(id));

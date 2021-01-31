@@ -54,5 +54,10 @@ namespace TARSDeliveryWebAPI.Services.Implements
             var created = await context.SaveChangesAsync();
             return created > 0;
         }
+
+        public async Task<IEnumerable<PriceList>> GetPriceLists()
+        {
+            return await context.GetPriceLists.ToListAsync();
+        }
     }
 }

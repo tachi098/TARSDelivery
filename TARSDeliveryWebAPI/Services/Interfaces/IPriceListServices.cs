@@ -17,5 +17,8 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
         Task<bool> DeletePriceList(int id);
 
         Task<bool> Create(PriceList priceList);
+
+        Task<PriceList> GetPriceList(string name);
+        Task<IEnumerable<PriceList>> GetPriceLists();
     }
 }

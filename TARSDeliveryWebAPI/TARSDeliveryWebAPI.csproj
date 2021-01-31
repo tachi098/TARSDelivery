@@ -107,8 +107,18 @@
     <Compile Remove="Migrations\20210128034700_Initial.Designer.cs" />
     <Compile Remove="Migrations\20210128101741_intial.cs" />
     <Compile Remove="Migrations\20210128101741_intial.Designer.cs" />
+    <Compile Remove="Migrations\20210129170035_intial.cs" />
+    <Compile Remove="Migrations\20210129170035_intial.Designer.cs" />
+    <Compile Remove="Migrations\20210129174857_intial.cs" />
+    <Compile Remove="Migrations\20210129174857_intial.Designer.cs" />
+    <Compile Remove="Migrations\20210130021336_intial.cs" />
+    <Compile Remove="Migrations\20210130021336_intial.Designer.cs" />
+    <Compile Remove="Migrations\20210130033533_intial.cs" />
+    <Compile Remove="Migrations\20210130033533_intial.Designer.cs" />
     <Compile Remove="Migrations\20210128115834_Initial.cs" />
     <Compile Remove="Migrations\20210128115834_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20210128142622_initial.cs" />
+    <Compile Remove="Migrations\20210128142622_initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
