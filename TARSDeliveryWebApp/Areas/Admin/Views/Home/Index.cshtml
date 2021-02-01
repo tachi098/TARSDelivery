@@ -42,8 +42,7 @@
         </div>
     </div>
 </main>
-
-@*<script>
-    var objModel=@Html.Raw(Json.Serialize(ViewBag.Data));
-    setup(objModel);
-</script>*@
+@section Scripts {
+    <script src="~/js/chart/Chart.min.js"></script>
+    <script src="~/js/chart/area.js"></script>
+}
