@@ -48,5 +48,21 @@ namespace TARSDeliveryWebAPI.Services.Implements
             var deleted = await context.SaveChangesAsync();
             return deleted > 0;
         }
+
+        public async Task<IEnumerable<BillPackageAccount>> billPackageAccounts()
+        {
+  
+            var models = await context.GetPackages.Join(context.GetAccounts,
+
+                p => p.AccountId,
+                a => a.Id,                                               // //Package  and account
+                (p, a) => new BillPackageAccount
+                {
+                    GetPackage = p,
+                    GetAccount = a
+                }).Where(m =>m.GetPackage.AccountId == m.GetAccount.Id).ToListAsync();
+
+            return models;
+        }
     }
 }

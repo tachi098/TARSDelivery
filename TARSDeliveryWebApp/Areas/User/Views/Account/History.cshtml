@@ -1,10 +1,17 @@
-﻿@model IEnumerable<TARSDeliveryWebApp.Models.BillPackage>
-
+﻿@model IEnumerable<TARSDeliveryWebApp.Models.BillPackageAccount>
 @{
     ViewData["Title"] = "History";
 }
 
 <h1>History</h1>
+
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
 
 <div class="container-fluid mt-3">
     <table id="table-datatables" class="ui celled table" style="width:100%">
@@ -12,13 +19,15 @@
             <tr>
                 <th>ID</th>
                 <th>Title</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Name From</th>
+                <th>Address From</th>
+                <th>Address To</th>
                 <th>Type</th>
-                <th>Salary</th>
+                <th>Weight</th>
+                <th>Distance</th>
+                <th>Message</th>
+                <th>ToatalPrice</th>
                 <th>Status</th>
-                <th>Created</th>
-              
             </tr>
         </thead>
         <tbody>
@@ -26,87 +35,92 @@
             {
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td>@item.GetBill.Id</td>
-                        <td>@item.GetPackage.Title</td>
-                        <td>@item.GetPackage.NameFrom</td>
-                        <td>@item.GetPackage.Email</td>
-                        <td>@item.GetPackage.Type</td>
-                        <td>@Html.DisplayFor(modelItem => item.GetPackage.TotalPrice)</td>
-                        @if (@item.GetPackage.Status == 1)
-                        {
-                            <td>
-                                <span class="badge badge-primary">Stored</span>
-                                <span>
-                                    @if (@item.GetPackage.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        }
-                        else if (@item.GetPackage.Status == 2)
-                        {
-                            <td>
-                                <span class="badge badge-warning">Doing</span>
-                                <span>
-                                    @if (@item.GetPackage.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        }
-                        else if (@item.GetPackage.Status == 3)
-                        {
-                            <td>
-                                <span class="badge badge-success">Finish</span>
-                                <span>
-                                    @if (@item.GetPackage.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <span class="badge badge-danger">Erorr</span>
-                                <span><sup class="text-danger small"><b>VPP</b></sup></span>
-                            </td>
-                        }
-                        <td>@item.GetBill.Create_at</td>
-                    
-                    </tr>
+            <tr>
+                <td>@item.GetAccount.Id</td>
+                <td>@item.GetPackage.Title</td>
+                <td>@item.GetPackage.NameFrom</td>
+                <td>@item.GetPackage.AddressFrom</td>
+                <td>@item.GetPackage.AddressTo</td>
+                <td>@item.GetPackage.Type</td>
+                <td>@item.GetPackage.Weight</td>
+                <td>@item.GetPackage.Distance</td>
+                <td>@item.GetPackage.Message</td>
+                <td>@item.GetPackage.TotalPrice</td>
+                @if (@item.GetPackage.Status == 1)
+                {
+                    <td>
+                        <span class="badge badge-primary">Stored</span>
+                        <span>
+                            @if (@item.GetPackage.Distance > 0)
+                            {
+                                <sup class="text-danger small"><b>VPP</b></sup>
+                            }
+                            else
+                            {
+                                <sup class="text-secondary small"><b>Branch</b></sup>
+                            }
+                        </span>
+                    </td>
                 }
+                else if (@item.GetPackage.Status == 2)
+                {
+                    <td>
+                        <span class="badge badge-warning">Doing</span>
+                        <span>
+                            @if (@item.GetPackage.Distance > 0)
+                            {
+                                <sup class="text-danger small"><b>VPP</b></sup>
+                            }
+                            else
+                            {
+                                <sup class="text-secondary small"><b>Branch</b></sup>
+                            }
+                        </span>
+                    </td>
+                }
+                else if (@item.GetPackage.Status == 3)
+                {
+                    <td>
+                        <span class="badge badge-success">Finish</span>
+                        <span>
+                            @if (@item.GetPackage.Distance > 0)
+                            {
+                                <sup class="text-danger small"><b>VPP</b></sup>
+                            }
+                            else
+                            {
+                                <sup class="text-secondary small"><b>Branch</b></sup>
+                            }
+                        </span>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <span class="badge badge-danger">Erorr</span>
+                        <span><sup class="text-danger small"><b>VPP</b></sup></span>
+                    </td>
+                }
+     
+            </tr>
+                }
+            
             }
         </tbody>
         <tfoot>
             <tr>
                 <th>ID</th>
                 <th>Title</th>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Name From</th>
+                <th>Address From</th>
+                <th>Address To</th>
                 <th>Type</th>
-                <th>Salary</th>
+                <th>Weight</th>
+                <th>Distance</th>
+                <th>Message</th>
+                <th>ToatalPrice</th>
                 <th>Status</th>
-                <th>Created</th>
-                <th></th>
             </tr>
         </tfoot>
     </table>
 </div>
-

@@ -16,7 +16,8 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
     {
         private const string uriAccount = "http://localhost:50354/api/Account/";
         private const string uriPackage = "http://localhost:50354/api/Packages/GetPackage/";
-        private const string uriBillPackage = "http://localhost:50354/api/Bills/GetBillPackages/";
+      /* private const string uriBillPackage = "http://localhost:50354/api/Bills/GetBillPackages/";*/
+        private const string uriAccountPackage = "http://localhost:50354/api/Account";
         private const string uriRole = "http://localhost:50354/api/Role/";
         private readonly HttpClient httpClient = new HttpClient();
         private readonly Random rnd = new Random();
@@ -31,7 +32,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         }
         public IActionResult History()
         {
-            var models = JsonConvert.DeserializeObject<IEnumerable<BillPackage>>(httpClient.GetStringAsync(uriBillPackage).Result);
+            var models = JsonConvert.DeserializeObject<IEnumerable<BillPackageAccount>>(httpClient.GetStringAsync($"{uriAccountPackage}/billPackageAccounts").Result);
             
             return View(models);
         }

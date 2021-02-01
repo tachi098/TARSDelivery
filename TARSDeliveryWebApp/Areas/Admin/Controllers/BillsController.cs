@@ -23,7 +23,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         [Authorize(Roles = "Admin, Manager")]
         public IActionResult Index()
         {
-            var models = JsonConvert.DeserializeObject<IEnumerable<BillPackage>>(httpClient.GetStringAsync($"{uriBills}/GetBillPackages").Result);
+            var models = JsonConvert.DeserializeObject<IEnumerable<BillPackageAccount>>(httpClient.GetStringAsync($"{uriBills}/GetBillPackages").Result);
             return View(models);
         }
 

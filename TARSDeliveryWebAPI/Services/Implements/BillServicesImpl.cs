@@ -35,13 +35,13 @@ namespace TARSDeliveryWebAPI.Services.Implements
             return deleted > 0;
         }
 
-        public async Task<IEnumerable<BillPackage>> GetBillPackages()
+        public async Task<IEnumerable<BillPackageAccount>> GetBillPackages()
         {
             return await context.GetBills
                 .Join(context.GetPackages,
                     b => b.PackageId,
                     p => p.Id,
-                    (b, p) => new BillPackage
+                    (b, p) => new BillPackageAccount
                     {
                         GetBill = b,
                         GetPackage = p

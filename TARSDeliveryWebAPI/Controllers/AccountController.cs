@@ -18,6 +18,12 @@ namespace TARSDeliveryWebAPI.Controllers
         {
             this.accountServices = accountServices;
         }
+        [HttpGet("billPackageAccounts")]
+        public async Task<IActionResult> billPackageAccounts()
+        {
+            return Ok( await accountServices.billPackageAccounts());
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetAccounts()
