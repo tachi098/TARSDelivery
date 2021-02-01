@@ -1,25 +1,47 @@
-﻿
+﻿@model IEnumerable<TARSDeliveryWebApp.Models.Branch>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Branch List</h1>
+<div class="container-fluid mt-3">
+    <table id="table-datatables" class="ui celled table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Action</th>
+            </tr>
+        </thead>
 
-<table class="table">
-    <tr>
-        <th>id</th>
-        <th>Name</th>
-        <th>addrees</th>
-        <th>phone</th>
-    </tr>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <th>@item.Id</th>
-            <th>@item.Name</th>
-            <th>@item.Address</th>
-            <th>@item.Phone</th>
-        </tr>
-    }
-</table>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.Address</td>
+                    <td>@item.Phone</td>
+
+                    <td>
+                        <a asp-action="Edit" asp-controller="Branch" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-warning">Edit</a>
+
+
+                        <a asp-area="Admin" data-branchId="@item.Id" class="btn btn-outline-danger deleteBranch">Delete</a>
+                    </td>
+                </tr>
+            }
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Phone</th>
+                <th>Action</th>
+
+            </tr>
+        </tfoot>
+    </table>
+</div>

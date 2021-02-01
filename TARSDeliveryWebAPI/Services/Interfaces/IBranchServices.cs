@@ -12,6 +12,9 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
     {
         Task<IEnumerable<Branch>> GetBranches();
         Task<Branch> PostBranch(Branch branch);
+        Task<Branch> GetBranch(int id);
 
+        Task<bool> Edit(Branch branch);
+        Task<bool> DeleteBranch(int id);
     }
 }
