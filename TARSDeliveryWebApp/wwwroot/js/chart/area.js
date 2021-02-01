@@ -1,6 +1,5 @@
 // Area Chart
 var ctx = document.getElementById('myAreaChart');
-var dataTotal = ctx.getAttribute("data-month");
 var ar = $('#myAreaChart').data('month');
 var myLineChart = new Chart(ctx, {
     type: 'line',
