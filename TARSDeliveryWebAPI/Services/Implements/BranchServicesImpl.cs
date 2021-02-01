@@ -31,5 +31,28 @@ namespace TARSDeliveryWebAPI.Services.Implements
             }
             return model;
         }
+
+        public async Task<bool> DeleteBranch(int id)
+        {
+            var model = await context.GetBranches.FindAsync(id);
+            model.Delete_at = DateTime.Now;
+            context.GetBranches.Update(model);
+            var deleted = await context.SaveChangesAsync();
+            return deleted > 0;
+        }
+
+        public async Task<bool> Edit(Branch branch)
+        {
+            branch.Update_at = DateTime.Now;
+            context.GetBranches.Update(branch);
+            var updated = await context.SaveChangesAsync();
+            return updated > 0;
+        }
+
+        public async Task<Branch> GetBranch(int id)
+        {
+            return await context.GetBranches.SingleOrDefaultAsync(c => c.Id == id);
+
+        }
     }
 }
