@@ -35,7 +35,7 @@ namespace TARSDeliveryWebAPI.Controllers
         [HttpPut("Edit")]
         public async Task<IActionResult> Edit([FromBody] Branch branch) => Ok(await branchServices.Edit(branch));
 
-        [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id) => Ok(await branchServices.Delete(id));
+        [HttpPut("DeleteBranch/{id}")]
+        public async Task<IActionResult> DeleteBranch([FromRoute] int id) => Ok(await branchServices.DeleteBranch(id));
     }
 }

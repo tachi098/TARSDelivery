@@ -21,7 +21,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var model = JsonConvert.DeserializeObject<IEnumerable<Branch>>(httpClient.GetStringAsync(uriBranch).Result);
-            return View(model);
+            var accounts = model.Where(a =>  a.Delete_at == null).ToList();
+            return View(accounts);
         }
         public IActionResult Create()
         {

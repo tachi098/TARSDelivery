@@ -16,7 +16,7 @@ namespace TARSDeliveryWebAPI.Services.Implements
             this.context = context;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> DeleteBranch(int id)
         {
             var model = await context.GetBranches.FindAsync(id);
             model.Delete_at = DateTime.Now;

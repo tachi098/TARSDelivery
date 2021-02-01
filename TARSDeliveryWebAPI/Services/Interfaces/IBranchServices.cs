@@ -15,7 +15,7 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
         Task<Branch> GetBranch(int id);
 
         Task<Branch> Edit(Branch branch);
-        Task<bool> Delete(int id);
+        Task<bool> DeleteBranch(int id);
 
 
     }
