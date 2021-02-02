@@ -35,7 +35,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 for (int i = 0; i < totalMonth.Length; i++)
                 {
                     var month = models.Where(e => e.GetPackage.Create_at.Month == i + 1 && e.GetPackage.Delete_at == null).Sum(e => e.GetPackage.TotalPrice);
-                    totalMonth[i] += month;
+                    totalMonth[i] += Math.Round(month, 2, MidpointRounding.AwayFromZero);
                 }
                 ViewBag.Data = JsonConvert.SerializeObject(totalMonth);
             }

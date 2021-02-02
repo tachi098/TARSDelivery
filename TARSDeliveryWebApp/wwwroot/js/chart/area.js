@@ -6,7 +6,7 @@ var myLineChart = new Chart(ctx, {
     data: {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
         datasets: [{
-            label: "Sessions",
+            label: "TotalPrice",
             lineTension: 0.3,
             backgroundColor: "rgba(2,117,216,0.2)",
             borderColor: "rgba(2,117,216,1)",

@@ -14,11 +14,7 @@
                     <input asp-for="Name" class="form-control" />
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="PriceDistance" class="control-label"></label>
-                    <input asp-for="PriceDistance" class="form-control" />
-                    <span asp-validation-for="PriceDistance" class="text-danger"></span>
-                </div>
+                <input hidden value="0" asp-for="PriceDistance"/>
                 <div class="form-group">
                     <label asp-for="PriceWeight" class="control-label"></label>
                     <input asp-for="PriceWeight" class="form-control" />

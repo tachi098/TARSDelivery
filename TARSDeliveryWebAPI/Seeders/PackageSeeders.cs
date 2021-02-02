@@ -127,6 +127,25 @@ namespace TARSDeliveryWebAPI.Seeders
                     PriceListName = "Speed",
                     Status = 3, // Finish
                     BranchId = 1
+                },
+                new Package // Branch 3 : 3: Speed
+                {
+                    Id = 20210132,
+                    Title = "Package 07",
+                    NameFrom = "Name From 07",
+                    Email = "mail07@gmail.com",
+                    AddressFrom = "Address From 07",
+                    Type = "Mail",
+                    ZipCode = "1234",
+                    NameTo = "Name To 07",
+                    AddressTo = "Address To 07",
+                    Weight = 4.5,
+                    Distance = 0,
+                    Message = "Message 06",
+                    TotalPrice = 324.32,
+                    PriceListName = "Speed",
+                    Status = 4, // Error
+                    BranchId = 1
                 }
             );
         }
