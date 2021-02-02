@@ -41,6 +41,11 @@ namespace TARSDeliveryWebAPI.Seeders
                 {
                     Id = 20210131,
                     PackageId = 20210131
+                },
+                new Bill
+                {
+                    Id = 20210132,
+                    PackageId = 20210132
                 }
             );
         }
