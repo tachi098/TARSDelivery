@@ -112,7 +112,7 @@
                         @*Comment*@
                         @if (User.IsInRole("Admin"))
                         {
-                            <a class="nav-link" href="charts.html">
+                            <a class="nav-link" asp-action="Index" asp-controller="Comment" asp-area="Admin">
                                 <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                                 Comment
                             </a>
@@ -147,6 +147,7 @@
     <script src="~/js/accounts/script.js"></script>
     <script src="~/js/pricelists/script.js"></script>
     <script src="~/js/branches/script.js"></script>
+    <script src="~/js/comment/script.js"></script>
     <script>$("#tabs").tabs();</script>
     @RenderSection("Scripts", required: false)
 </body>

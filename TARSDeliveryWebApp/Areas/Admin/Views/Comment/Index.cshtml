@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TARSDeliveryWebApp.Models.Comment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="container-fluid mt-3">
+    <table id="table-datatables" class="ui celled table" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Create_at</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FullName</td>
+                <td>@item.Email</td>
+                <td>@item.Create_at</td>
+                <td>
+                    <a asp-action="Details" asp-controller="Comment" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-info">Details</a>
+                    <a data-commentId="@item.Id" class="btn btn-outline-danger deleteComment">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Create_at</th>
+                <th>Action</th>
+            </tr>
+        </tfoot>
+    </table>
+</div>
