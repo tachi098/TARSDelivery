@@ -5,6 +5,7 @@ const uriBills = 'http://localhost:50354/api/Bills';
 const uriAccounts = 'http://localhost:50354/api/Account';
 const uriPriceList = 'http://localhost:50354/api/PriceList';
 const uriBranch = 'http://localhost:50354/api/Branch';
+const uriComment = "http://localhost:50354/api/Comment";
 
 function round(number, precision) {
     var shift = function (number, exponent) {
