@@ -36,8 +36,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 var userId = int.Parse(User.FindFirst("AccountId").Value);
                 var account = JsonConvert.DeserializeObject<Account>(httpClient.GetStringAsync($"{uriAccount}/{userId}").Result);
 
-                modelsWorking = models.Where(m => m.GetBill.Delete_at == null && m.GetPackage.Delete_at == null && m.GetPackage.BranchId == account.BranchId).ToList();
-                modelsStopWorking = models.Where(m => m.GetBill.Delete_at != null && m.GetPackage.Delete_at != null && m.GetPackage.BranchId == account.BranchId).ToList();
+                modelsWorking = models.Where(m => m.GetBill.Delete_at == null && m.GetPackage.Delete_at == null && m.GetPackage.BranchId == account.BranchId && m.GetPackage.Status != 4).ToList();
+                modelsStopWorking = models.Where(m => m.GetBill.Delete_at != null && m.GetPackage.Delete_at != null && m.GetPackage.BranchId == account.BranchId && m.GetPackage.Status != 4).ToList();
             }
 
             ViewBag.ModelsDeleted = modelsStopWorking;
@@ -123,6 +123,14 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         {
             try
             {
+                var accountId = int.Parse(User.FindFirst("AccountId").Value);
+                var account = JsonConvert.DeserializeObject<Account>(httpClient.GetStringAsync($"{uriAccount}/{accountId}").Result);
+
+                if (User.IsInRole("Manager"))
+                {
+                    package.BranchId = account.BranchId;
+                }
+                
                 var modelPackage = httpClient.PostAsJsonAsync($"{uriPackages}/CreatePackage", package).Result;
                 var modelNewPackage = JsonConvert.DeserializeObject<Package>(httpClient.GetStringAsync($"{uriPackages}/GetNewPackage").Result);
 
@@ -169,6 +177,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
 
                 return RedirectToAction("Index");
             }
+
 
             return RedirectToAction("Index");
         }
