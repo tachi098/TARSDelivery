@@ -76,7 +76,7 @@
                             <ul>
                                 @if (role == 3)
                                 {
-                                    <li><a asp-action="History" asp-controller="Account" asp-area="User">Bill History</a></li>
+                                    <li><a asp-action="Index" asp-controller="Package" asp-area="User">Bill History</a></li>
                                 }
                                 <li><a asp-action="Logout" asp-controller="Account" asp-area="User">Logout</a></li>
                             </ul>
@@ -106,7 +106,7 @@
                         <p>Enter your package code to see package status and bill detail</p>
                     </div>
                     <div class="col-lg-6">
-                        <form asp-action="Search" asp-controller="Account" asp-area="User" method="post">
+                        <form asp-action="Search" asp-controller="Package" asp-area="User" method="post">
                             <input style="width:100%;color:white;outline:none;border:1px solid white" type="text" name="search"><input type="submit" value="Search" z>
                         </form>
                     </div>

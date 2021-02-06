@@ -14,5 +14,6 @@ namespace TARSDeliveryWebAPI.Services.Interfaces
         Task<Package> GetPackage(int id);
         Task<bool> UpdatePackage(Package package);
         Task<bool> UndoPackage(int id);
+        Task<IEnumerable<Package>> GetPackages();
     }
 }

@@ -46,6 +46,12 @@ namespace TARSDeliveryWebAPI.Services.Implements
             return await context.GetPackages.FindAsync(id);
         }
 
+        public async Task<IEnumerable<Package>> GetPackages()
+        {
+            var model = await context.GetPackages.ToListAsync();
+            return model;
+        }
+
         public async Task<bool> UndoPackage(int id)
         {
             var model = await context.GetPackages.FindAsync(id);

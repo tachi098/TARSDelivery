@@ -1,0 +1,136 @@
+﻿@model IEnumerable<TARSDeliveryWebApp.Models.Package>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<main id="main">
+    <!-- ======= History Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>History</h2>
+                <ol>
+                    <li><a asp-action="Index" asp-controller="Home" asp-area="User">Home</a></li>
+                    <li>History</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- End History Section -->
+    <!-- ======= History Section ======= -->
+    <section class="History" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
+  
+
+        <div class="container-fluid mt-3">
+            <table id="table-datatables" class="ui celled table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Name To</th>
+                        <th>Email</th>
+                        <th>Address From</th>
+                        <th>Address To</th>
+                        <th>Weight</th>
+                        <th>Distance</th>
+                        <th>Status</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Any())
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>@item.NameTo</td>
+                                <td>@item.Email</td>
+                                <td>@item.AddressFrom</td>
+                                <td>@item.AddressTo</td>
+                                <td>@item.Weight</td>
+                                <td>@item.Distance</td>                              
+                                @if (@item.Status == 1)
+                                {
+                                    <td>
+                                        <span class="badge badge-primary">Stored</span>
+                                        <span>
+                                            @if (@item.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else if (@item.Status == 2)
+                                {
+                                    <td>
+                                        <span class="badge badge-warning">Doing</span>
+                                        <span>
+                                            @if (@item.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else if (@item.Status == 3)
+                                {
+                                    <td>
+                                        <span class="badge badge-success">Finish</span>
+                                        <span>
+                                            @if (@item.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge badge-danger">Erorr</span>
+                                        <span><sup class="text-danger small"><b>VPP</b></sup></span>
+                                    </td>
+                                }
+
+
+                            </tr>
+                        }
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Name To</th>
+                        <th>Email</th>
+                        <th>Address From</th>
+                        <th>Address To</th>
+                        <th>Weight</th>
+                        <th>Distance</th>
+                        <th>Status</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+
+    </section><!-- End History Section -->
+   
+  
