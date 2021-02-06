@@ -33,7 +33,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
                     var model = httpClient.PostAsJsonAsync(uriComment, comment).Result;
                     if (model.IsSuccessStatusCode)
                     {
-                        return View();
+                        return RedirectToAction("Contact");
                     }
                     else
                     {
