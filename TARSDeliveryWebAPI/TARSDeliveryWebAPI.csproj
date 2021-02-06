@@ -131,6 +131,8 @@
     <Compile Remove="Migrations\20210201052430_Initial.Designer.cs" />
     <Compile Remove="Migrations\20210201052900_Initial.cs" />
     <Compile Remove="Migrations\20210201052900_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20210202130754_intial.cs" />
+    <Compile Remove="Migrations\20210202130754_intial.Designer.cs" />
     <Compile Remove="Migrations\20210202132902_Initial.cs" />
     <Compile Remove="Migrations\20210202132902_Initial.Designer.cs" />
     <Compile Remove="Migrations\20210205122037_initial.cs" />
@@ -151,10 +153,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Migrations\" />
   </ItemGroup>
 
 
