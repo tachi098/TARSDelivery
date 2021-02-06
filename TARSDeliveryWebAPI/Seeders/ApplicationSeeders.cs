@@ -27,6 +27,9 @@ namespace TARSDeliveryWebAPI.Seeders
 
             // Bill
             new BillSeeders(modelBuilder);
+
+            // Comment
+            new CommentSeeders(modelBuilder);
         }
     }
 }
