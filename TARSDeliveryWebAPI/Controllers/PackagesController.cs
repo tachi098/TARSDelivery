@@ -32,7 +32,7 @@ namespace TARSDeliveryWebAPI.Controllers
         [HttpPost("CreatePackage")]
         public async Task<IActionResult> CreatePackage([FromBody] Package package) => Ok(await packageServices.CreatePackage(package));
 
-        [HttpGet("GetNewPackage/{id}")]
+        [HttpGet("GetNewPackage")]
         public async Task<IActionResult> GetNewPackage() => Ok(await packageServices.GetNewPackage());
 
         [HttpPut("UndoPackage/{id}")]

@@ -21,7 +21,7 @@
     </section><!-- End History Section -->
     <!-- ======= History Section ======= -->
     <section class="History" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
-  
+
 
         <div class="container-fluid mt-1">
             <table id="table-datatables" class="ui celled table" style="width:100%">
@@ -43,72 +43,72 @@
                     {
                         @foreach (var item in Model)
                         {
-                    <tr>
-                        <td>@item.Id</td>
-                        <td>@item.Title</td>
-                        <td>@item.NameTo</td>
-                        <td>@item.AddressFrom</td>
-                        <td>@item.AddressTo</td>
-                        <td>@item.Distance</td>
-                        <td>@item.TotalPrice $</td>
-                        @if (@item.Status == 1)
-                        {
-                            <td>
-                                <span class="badge badge-primary">Stored</span>
-                                <span>
-                                    @if (@item.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        }
-                        else if (@item.Status == 2)
-                        {
-                            <td>
-                                <span class="badge badge-warning">Doing</span>
-                                <span>
-                                    @if (@item.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        }
-                        else if (@item.Status == 3)
-                        {
-                            <td>
-                                <span class="badge badge-success">Finish</span>
-                                <span>
-                                    @if (@item.Distance > 0)
-                                    {
-                                        <sup class="text-danger small"><b>VPP</b></sup>
-                                    }
-                                    else
-                                    {
-                                        <sup class="text-secondary small"><b>Branch</b></sup>
-                                    }
-                                </span>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>
-                                <span class="badge badge-danger">Erorr</span>
-                                <span><sup class="text-danger small"><b>VPP</b></sup></span>
-                            </td>
-                        }
+                            <tr>
+                                <td>@item.Id</td>
+                                <td>@item.Title</td>
+                                <td>@item.NameTo</td>
+                                <td>@item.AddressFrom</td>
+                                <td>@item.AddressTo</td>
+                                <td>@item.Distance</td>
+                                <td>@item.TotalPrice $</td>
+                                @if (@item.Status == 1)
+                                {
+                                    <td>
+                                        <span class="badge badge-primary">Stored</span>
+                                        <span>
+                                            @if (@item.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else if (@item.Status == 2)
+                                {
+                                    <td>
+                                        <span class="badge badge-warning">Doing</span>
+                                        <span>
+                                            @if (@item.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else if (@item.Status == 3)
+                                {
+                                    <td>
+                                        <span class="badge badge-success">Finish</span>
+                                        <span>
+                                            @if (@item.Distance > 0)
+                                            {
+                                                <sup class="text-danger small"><b>VPP</b></sup>
+                                            }
+                                            else
+                                            {
+                                                <sup class="text-secondary small"><b>Branch</b></sup>
+                                            }
+                                        </span>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        <span class="badge badge-danger">Erorr</span>
+                                        <span><sup class="text-danger small"><b>VPP</b></sup></span>
+                                    </td>
+                                }
 
 
-                    </tr>
+                            </tr>
                         }
                     }
                 </tbody>
@@ -117,7 +117,6 @@
                         <th>ID</th>
                         <th>Title</th>
                         <th>Name To</th>
-                        <th>Email</th>
                         <th>Address From</th>
                         <th>Address To</th>
                         <th>Weight</th>
@@ -127,8 +126,6 @@
                 </tfoot>
             </table>
         </div>
-
-
     </section><!-- End History Section -->
-   
+</main>   
   
