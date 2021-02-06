@@ -26,14 +26,12 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         }
         public IActionResult Search(string search)
         {
-            
-            var model = JsonConvert.DeserializeObject<Package>(httpClient.GetStringAsync(uriPackage + search).Result);                
-             if(model== null)
+            if(search == null)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("index", "Home");
             }
-            else { return View(model); }
-        
+            var model = JsonConvert.DeserializeObject<Package>(httpClient.GetStringAsync(uriPackage + search).Result);
+            return View(model);
         }
     }
 }

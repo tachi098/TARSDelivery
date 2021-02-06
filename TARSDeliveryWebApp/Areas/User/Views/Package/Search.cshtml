@@ -4,39 +4,61 @@
     ViewData["Title"] = "Search";
 }
 
-<h1>Search</h1>
-<div class="container-fluid mt-3">
-    <table id="table-datatables" class="ui celled table" style="width:100%">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title</th>
-                <th>Address From</th>
-                <th>Address To</th>
 
-            </tr>
-        </thead>
-        <tbody>
+<main id="main">
+    <!-- ======= Search Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => model.Id)
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Search</h2>
+                <ol>
+                    <li><a asp-action="Index" asp-controller="Home" asp-area="User">Home</a></li>
+                    <li>Search</li>
+                </ol>
+            </div>
 
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.AddressFrom)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => model.AddressTo)
-                </td>
+        </div>
+    </section><!-- End Search Section -->
+    <!-- ======= Search Section ======= -->
+    <section class="Search" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
 
-            </tr>
+        <div class="container-fluid mt-3">
+            <table id="table-datatables" class="ui celled table" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Address From</th>
+                        <th>Address To</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => model.Id)
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.AddressFrom)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.AddressTo)
+                        </td>
+
+                    </tr>
 
 
-        </tbody>
+                </tbody>
 
-    </table>
-</div>
+            </table>
+        </div>
+
+
+    </section><!-- End Search Section -->
+
