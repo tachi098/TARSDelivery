@@ -24,17 +24,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
         {
             return View();
         }
-         public IActionResult Search(string search)
-        {
-            var model = JsonConvert.DeserializeObject<Package>(httpClient.GetStringAsync(uriPackage + search).Result);
-            return View(model);
-        }
-        public IActionResult History()
-        {
-            var models = JsonConvert.DeserializeObject<IEnumerable<BillPackage>>(httpClient.GetStringAsync(uriBillPackage).Result);
-            
-            return View(models);
-        }
+    
 
         public IActionResult Login()
         {
