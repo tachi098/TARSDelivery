@@ -31,7 +31,7 @@
                         <th>Title</th>
                         <th>Address From</th>
                         <th>Address To</th>
-
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,6 +50,61 @@
                         <td>
                             @Html.DisplayFor(model => model.AddressTo)
                         </td>
+                        @if (Model.Status == 1)
+                        {
+                            <td>
+                                <span class="badge badge-primary">Stored</span>
+                                <span>
+                                    @if (Model.Distance > 0)
+                                    {
+                                        <sup class="text-danger small"><b>VPP</b></sup>
+                                    }
+                                    else
+                                    {
+                                        <sup class="text-secondary small"><b>Branch</b></sup>
+                                    }
+                                </span>
+                            </td>
+                        }
+                        else if (Model.Status == 2)
+                        {
+                            <td>
+                                <span class="badge badge-warning">Doing</span>
+                                <span>
+                                    @if (Model.Distance > 0)
+                                    {
+                                        <sup class="text-danger small"><b>VPP</b></sup>
+                                    }
+                                    else
+                                    {
+                                        <sup class="text-secondary small"><b>Branch</b></sup>
+                                    }
+                                </span>
+                            </td>
+                        }
+                        else if (Model.Status == 3)
+                        {
+                            <td>
+                                <span class="badge badge-success">Finish</span>
+                                <span>
+                                    @if (Model.Distance > 0)
+                                    {
+                                        <sup class="text-danger small"><b>VPP</b></sup>
+                                    }
+                                    else
+                                    {
+                                        <sup class="text-secondary small"><b>Branch</b></sup>
+                                    }
+                                </span>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <span class="badge badge-danger">Erorr</span>
+                                <span><sup class="text-danger small"><b>VPP</b></sup></span>
+                            </td>
+                        }
 
                     </tr>
 

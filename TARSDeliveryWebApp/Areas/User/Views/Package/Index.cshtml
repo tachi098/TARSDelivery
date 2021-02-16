@@ -32,7 +32,6 @@
                         <th>Name To</th>
                         <th>Address From</th>
                         <th>Address To</th>
-                        <th>Distance</th>
                         <th>Total Price</th>
                         <th>Status</th>
 
@@ -49,8 +48,7 @@
                                 <td>@item.NameTo</td>
                                 <td>@item.AddressFrom</td>
                                 <td>@item.AddressTo</td>
-                                <td>@item.Distance</td>
-                                <td>@item.TotalPrice $</td>
+                                <td>$@item.TotalPrice</td>
                                 @if (@item.Status == 1)
                                 {
                                     <td>
@@ -119,8 +117,7 @@
                         <th>Name To</th>
                         <th>Address From</th>
                         <th>Address To</th>
-                        <th>Weight</th>
-                        <th>Distance</th>
+                        <th>Total Price</th>
                         <th>Status</th>
                     </tr>
                 </tfoot>
