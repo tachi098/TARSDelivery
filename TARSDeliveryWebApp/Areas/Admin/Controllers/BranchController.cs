@@ -31,10 +31,13 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Branch branch)
         {
-            var model = httpClient.PostAsJsonAsync(uriBranch, branch).Result;
-            if (model.IsSuccessStatusCode)
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("index", "Branch");
+                var model = httpClient.PostAsJsonAsync(uriBranch, branch).Result;
+                if (model.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("index", "Branch");
+                }
             }
             return View();
         }
