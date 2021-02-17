@@ -227,10 +227,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 {
                     if (file == null)
                     {
-                        if (acc.Password != passwordold)
-                        {
-                            acc.Password = BCrypt.Net.BCrypt.HashPassword(acc.Password);
-                        }
+                        acc.Password = BCrypt.Net.BCrypt.HashPassword(acc.Password);
                         acc.Avartar = modelOld.Avartar;
                         var model = httpClient.PutAsJsonAsync(uriAccount, acc).Result;
                         if (model.IsSuccessStatusCode)
@@ -251,6 +248,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                                 var stream = new FileStream(path, FileMode.Create);
                                 file.CopyToAsync(stream);
                                 acc.Avartar = "images/" + rename;
+                                acc.Password = BCrypt.Net.BCrypt.HashPassword(acc.Password);
                                 var model = httpClient.PutAsJsonAsync(uriAccount, acc).Result;
                                 if (model.IsSuccessStatusCode)
                                 {
