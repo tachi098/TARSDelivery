@@ -21,7 +21,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
             var saccount = HttpContext.Session.GetString("sAccount");
             Account account = JsonConvert.DeserializeObject<Account>(saccount);
             var model = JsonConvert.DeserializeObject<IEnumerable<Package>>(httpClient.GetStringAsync(uriPackages).Result);
-            var packageOwn = model.Where(p => p.AccountId.Equals(account.Id)).ToList();
+            var packageOwn = model.Where(p => p.Email.Equals(account.Email)).ToList();
             return View(packageOwn);
         }
         public IActionResult Search(string search)
