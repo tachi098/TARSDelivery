@@ -67,8 +67,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                     var model = httpClient.PutAsJsonAsync(uriAccount, account).Result;
                     if (model.IsSuccessStatusCode)
                     {
-                        string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/Account/Login/?Password={account.Password}&Email={account.Email}";
-                        Help.SendEmail.ResetPassword(account.Email, path).Wait();
+                        string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/Account/Login";
+                        Help.SendEmail.EmployeeLogin(account.Email, tempPassword, path).Wait();
                         return RedirectToAction("Index", "Account");
                     }
                 }
@@ -101,6 +101,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 if (account == null)
                 {
                     acc.Password = BCrypt.Net.BCrypt.HashPassword(tempPassword);
+                    acc.FullName = acc.Email;
+                    acc.Birthday = DateTime.Now;
                     var model = httpClient.PostAsJsonAsync(uriAccount, acc).Result;
                     if (model.IsSuccessStatusCode)
                     {
@@ -108,7 +110,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                         var id = accounts.Max(a => a.Id);
                         Role role = new Role() { AccountId = id, Position = 2 };
                         var modelRole = httpClient.PostAsJsonAsync(uriRole, role).Result;
-                        string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/Account/Login/?Password={acc.Password}&Email={acc.Email}";
+                        string path = $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/Admin/Account/Login";
                         Help.SendEmail.EmployeeLogin(acc.Email, tempPassword, path).Wait();
                         return RedirectToAction("Index", "Account");
                     }
@@ -127,14 +129,12 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         }
 
         // Admin Login
-        public IActionResult Login([FromQuery(Name = "Password")] string password, [FromQuery(Name = "Email")] string email)
+        public IActionResult Login()
         {
             if (User.Identity.Name != null)
             {
                 return RedirectToAction("Index", "Home");
             }
-            ViewBag.Password = password;
-            ViewBag.Email = email;
             return View();
         }
 
@@ -214,7 +214,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult Profile(Account acc, IFormFile file, string confirmpassword)
+        public IActionResult Profile(Account acc, IFormFile file, string confirmpassword, string password)
         {
             try
             {
@@ -223,11 +223,34 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 var passwordold = modelOld.Password;
                 acc.Create_at = modelOld.Create_at;
                 acc.Update_at = DateTime.Now;
-                if (acc.Password == confirmpassword)
+                if (acc.Birthday == null)
                 {
-                    if (file == null)
+                    acc.Birthday = modelOld.Birthday;
+                }
+                if (file == null)
+                {
+                    if (password != null && confirmpassword != null)
                     {
-                        acc.Password = BCrypt.Net.BCrypt.HashPassword(acc.Password);
+                        if (password == confirmpassword)
+                        {
+                            acc.Password = BCrypt.Net.BCrypt.HashPassword(password);
+                            acc.Avartar = modelOld.Avartar;
+                            var model = httpClient.PutAsJsonAsync(uriAccount, acc).Result;
+                            if (model.IsSuccessStatusCode)
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
+                        else
+                        {
+                            acc.Avartar = modelOld.Avartar;
+                            ViewBag.Msg = "Password and password confirm not match";
+                            return View(acc);
+                        }
+                    }
+                    else
+                    {
+                        acc.Password = passwordold;
                         acc.Avartar = modelOld.Avartar;
                         var model = httpClient.PutAsJsonAsync(uriAccount, acc).Result;
                         if (model.IsSuccessStatusCode)
@@ -235,12 +258,49 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                             return RedirectToAction("Index", "Home");
                         }
                     }
-                    else
+                }
+                else
+                {
+                    if (file.Length > 0)
                     {
-                        if (file.Length > 0)
+                        string name = file.FileName;
+                        if (name.Contains(".jpg") || name.Contains(".png") || name.Contains(".gif"))
                         {
-                            string name = file.FileName;
-                            if (name.Contains(".jpg") || name.Contains(".png") || name.Contains(".gif"))
+                            if (password != null && confirmpassword != null)
+                            {
+                                if (password == confirmpassword)
+                                {
+                                    var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+                                    var rename = Convert.ToString(Guid.NewGuid()) + "." + fileName.Split('.').Last();
+                                    var path = Path.Combine("wwwroot/images", rename);
+                                    var stream = new FileStream(path, FileMode.Create);
+                                    file.CopyToAsync(stream);
+                                    acc.Avartar = "images/" + rename;
+                                    acc.Password = BCrypt.Net.BCrypt.HashPassword(password);
+                                    var model = httpClient.PutAsJsonAsync(uriAccount, acc).Result;
+                                    if (model.IsSuccessStatusCode)
+                                    {
+                                        if (!string.IsNullOrEmpty(pathImageOld))
+                                        {
+                                            var pathOld = Path.Combine("wwwroot", pathImageOld);
+                                            if (System.IO.File.Exists(pathOld) && pathImageOld != "images/p1.png")
+                                            {
+                                                System.GC.Collect();
+                                                System.GC.WaitForPendingFinalizers();
+                                                System.IO.File.Delete(pathOld);
+                                            }
+                                        }
+                                        return RedirectToAction("Index", "Home");
+                                    }
+                                }
+                                else
+                                {
+                                    acc.Avartar = modelOld.Avartar;
+                                    ViewBag.Msg = "Password and password confirm not match";
+                                    return View(acc);
+                                }
+                            }
+                            else
                             {
                                 var fileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
                                 var rename = Convert.ToString(Guid.NewGuid()) + "." + fileName.Split('.').Last();
@@ -248,7 +308,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                                 var stream = new FileStream(path, FileMode.Create);
                                 file.CopyToAsync(stream);
                                 acc.Avartar = "images/" + rename;
-                                acc.Password = BCrypt.Net.BCrypt.HashPassword(acc.Password);
+                                acc.Password = passwordold;
                                 var model = httpClient.PutAsJsonAsync(uriAccount, acc).Result;
                                 if (model.IsSuccessStatusCode)
                                 {
@@ -265,21 +325,14 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                                     return RedirectToAction("Index", "Home");
                                 }
                             }
-                            else
-                            {
-                                acc.Avartar = modelOld.Avartar;
-                                ViewBag.Msg = "File is invalid";
-                                return View(acc);
-                            }
+                        }
+                        else
+                        {
+                            acc.Avartar = modelOld.Avartar;
+                            ViewBag.Msg = "File is invalid";
+                            return View(acc);
                         }
                     }
-                }
-                else
-                {
-                    acc.Password = passwordold;
-                    acc.Avartar = modelOld.Avartar;
-                    ViewBag.Msg = "Password and password confirm not match";
-                    return View(acc);
                 }
             }
             catch (Exception e)
