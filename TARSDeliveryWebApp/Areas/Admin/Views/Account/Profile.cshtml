@@ -8,8 +8,8 @@
                 <input hidden value="@Model.BranchId" asp-for="BranchId" />
                 <input hidden value="@Model.Email" asp-for="Email" />
                 <div class="form-group">
-                    <img src="~/@Url.Content(Model.Avartar)" width="200" />
-                    <input class="form-control py-1" type="file" name="file" />
+                    <img src="~/@Url.Content(Model.Avartar)" width="200" id="output"/>
+                    <input class="form-control py-1" type="file" name="file" accept="image/*" onchange="document.getElementById('output').src = window.URL.createObjectURL(this.files[0])"/>
                 </div>
                 <div class="form-row">
                     <div class="col-md-6">
@@ -22,7 +22,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="small mb-1" for="inputLastName">Date of birth</label>
-                            <input class="form-control py-4" id="inputLastName" type="datetime-local" asp-for="Birthday" />
+                            <input class="form-control py-4" id="inputLastName" type="date" asp-for="Birthday" />
                         </div>
                     </div>
                 </div>
@@ -39,16 +39,14 @@
                 <div class="form-row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="small mb-1" for="inputPassword">Password</label>
-                            <input class="form-control py-4" id="inputPassword" type="password" value="@Model.Password" asp-for="Password" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <label class="small mb-1">Password</label>
+                            <input class="form-control py-4" type="password" name="password"/>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="small mb-1" for="inputConfirmPassword">Confirm Password</label>
-                            <input class="form-control py-4" id="inputConfirmPassword" type="password" value="@Model.Password" name="confirmpassword" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <label class="small mb-1">Confirm Password</label>
+                            <input class="form-control py-4"  type="password" name="confirmpassword" />
                         </div>
                     </div>
                 </div>
@@ -58,6 +56,8 @@
         </div>
     </div>
 </div>
+
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
