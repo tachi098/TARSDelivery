@@ -24,13 +24,18 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
             var packageOwn = model.Where(p => p.Email.Equals(account.Email)).ToList();
             return View(packageOwn);
         }
-        public IActionResult Search(string search)
+        public IActionResult Search(int search)
         {
             if(search == null)
             {
                 return RedirectToAction("index", "Home");
             }
             var model = JsonConvert.DeserializeObject<Package>(httpClient.GetStringAsync(uriPackage + search).Result);
+            if(model == null)
+            {
+                return RedirectToAction("index", "Home");
+
+            }
             return View(model);
         }
     }

@@ -18,6 +18,7 @@ namespace TARSDeliveryWebApp.Models
         [Required(ErrorMessage = "Address must not be blank")]
         public string Address { get; set; }
         [Required(ErrorMessage = "Phone must not be blank")]
+        [RegularExpression(@"^\d{9,10}$", ErrorMessage = "Phone is invalid")]
         public string Phone { get; set; }
         public DateTime Create_at { get; set; }
         public DateTime? Update_at { get; set; }
