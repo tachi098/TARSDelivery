@@ -29,7 +29,8 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
 
         public IActionResult Edit(string name)
         {
-            var model = JsonConvert.DeserializeObject<PriceList>(httpClient.GetStringAsync(uri + name).Result);
+            var res = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync(uri).Result);
+            var model = res.SingleOrDefault(e => e.Name.Equals(name) && e.Delete_at == null);
             return View(model);
         }
         [HttpPost]
@@ -37,15 +38,25 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         {
             try
             {
-                var modelOld = JsonConvert.DeserializeObject<PriceList>(httpClient.GetStringAsync(uri + priceList.Name).Result);
-                priceList.Create_at = modelOld.Create_at;
-                if (ModelState.IsValid)
+                var res = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync(uri).Result);
+                var modelOld = res.SingleOrDefault(e => e.Id == priceList.Id);
+                var exist = res.SingleOrDefault(e => e.Name.Equals(priceList.Name));
+                if (exist == null)
                 {
-                    var model = httpClient.PutAsJsonAsync<PriceList>(uri, priceList).Result;
-                    if (model.IsSuccessStatusCode)
+                    priceList.Create_at = modelOld.Create_at;
+                    if (ModelState.IsValid)
                     {
-                        return RedirectToAction("Index","PriceList");
+                        var model = httpClient.PutAsJsonAsync<PriceList>(uri, priceList).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "PriceList");
+                        }
                     }
+                }
+                else
+                {
+                    ViewBag.Msg = "Name is exists";
+                    return View(modelOld);
                 }
             }
             catch (Exception e)
