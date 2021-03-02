@@ -16,37 +16,38 @@
         });
     } catch (e) {
     }
-    
 
-    $('#table-datatables tbody .delete').each(function (i) {
-        $(this).on('click', function (e) {
-            e.preventDefault();
+    //$('a.btn.btn-outline-danger.delete').each(function (i) {
+    //    $(this).on('click', function (e) {
+    //        e.preventDefault();
 
-            const packageId = $(this).attr('data-packageId');
-            const billId = $(this).attr('data-billId');
+    //        const packageId = $(this).attr('data-packageId');
+    //        const billId = $(this).attr('data-billId');
+
+    //        console.log(packageId, ' - ', billId);
             
-            swal({
-                title: "Are you sure?",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            }).then((willDelete) => {
-                if (willDelete) {
-                    swal("You Are Deleted!", {
-                        icon: "success",
-                        buttons: false,
-                    });
+    //        swal({
+    //            title: "Are you sure?",
+    //            icon: "warning",
+    //            buttons: true,
+    //            dangerMode: true,
+    //        }).then((willDelete) => {
+    //            if (willDelete) {
+    //                swal("You Are Deleted!", {
+    //                    icon: "success",
+    //                    buttons: false,
+    //                });
 
-                    processDelete(uriBills, 'DeleteBill', +billId);
-                    processDelete(uriPackages, 'DeletePackage', +packageId);
+    //                processDelete(uriBills, 'DeleteBill', +billId);
+    //                processDelete(uriPackages, 'DeletePackage', +packageId);
 
-                    setTimeout(() => {
-                        window.location.href = "/Admin/Bills";
-                    }, 1000);
-                }
-            });
-        });
-    });
+    //                setTimeout(() => {
+    //                    window.location.href = "/Admin/Bills";
+    //                }, 1000);
+    //            }
+    //        });
+    //    });
+    //});
 
     // Process Delete
     function processDelete(uri, apiName, id) {

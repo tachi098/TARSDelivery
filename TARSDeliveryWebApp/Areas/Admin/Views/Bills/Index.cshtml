@@ -105,8 +105,6 @@
                                     }
                                     else if (@item.GetPackage.Status == 4)
                                     {
-                                        @*<a class="btn btn-outline-info" style="visibility: hidden;">Details</a>*@
-                                        @*<a class="btn btn-outline-warning" style="visibility: hidden;">Update</a>*@
                                         <a data-billId="@item.GetBill.Id" data-packageId="@item.GetPackage.Id" class="btn btn-outline-danger delete">Delete</a>
                                     }
                                     else
@@ -242,3 +240,51 @@
     </div>
 </div>
 
+<script src="~/js/common/jquery-3.5.1.js"></script>
+<script>
+    // Process Delete
+    function processDelete(uri, apiName, id) {
+        $.ajax({
+            type: 'PUT',
+            url: `${uri}/${apiName}/${id}`,
+            success: function (response) {
+                console.log(response);
+            },
+            error: function () {
+                console.log('Error API');
+            }
+        });
+    }
+
+    $('a.btn.btn-outline-danger.delete').each(function (i) {
+        $(this).on('click', function (e) {
+            e.preventDefault();
+
+            const packageId = $(this).attr('data-packageId');
+            const billId = $(this).attr('data-billId');
+
+            console.log(packageId, ' - ', billId);
+
+            swal({
+                title: "Are you sure?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    swal("You Are Deleted!", {
+                        icon: "success",
+                        buttons: false,
+                    });
+
+                    processDelete(uriBills, 'DeleteBill', +billId);
+                    processDelete(uriPackages, 'DeletePackage', +packageId);
+
+                    setTimeout(() => {
+                        window.location.href = "/Admin/Bills";
+                    }, 1000);
+                }
+            });
+        });
+    });
+</script>
