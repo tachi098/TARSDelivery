@@ -55,6 +55,18 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                 }
                 else
                 {
+                    if (modelOld.PriceDistance != priceList.PriceDistance || modelOld.PriceWeight != priceList.PriceWeight)
+                    {
+                        priceList.Create_at = modelOld.Create_at;
+                        if (ModelState.IsValid)
+                        {
+                            var model = httpClient.PutAsJsonAsync<PriceList>(uri, priceList).Result;
+                            if (model.IsSuccessStatusCode)
+                            {
+                                return RedirectToAction("Index", "PriceList");
+                            }
+                        }
+                    }
                     ViewBag.Msg = "Name is exists";
                     return View(modelOld);
                 }
