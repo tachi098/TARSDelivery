@@ -34,12 +34,12 @@
     }
 
     .report .text-from {
-        text-indent: 100px;
+        padding-left: 85px !important;
     }
 
 
     .report .text-to {
-        text-indent: 100px;
+        padding-left: 85px !important;
         display: flex;
         flex-direction: column;
         justify-content: center;

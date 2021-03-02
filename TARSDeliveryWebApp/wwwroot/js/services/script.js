@@ -246,6 +246,12 @@
                 let price = distance * response.priceDistance;
                 distancePrice = price;
                 $('#price-distance').text('Price: ' + round(price, 2) + ' USD');
+
+                if (price === 0) {
+                    $('#view-information').prop('disabled', true);
+                } else {
+                    $('#view-information').prop('disabled', false);
+                }
             },
             error: function () {
                 console.log('Error API');
