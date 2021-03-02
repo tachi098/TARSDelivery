@@ -52,7 +52,6 @@ namespace TARSDeliveryWebAPI
                 {
                     Title = "Place Info Service API",
                     Version = "v2",
-                    Description = "Sample service for Learner",
                 });
             });
         }
