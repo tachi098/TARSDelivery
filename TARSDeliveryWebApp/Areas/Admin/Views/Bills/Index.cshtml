@@ -94,10 +94,19 @@
                                 }
                                 <td>@item.GetBill.Create_at</td>
                                 <td>
-                                    @if (@item.GetPackage.Status == 4)
+                                    @if (@item.GetPackage.Status == 2)
                                     {
-                                        <a class="btn btn-outline-info" style="visibility: hidden;">Details</a>
-                                        <a class="btn btn-outline-warning" style="visibility: hidden;">Update</a>
+                                        <a asp-action="Details" asp-controller="Bills" asp-area="Admin" asp-route-billId="@item.GetBill.Id" class="btn btn-outline-info">Details</a>
+                                        <a asp-action="Update" asp-controller="Bills" asp-area="Admin" asp-route-packageId="@item.GetPackage.Id" class="btn btn-outline-warning">Update</a>
+                                    }
+                                    else if (@item.GetPackage.Status == 3)
+                                    {
+                                        <a asp-action="Details" asp-controller="Bills" asp-area="Admin" asp-route-billId="@item.GetBill.Id" class="btn btn-outline-info">Details</a>
+                                    }
+                                    else if (@item.GetPackage.Status == 4)
+                                    {
+                                        @*<a class="btn btn-outline-info" style="visibility: hidden;">Details</a>*@
+                                        @*<a class="btn btn-outline-warning" style="visibility: hidden;">Update</a>*@
                                         <a data-billId="@item.GetBill.Id" data-packageId="@item.GetPackage.Id" class="btn btn-outline-danger delete">Delete</a>
                                     }
                                     else

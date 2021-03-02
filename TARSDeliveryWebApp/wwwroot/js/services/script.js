@@ -203,6 +203,15 @@
         }
     });
 
+    // Get TitlePackage
+    function getTitlePackageView(typePackage='P', methodPackage='V') {
+        let addressFrom = $('#origin').val();
+        let addressTo = $('#destination').val();
+
+        $('#Title').val(getTitlePackage(addressFrom, addressTo, typePackage, methodPackage));
+    }
+
+
     // View information
     $('#view-information').click(function (e) {
         e.preventDefault();
@@ -216,7 +225,18 @@
         // Add class d-none
         $('#view-information').addClass('d-none');
 
+        // Get TitlePackage
+        getTitlePackageView();
+    });
 
+    $('#Type').change(() => {
+        let type = $('#Type').val();
+
+        if (type === 'Package') {
+            getTitlePackageView('P');
+        } else {
+            getTitlePackageView('M');
+        }
     });
 
     // Reset information

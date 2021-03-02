@@ -15,3 +15,21 @@ function round(number, precision) {
     return shift(Math.round(shift(number, +precision)), -precision);
 }
 
+
+function getAddressPackage(addressPackage) {
+    return addressPackage.split(/[\s0-9,]/).join('').substr(0, 3).toUpperCase().normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+}
+
+function getTitlePackage(addressFrom, addressTo, typePackage='P', methodPackage='V') {
+    let titlePackage = '';
+
+    titlePackage += getAddressPackage(addressFrom);
+    titlePackage += getAddressPackage(addressTo);
+    titlePackage += (new Date().getTime() / 1000 | 0);
+    titlePackage += typePackage;
+    titlePackage += methodPackage;
+
+    return titlePackage;
+}

@@ -12,7 +12,7 @@
 
                 <div class="form-group">
                     <label>Package Name: </label>
-                    <input asp-for="Title" class="form-control" placeholder="Your Package Name" />
+                    <input readonly id="Title" asp-for="Title" class="form-control" placeholder="Your Package Name" />
                     <span asp-validation-for="Title" class="small text-danger span-details"></span>
                 </div>
                 <div class="form-row">
@@ -35,7 +35,7 @@
                     </div>
                     <div class="col-md-3 form-group">
                         <label>Type: </label>
-                        <select asp-for="Type" class="form-control">
+                        <select asp-for="Type" id="Type" class="form-control">
                             <option value="Package">Package</option>
                             <option value="Mail">Mail</option>
                         </select>

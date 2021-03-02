@@ -96,7 +96,7 @@
                             <form id="details_from" class="php-email-form">
                                 <input type="hidden" value="@ViewBag.Account" id="AccountId" />
                                 <div class="form-group">
-                                    <input asp-for="Title" class="form-control" placeholder="Your Package Name" />
+                                    <input readonly asp-for="Title" class="form-control" placeholder="Your Package Name" />
                                     <span asp-validation-for="Title" id="Title" class="small text-danger span-details"></span>
                                 </div>
                                 <div class="form-row">
