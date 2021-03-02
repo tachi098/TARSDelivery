@@ -40,7 +40,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
             {
                 var res = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync(uri).Result);
                 var modelOld = res.SingleOrDefault(e => e.Id == priceList.Id);
-                var exist = res.SingleOrDefault(e => e.Name.Equals(priceList.Name));
+                var exist = res.SingleOrDefault(e => e.Name.Equals(priceList.Name) && e.Id != priceList.Id);
                 if (exist == null)
                 {
                     priceList.Create_at = modelOld.Create_at;
@@ -52,21 +52,29 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                             return RedirectToAction("Index", "PriceList");
                         }
                     }
+                    else
+                    {
+                        return View(modelOld);
+                    }
+                }
+                else if ((modelOld.PriceDistance != priceList.PriceDistance && exist ==null ) || (modelOld.PriceWeight != priceList.PriceWeight && exist == null))
+                {
+                    priceList.Create_at = modelOld.Create_at;
+                    if (ModelState.IsValid)
+                    {
+                        var model = httpClient.PutAsJsonAsync<PriceList>(uri, priceList).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "PriceList");
+                        }
+                    }
+                    else
+                    {
+                        return View(modelOld);
+                    }
                 }
                 else
                 {
-                    if (modelOld.PriceDistance != priceList.PriceDistance || modelOld.PriceWeight != priceList.PriceWeight)
-                    {
-                        priceList.Create_at = modelOld.Create_at;
-                        if (ModelState.IsValid)
-                        {
-                            var model = httpClient.PutAsJsonAsync<PriceList>(uri, priceList).Result;
-                            if (model.IsSuccessStatusCode)
-                            {
-                                return RedirectToAction("Index", "PriceList");
-                            }
-                        }
-                    }
                     ViewBag.Msg = "Name is exists";
                     return View(modelOld);
                 }
