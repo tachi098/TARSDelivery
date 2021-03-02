@@ -28,5 +28,85 @@
         }
     }
 
+    // Get TitlePackage
+    function getTitlePackageView(typePackage, methodPackage) {
 
+        let addressFrom = $('#origin').val();
+        let addressTo = $('#destination').val();
+        let methodCreate = $('#selected-pricelist-create').val();
+        let methodUpdate = $('#selected-pricelist').val();
+        let type = $('#Type').val();
+
+        
+
+        if (methodCreate !== undefined) {
+            methodPackage = methodCreate[0];
+            typePackage = type[0];
+            $('#Title').val(getTitlePackage(addressFrom, addressTo, typePackage, methodPackage));
+        }
+
+        if (methodUpdate !== undefined) {
+            methodPackage = methodUpdate[0];
+            typePackage = type[0];
+            $('#Title').val(getTitlePackage(addressFrom, addressTo, typePackage, methodPackage));
+        }
+
+        
+    }
+    getTitlePackageView();
+
+    $('#Type').change(() => {
+        let type = $('#Type').val();
+
+        if (type === 'Package') {
+            getTitlePackageView('P');
+        } else {
+            getTitlePackageView('M');
+        }
+    });
+
+    $('#selected-pricelist-create').change(() => {
+        let method = $('#selected-pricelist-create').val();
+        let type = $('#Type').val();
+
+        getTitlePackageView(type[0], method[0]);
+    });
+
+    $('#selected-pricelist').change(() => {
+        let method = $('#selected-pricelist').val();
+        let type = $('#Type').val();
+
+        getTitlePackageView(type[0], method[0]);
+    });
+
+
+    // Check button view information
+    $('#origin').keyup(() => {
+        let methodPackageCreate = $('#selected-pricelist-create').val();
+        let methodPackageUpdate = $('#selected-pricelist').val();
+        let typePackage = $('#Type').val();
+
+        if (methodPackageCreate !== undefined) {
+            getTitlePackageView(methodPackageCreate[0], typePackage[0]);
+        }
+
+        if (methodPackageUpdate !== undefined) {
+            getTitlePackageView(methodPackageUpdate[0], typePackage[0]);
+        }
+    });
+
+    // Check button view information
+    $('#destination').keyup(() => {
+        let methodPackageCreate = $('#selected-pricelist-create').val();
+        let methodPackageUpdate = $('#selected-pricelist').val();
+        let typePackage = $('#Type').val();
+
+        if (methodPackageCreate !== undefined) {
+            getTitlePackageView(methodPackageCreate[0], typePackage[0]);
+        }
+
+        if (methodPackageUpdate !== undefined) {
+            getTitlePackageView(methodPackageUpdate[0], typePackage[0]);
+        }
+    });
 });
