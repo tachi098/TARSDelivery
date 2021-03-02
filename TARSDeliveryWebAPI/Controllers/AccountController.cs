@@ -31,6 +31,7 @@ namespace TARSDeliveryWebAPI.Controllers
             return Ok(await accountServices.GetAccount(id));
         }
 
+        [HttpPut]
         public async Task<IActionResult> PutAccount(Account account)
         {
             return Ok(await accountServices.UpdateAccount(account));
