@@ -17,6 +17,8 @@ namespace TARSDeliveryWebAPI.Controllers
         {
             this.branchServices = branchServices;
         }
+
+        [HttpGet]
         public async Task<IActionResult> GetBranches()
         {
 

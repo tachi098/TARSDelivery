@@ -147,6 +147,8 @@
     <Compile Remove="Migrations\20210207075157_Initial.Designer.cs" />
     <Compile Remove="Migrations\20210218013310_Initial.cs" />
     <Compile Remove="Migrations\20210218013310_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20210302012139_Initial.cs" />
+    <Compile Remove="Migrations\20210302012139_Initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -161,6 +163,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
   </ItemGroup>
 
 
