@@ -1,4 +1,7 @@
 ﻿@model TARSDeliveryWebApp.Models.BillPackage
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, TARSDeliveryWebApp
+@using TARSDeliveryWebApp.Helper
 
 @{
     ViewData["Title"] = "Bill";
@@ -18,6 +21,10 @@
         <div class="row header">
             <div class="col-md-9 p-0">
                 <h1 class="text-white text-header">TARSDELIVERY</h1>
+                @{
+                    var qr = @Model.GetBill.Id + "-" + @Model.GetPackage.Title;
+                }
+                <qrcode content=@qr width="100" height="100" />
             </div>
             <div class="col-md-3 p-0 text-amount">
                 <p>Amount</p>
@@ -50,7 +57,7 @@
                             <th scope="col">Type</th>
                             @if (@Model.GetPackage.Distance > 0)
                             {
-                        <th scope="col">Distance</th>
+                                <th scope="col">Distance</th>
                             }
                             else
                             {
