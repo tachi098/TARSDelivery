@@ -252,5 +252,62 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
             }
             return View();
         }
+
+        public IActionResult LoginGoogle(string email, string name)
+        {
+            if (email != null)
+            {
+                try
+                {
+                    var accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                    var account = accounts.SingleOrDefault(a => a.Email.Equals(email));
+                    if (account != null)
+                    {
+                        Role role = JsonConvert.DeserializeObject<Role>(httpClient.GetStringAsync(uriRole + account.Id).Result);
+                        if (role.Position == 1 || role.Position == 3 && account.Delete_at == null)
+                        {
+                            HttpContext.Session.SetString("sRole", role.Position.ToString());
+                            HttpContext.Session.SetString("sAccount", JsonConvert.SerializeObject(account));
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+                            ViewBag.Msg = "No authorize to connect.";
+                            return View();
+                        }
+                    }
+                    if (account == null)
+                    {
+                        var password = "12345678";
+                        Account acc = new Account();
+                        acc.Password = BCrypt.Net.BCrypt.HashPassword(password);
+                        acc.FullName = name;
+                        acc.Email = email;
+                        var model = httpClient.PostAsJsonAsync(uriAccount, acc).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            accounts = JsonConvert.DeserializeObject<IEnumerable<Account>>(httpClient.GetStringAsync(uriAccount).Result);
+                            var id = accounts.Max(a => a.Id);
+                            Role role = new Role() { AccountId = id, Position = 3 };
+                            var modelRole = httpClient.PostAsJsonAsync(uriRole, role).Result;
+                            var accnew = accounts.SingleOrDefault(a => a.Email.Equals(email));
+                            HttpContext.Session.SetString("sRole", role.Position.ToString());
+                            HttpContext.Session.SetString("sAccount", JsonConvert.SerializeObject(accnew));
+                            return RedirectToAction("Index", "Home");
+                        }
+                    }
+                    else
+                    {
+                        ViewBag.Msg = "Email or password is wrong! Please try again.";
+                    }
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Msg = e.Message;
+                }
+                return RedirectToAction("Index", "Home");
+            }
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
