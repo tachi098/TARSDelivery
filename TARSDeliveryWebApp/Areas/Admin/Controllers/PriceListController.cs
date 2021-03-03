@@ -30,7 +30,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         public IActionResult Edit(string name)
         {
             var res = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync(uri).Result);
-            var model = res.SingleOrDefault(e => e.Name.Equals(name) && e.Delete_at == null);
+            var model = res.SingleOrDefault(e => e.Name.Equals(name));
             return View(model);
         }
         [HttpPost]
@@ -57,7 +57,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
                         return View(modelOld);
                     }
                 }
-                else if ((modelOld.PriceDistance != priceList.PriceDistance && exist ==null ) || (modelOld.PriceWeight != priceList.PriceWeight && exist == null))
+                else if ((modelOld.PriceDistance != priceList.PriceDistance && exist == null) || (modelOld.PriceWeight != priceList.PriceWeight && exist == null))
                 {
                     priceList.Create_at = modelOld.Create_at;
                     if (ModelState.IsValid)
@@ -118,5 +118,42 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
             return View();
         }
 
+
+        [HttpGet]
+        public IActionResult DeletePriceList(int id)
+        {
+            try
+            {
+                var pricelists = JsonConvert.DeserializeObject<IEnumerable<PriceList>>(httpClient.GetStringAsync(uri).Result);
+                var pricelist = pricelists.SingleOrDefault(a => a.Id == id);
+                if (pricelist != null)
+                {
+                    if (pricelist.Delete_at == null)
+                    {
+                        pricelist.Delete_at = DateTime.Now;
+                        var model = httpClient.PutAsJsonAsync(uri, pricelist).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "PriceList");
+                        }
+                    }
+                    else
+                    {
+                        pricelist.Delete_at = null;
+                        var model = httpClient.PutAsJsonAsync(uri, pricelist).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "PriceList");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
+
+        }
     }
 }

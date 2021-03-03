@@ -20,7 +20,7 @@ namespace TARSDeliveryWebAPI.Services.Implements
 
         public async Task<IEnumerable<PriceList>> priceLists() //Index
         {
-            return await context.GetPriceLists.Where(m => m.Delete_at == null).ToListAsync();
+            return await context.GetPriceLists.ToListAsync();
         }
 
         public async Task<bool> Edit(PriceList priceList) //Update
