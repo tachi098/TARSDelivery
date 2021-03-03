@@ -24,7 +24,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
             var packageOwn = model.Where(p => p.Email.Equals(account.Email)).ToList();
             return View(packageOwn);
         }
-        public IActionResult Search(int search)
+        public IActionResult Search(int? search)
         {
             if(search == null)
             {
