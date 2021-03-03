@@ -12,36 +12,34 @@
                 <th>Name</th>
                 <th>Address</th>
                 <th>Phone</th>
+                <th>Inactive</th>
                 <th>Action</th>
-                <td>Time Inactive</td>
-
             </tr>
         </thead>
 
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>@item.Id</td>
-                    <td>@item.Name</td>
-                    <td>@item.Address</td>
-                    <td>@item.Phone</td>
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Address</td>
+                <td>@item.Phone</td>
+                <td>@item.Delete_at</td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Branch" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-warning">Edit</a>
 
-                    <td>
-                        <a asp-action="Edit" asp-controller="Branch" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-warning">Edit</a>
 
-
-                        @if (item.Delete_at == null)
-                        {
-                            <a asp-area="Admin" asp-action="Delete" asp-controller="Branch" asp-route-id="@item.Id" class="btn btn-outline-danger ">Inactive</a>
-                        }
-                        else
-                        {
-                            <a asp-area="Admin" asp-action="Delete" asp-controller="Branch" asp-route-id="@item.Id" class="btn btn-outline-success ">Active</a>
-                        }
-                    </td>
-                    <td>@item.Delete_at</td>
-                </tr>
+                    @if (item.Delete_at == null)
+                    {
+                        <a asp-area="Admin" asp-action="Delete" asp-controller="Branch" asp-route-id="@item.Id" class="btn btn-outline-danger ">Inactive</a>
+                    }
+                    else
+                    {
+                        <a asp-area="Admin" asp-action="Delete" asp-controller="Branch" asp-route-id="@item.Id" class="btn btn-outline-success ">Active</a>
+                    }
+                </td>
+            </tr>
             }
         <tfoot>
             <tr>
@@ -49,8 +47,8 @@
                 <th>Name</th>
                 <th>Address</th>
                 <th>Phone</th>
+                <th>Inactive</th>
                 <th>Action</th>
-                <td>Time Inactive</td>
             </tr>
         </tfoot>
     </table>
