@@ -149,6 +149,8 @@
     <Compile Remove="Migrations\20210218013310_Initial.Designer.cs" />
     <Compile Remove="Migrations\20210302012139_Initial.cs" />
     <Compile Remove="Migrations\20210302012139_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20210302101606_initial.cs" />
+    <Compile Remove="Migrations\20210302101606_initial.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
