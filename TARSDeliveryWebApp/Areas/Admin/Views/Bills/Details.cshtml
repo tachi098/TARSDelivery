@@ -1,7 +1,8 @@
 ﻿@model TARSDeliveryWebApp.Models.BillPackage
 @addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, TARSDeliveryWebApp
-@using TARSDeliveryWebApp.Helper
+@using System.Text
+
 
 @{
     ViewData["Title"] = "Bill";
@@ -22,7 +23,12 @@
             <div class="col-md-9 p-0">
                 <h1 class="text-white text-header">TARSDELIVERY</h1>
                 @{
-                    var qr = @Model.GetBill.Id + "-" + @Model.GetPackage.Title;
+                    StringBuilder qr = new StringBuilder("");
+                    qr.Append(@Model.GetBill.Id.ToString()).Append(" - ").AppendLine(@Model.GetPackage.Title)
+                      .AppendLine(@Model.GetPackage.AddressFrom)
+                      .AppendLine(@Model.GetPackage.NameFrom)
+                      .AppendLine(@Model.GetPackage.AddressTo)
+                      .AppendLine(@Model.GetPackage.NameTo).ToString();
                 }
                 <qrcode content=@qr width="100" height="100" />
             </div>

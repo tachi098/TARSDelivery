@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Web;
 using ZXing.QrCode;
 
 namespace TARSDeliveryWebApp.Helper.Tags
@@ -13,6 +14,7 @@ namespace TARSDeliveryWebApp.Helper.Tags
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
             var content = context.AllAttributes["content"].Value.ToString();
+            content = HttpUtility.HtmlDecode(content);
             var width = int.Parse(context.AllAttributes["width"].Value.ToString());
             var height = int.Parse(context.AllAttributes["height"].Value.ToString());
             var barcodeWriterPixelData = new ZXing.BarcodeWriterPixelData
@@ -20,6 +22,8 @@ namespace TARSDeliveryWebApp.Helper.Tags
                 Format = ZXing.BarcodeFormat.QR_CODE,
                 Options = new QrCodeEncodingOptions
                 {
+                    DisableECI = true,
+                    CharacterSet = "UTF-8",
                     Height = height,
                     Width = width,
                     Margin = 0
