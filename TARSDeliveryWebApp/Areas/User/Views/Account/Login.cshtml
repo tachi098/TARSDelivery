@@ -37,6 +37,7 @@
                             <p style="color: red">@ViewBag.Msg</p>
                             <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
                                 <a class="small" asp-action="ForgotPassword" asp-controller="Account" asp-area="User">Forgot Password?</a>
+                                <div class="g-signin2" data-onsuccess="onSignIn" data-theme="dark"></div>
                                 <input class="btn btn-primary" type="submit" value="Login" />
                             </div>
                         </form>
@@ -52,4 +53,24 @@
 
 @section Scripts {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+<script>
+    function init() {
+        gapi.load('auth2', function () {
+            gapi.auth2.init(
+            {
+                client_id: 'deleted'
+            });
+        });
+    }
+
+function onSignIn(googleUser) {
+    var profile = googleUser.getBasicProfile();
+    console.log("Email: " + profile.getEmail());
+    var email = profile.getEmail();
+    var name = profile.getName();
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut();
+    window.location.href = '@Url.Action("LoginGoogle", "Account")?email=' + email + '&name=' + name;
+}
+</script>
 }
