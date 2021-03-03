@@ -13,6 +13,8 @@
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Action</th>
+                <td>Time Inactive</td>
+
             </tr>
         </thead>
 
@@ -29,8 +31,16 @@
                         <a asp-action="Edit" asp-controller="Branch" asp-area="Admin" asp-route-id="@item.Id" class="btn btn-outline-warning">Edit</a>
 
 
-                        <a asp-area="Admin" data-branchId="@item.Id" class="btn btn-outline-danger deleteBranch">Delete</a>
+                        @if (item.Delete_at == null)
+                        {
+                            <a asp-area="Admin" asp-action="Delete" asp-controller="Branch" asp-route-id="@item.Id" class="btn btn-outline-danger ">Inactive</a>
+                        }
+                        else
+                        {
+                            <a asp-area="Admin" asp-action="Delete" asp-controller="Branch" asp-route-id="@item.Id" class="btn btn-outline-success ">Active</a>
+                        }
                     </td>
+                    <td>@item.Delete_at</td>
                 </tr>
             }
         <tfoot>
@@ -40,7 +50,7 @@
                 <th>Address</th>
                 <th>Phone</th>
                 <th>Action</th>
-
+                <td>Time Inactive</td>
             </tr>
         </tfoot>
     </table>

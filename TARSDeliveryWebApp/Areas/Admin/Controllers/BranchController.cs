@@ -21,7 +21,7 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var model = JsonConvert.DeserializeObject<IEnumerable<Branch>>(httpClient.GetStringAsync(uriBranch).Result);
-            var branches = model.Where(b => b.Delete_at == null).ToList();
+            var branches = model.ToList();
             return View(branches);
         }
         public IActionResult Create()
@@ -67,5 +67,41 @@ namespace TARSDeliveryWebApp.Areas.Admin.Controllers
             }
             return View();
         }
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                var branchs = JsonConvert.DeserializeObject<IEnumerable<Branch>>(httpClient.GetStringAsync(uriBranch).Result);
+                var branch = branchs.SingleOrDefault(a => a.Id == id);
+                if (branch != null)
+                {
+                    if (branch.Delete_at == null)
+                    {
+                        branch.Delete_at = DateTime.Now;
+                        var model = httpClient.PutAsJsonAsync(uriBranch, branch).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "Branch");
+                        }
+                    }
+                    else
+                    {
+                        branch.Delete_at = null;
+                        var model = httpClient.PutAsJsonAsync(uriBranch, branch).Result;
+                        if (model.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction("Index", "Branch");
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                ViewBag.Msg = e.Message;
+            }
+            return View();
+        }
+
     }
 }
