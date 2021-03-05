@@ -63,22 +63,35 @@
         });
     }
 
-    if ($('#selected-weight-create').val() !== undefined) {
-        let weight = $('#selected-weight-create').val();
-        processPriceWeight(uriServices, weight, 'Create', 'Normal');
-    }
+    $('#weightsFlowMethodCreate').keyup(function (e) {
+        if (['-', '+', 'e', 'E'].includes(e.key)) {
+            e.preventDefault();
+        }
 
-    $('#selected-weight-create').change(function () {
         let weight = $(this).val();
         let namePrice = $('#selected-pricelist-create').val();
-
-        //console.log('namePrice: ', namePrice, ' - weight: ', weight);
+        console.log(weight, ' - ', namePrice);
 
         processPriceWeight(uriServices, weight, 'Create', namePrice);
     });
 
+    
+    if (+$('#weightsFlowMethodCreate').val() > 0) {
+        let weight = $('#weightsFlowMethodCreate').val();
+        processPriceWeight(uriServices, weight, 'Create', 'Normal');
+    }
+
+    //$('#selected-weight-create').change(function () {
+    //    let weight = $(this).val();
+    //    let namePrice = $('#selected-pricelist-create').val();
+
+    //    //console.log('namePrice: ', namePrice, ' - weight: ', weight);
+
+    //    processPriceWeight(uriServices, weight, 'Create', namePrice);
+    //});
+
     $('#selected-pricelist-create').change(function () {
-        let weight = $('#selected-weight-create').val();
+        let weight = $('#weightsFlowMethodCreate').val();
         let namePrice = $(this).val();
 
         //console.log('namePrice: ', namePrice, ' - weight: ', weight);
@@ -86,14 +99,34 @@
         processPriceWeight(uriServices, weight, 'Create', namePrice);
     });
     // ================================== CREATE
-    $('#selected-weight').change(function () {
+    /** Start: Remove -, +, e, E */
+    const invalidChars = [
+        "-",
+        "+",
+        "e",
+        "E"
+    ];
+
+    $('#weightsFlowMethod').keyup(function (e) {
+        if (['-', '+', 'e', 'E'].includes(e.key)) {
+            e.preventDefault();
+        }
+
         let weight = $(this).val();
         let namePrice = $('#selected-pricelist').val();
         processPriceWeight(uriServices, weight, '', namePrice);
     });
 
+    /** End: Remove -, +, e, E */
+
+    //$('#selected-weight').change(function () {
+    //    let weight = $(this).val();
+    //    let namePrice = $('#selected-pricelist').val();
+    //    processPriceWeight(uriServices, weight, '', namePrice);
+    //});
+
     $('#selected-pricelist').change(function () {
-        let weight = $('#selected-weight').val();
+        let weight = $('#weightsFlowMethod').val();
         let namePrice = $(this).val();
 
         //console.log('namePrice: ', namePrice, ' - weight: ', weight);
@@ -108,7 +141,7 @@
                 url: `${uri}/GetPriceList/${namePriceList}`,
                 type: 'GET',
                 success: function (response) {
-                    let price = weight * response.priceWeight;
+                    let price = weight / 1000 * response.priceWeight;
                     $('#total-price-create').val(round(price, 2));
                     $('#price-weight-create').text('$' + round(price, 2));
                 },
@@ -121,7 +154,7 @@
                 url: `${uri}/GetPriceList/${namePriceList}`,
                 type: 'GET',
                 success: function (response) {
-                    let price = weight * response.priceWeight;
+                    let price = weight / 1000 * response.priceWeight;
                     $('#total-price').val(round(price, 2));
                     $('#price-weight').text('$' + round(price, 2));
                 },

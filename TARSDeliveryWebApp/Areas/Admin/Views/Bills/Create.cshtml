@@ -85,8 +85,8 @@
                         <span asp-validation-for="AddressTo" class="small text-danger span-details"></span>
                     </div>
                     <div class="col-md-3 form-group">
-                        <label>Weight: </label>
-                        <select asp-for="Weight" id="selected-weight-create" class="form-control">
+                        <label>Weight(gram): </label>
+                        @*<select asp-for="Weight" id="selected-weight-create" class="form-control">
                             <option value="1.5">&lt; 2</option>
                             <option value="2.5">&lt; 3</option>
                             <option value="3.5">&lt; 4</option>
@@ -96,7 +96,8 @@
                             <option value="7.5">&lt; 8</option>
                             <option value="8.5">&lt; 9</option>
                             <option value="9.5">&lt; 10</option>
-                        </select>
+                        </select>*@
+                        <input type="number" asp-for="Weight" value="1000" id="weightsFlowMethodCreate" class="form-control" placeholder="Enter a gram" />
                         <input hidden asp-for="Distance" value="0" class="form-control" />
                         <span asp-validation-for="Weight" class="small text-danger span-details"></span>
                     </div>
