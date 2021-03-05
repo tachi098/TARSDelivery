@@ -64,6 +64,7 @@
                             @if (@Model.GetPackage.Distance > 0)
                             {
                                 <th scope="col">Distance</th>
+                                <th scope="col">Weight</th>
                             }
                             else
                             {
@@ -81,10 +82,11 @@
                             @if (@Model.GetPackage.Distance > 0)
                             {
                                 <td>@Model.GetPackage.Distance KM</td>
+                                <td>@Model.GetPackage.Weight GR</td>
                             }
                             else
                             {
-                                <td>&lt; @Model.GetPackage.Weight KG</td>
+                                <td>@Model.GetPackage.Weight GR</td>
                             }
                             <td>@Model.GetPackage.PriceListName</td>
                             <td>@Model.GetPackage.Message</td>

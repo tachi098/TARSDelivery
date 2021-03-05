@@ -145,13 +145,9 @@
                     var distance = response.rows[0].elements[0].distance;
                     var duration = response.rows[0].elements[0].duration;
                     var distance_in_kilo = distance.value / 1000; // the kilom
-                    var distance_in_mile = distance.value / 1609.34; // the mile
-                    var duration_text = duration.text;
                     var duration_value = duration.value;
                     distanceKilo = distance_in_kilo;
-                    $('#in_mile').text(distance_in_mile.toFixed(2));
                     $('#in_kilo').text(distance_in_kilo.toFixed(2));
-                    $('#duration_text').text(duration_text);
                     $('#duration_value').text(duration_value);
                     $('#from').text(originClone);
                     $('#to').text(destinationClone);
@@ -218,6 +214,9 @@
         $('#origin').prop('disabled', true);
         $('#destination').prop('disabled', true);
 
+        $('#weightsFlowDistance').prop('disabled', true);
+
+
         // Delete class d-none
         $('#show-information').removeClass('d-none');
         $('#reset-information').removeClass('d-none');
@@ -245,6 +244,8 @@
         $('#origin').prop('disabled', false);
         $('#destination').prop('disabled', false);
 
+        $('#weightsFlowDistance').prop('disabled', false);
+
         // Delete class d-none
         $('#view-information').removeClass('d-none');
 
@@ -257,13 +258,39 @@
         
     });
 
+    /** Start: Remove -, +, e, E */
+    const invalidChars = [
+        "-",
+        "+",
+        "e",
+        "E"
+    ];
+
+    document.getElementById('weightsFlowDistance').addEventListener('keyup', (e) => {
+        if (invalidChars.includes(e.key)) {
+            e.preventDefault();
+        }
+
+        let price = (priceDistance / 100) * $('#weightsFlowDistance').val();
+        price += (0.1 * priceDistance) + (0.2 * priceDistance * distanceKilo) + (0.1 * priceDistance);
+        distancePrice = price;
+        $('#price-distance').text('Price: ' + round(price, 2) + ' USD');
+    });
+    /** End: Remove -, +, e, E */
+
+    var priceDistance = 0;
     // Distance to price
     function processPriceDistance(uri, distance) {
         $.ajax({
             url: `${uri}/GetPriceList/VPP`,
             type: 'GET',
             success: function (response) {
-                let price = distance * response.priceDistance;
+                // 1gr = price / 100gr
+
+                //let price = distance * response.priceDistance;
+                priceDistance = response.priceDistance;
+                let price = (priceDistance / 100) * $('#weightsFlowDistance').val();
+                price += (0.1 * priceDistance) + (0.2 * priceDistance * distance) + (0.1 * priceDistance);
                 distancePrice = price;
                 $('#price-distance').text('Price: ' + round(price, 2) + ' USD');
 
@@ -288,10 +315,10 @@
         const ZipCode = $('#ZipCode').val();
         const NameFrom = $('#NameFrom').val();
         const AddressTo = $('#destination').val();
-        const Weight = 0;
+        const Weight = $('#weightsFlowDistance').val();
         const Distance = distanceKilo;
         const Message = $('#Message').val();
-        const TotalPrice = round(distancePrice * 10 / 100 + distancePrice, 2) ?? 0;
+        const TotalPrice = round(distancePrice, 2) ?? 0;
         const BranchId = null;
         const AccountId = $('#AccountId').val();
         const PriceListName = 'VPP';
@@ -383,7 +410,7 @@
         const Weight = 0;
         const Distance = distanceKilo;
         const Message = $('#Message').val();
-        const TotalPrice = round(distancePrice * 10 / 100 + distancePrice, 2);
+        const TotalPrice = round(distancePrice, 2);
         totalPricePaypal = TotalPrice;
 
         if (Title.trim() !== '' && NameFrom.trim() !== '' && Email.trim() !== '' && NameTo.trim() !== '' && ZipCode.trim() !== '' && Message.trim() !== '') {
@@ -447,7 +474,7 @@
         onAuthorize: function (data, actions) {
             return actions.payment.execute().then(function () {
                 $('#paypal-button-container').addClass('d-none');
-                $("#payment-complete").css("opacity", 1);
+                $("#payment-complete").css("opacity", 0.5);
                 $('#send-package').removeClass('d-none');
                 processInsert(uriServices, 2);
             });
