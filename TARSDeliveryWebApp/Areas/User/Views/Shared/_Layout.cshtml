@@ -59,12 +59,14 @@
     <link href="~/css/services/styles.css" rel="stylesheet" />
     <style>
         #search-input {
-            border: 2px solid #1e4356;
+            @*border: 2px solid #1e4356;
             border-bottom-left-radius: 10px;
             border-bottom-right-radius: 10px;
             border-top-left-radius: 10px;
             border-top-right-radius: 10px;
-            border-color: #4b6978;
+            border-color: #4b6978;*@
+            margin-right: 25px;
+            padding-left: 16px;
         }
 
         #search-button {
@@ -103,17 +105,8 @@
                                     <input id="search-input" type="search" name="search" class="form-control" placeholder="search" />
                                 </div>                 
                             </div>
-
                         </form>
                     </li>   
-                    <li>
-                        <span class="input-group-append">
-                            <button class="btn btn-outline-secondary" type="submit" value="search" id="search-button" style="color:white;margin-bottom:1px">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </span>
-
-                    </li>
                     <li class="active"><a asp-action="Index" asp-controller="Home" asp-area="User">Home</a></li>
                     <li><a asp-action="Index" asp-controller="Services" asp-area="User">Services</a></li>
                     <li><a asp-action="Team" asp-controller="Home" asp-area="User">Team</a></li>
