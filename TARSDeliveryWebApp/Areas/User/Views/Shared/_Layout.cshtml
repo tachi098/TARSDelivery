@@ -1,4 +1,4 @@
-﻿@{ 
+﻿@{
     var userdata = Context.Session.GetString("sAccount");
     var roledata = Context.Session.GetString("sRole");
     string name = "";
@@ -48,6 +48,7 @@
     <!-- Template Main CSS File -->
     <link href="~/css/stylemain.css" rel="stylesheet">
 
+
     <!-- =======================================================
     * Template Name: Moderna - v2.2.0
     * Template URL: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/
@@ -56,6 +57,30 @@
     ======================================================== -->
     <!-- Custom CSS -->
     <link href="~/css/services/styles.css" rel="stylesheet" />
+    <style>
+        #search-input {
+            border: 2px solid #1e4356;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-color: #4b6978;
+        }
+
+        #search-button {
+            padding: 7px;
+            height: 31px;
+            margin-left: 4px;
+            margin-top: 2px;
+            color: #020401;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            border-color: #ffffff;
+            margin-right: 20px;
+        }
+    </style>
 
 </head>
 
@@ -71,6 +96,24 @@
 
             <nav class="nav-menu float-right d-none d-lg-block">
                 <ul>
+                    <li>
+                        <form asp-action="Search" asp-controller="Package" asp-area="User" method="post">
+                            <div class="input-group">
+                                <div class="form-outline">
+                                    <input id="search-input" type="search" name="search" class="form-control" placeholder="search" />
+                                </div>                 
+                            </div>
+
+                        </form>
+                    </li>   
+                    <li>
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit" value="search" id="search-button" style="color:white;margin-bottom:1px">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+
+                    </li>
                     <li class="active"><a asp-action="Index" asp-controller="Home" asp-area="User">Home</a></li>
                     <li><a asp-action="Index" asp-controller="Services" asp-area="User">Services</a></li>
                     <li><a asp-action="Team" asp-controller="Home" asp-area="User">Team</a></li>
@@ -104,21 +147,7 @@
     <!-- ======= Footer ======= -->
     <footer id="footer" data-aos="fade-up" data-aos-easing="ease-in-out" data-aos-duration="500">
 
-        <div class="footer-newsletter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <h4>Search Status</h4>
-                        <p>Enter your package code to see package status and bill detail</p>
-                    </div>
-                    <div class="col-lg-6">
-                        <form asp-action="Search" asp-controller="Package" asp-area="User" method="post">
-                            <input style="width:100%;outline:none;border:1px solid white" type="text" name="search"><input type="submit" value="Search">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+       
 
         <div class="footer-top">
             <div class="container">
