@@ -170,6 +170,14 @@
         origin = $('#origin').val();
         destination = $('#destination').val();
 
+        if (Object.is(origin, destination)) {
+            $('#view-information').prop('disabled', true);
+            $('#price-distance').text('');
+            $('#result > .msg').html("Same location ???");
+            $('#result > .list-group').css('display', 'none');
+            return;
+        }
+
         // Process
         (async () => {
             try {
