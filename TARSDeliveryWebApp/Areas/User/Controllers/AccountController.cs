@@ -272,8 +272,7 @@ namespace TARSDeliveryWebApp.Areas.User.Controllers
                         }
                         else
                         {
-                            ViewBag.Msg = "No authorize to connect.";
-                            return View();
+                            return RedirectToAction("Login", "Account");
                         }
                     }
                     if (account == null)
